@@ -70,7 +70,8 @@ namespace Penpusher
         {
 
             kernel.Bind<IDbProvider>().To<SqlServerDbProvider>();
-            kernel.Bind<iTest>().To<Test>(); 
+            kernel.Bind<IArticleService>().To<ArticleService>();
+            kernel.Bind<Penpusher.IRepository<Article>>().To<Penpusher.Repository<Article>>();
         }        
     }
 }

@@ -19,12 +19,13 @@ namespace Penpusher
             throw new NotImplementedException();
         }
 
-        public void Add<TEntity>(TEntity entity)
+        public void Add(T entity)
         {
             dbSet.Add(entity);
+            EntitiesContext.SaveChanges();
         }
 
-        public T1 Edit<T1>(T1 entity)
+        public T Edit<T>(T entity)
         {
             throw new NotImplementedException();
         }
