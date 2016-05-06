@@ -13,13 +13,15 @@ namespace Penpusher.Controllers
 
 
         private readonly IDbProvider dbProvider;
+        private readonly IArticleService articleService;
 
 
-        public HomeController(IDbProvider dbProvider)
+        public HomeController(IDbProvider dbProvider, IArticleService articleService)
         {
             this.dbProvider = dbProvider;
-          
+            this.articleService = articleService;
         }
+
         public ActionResult Index()
         {
             return View();
