@@ -12,7 +12,7 @@ using Penpusher.Models;
 
 namespace Penpusher.Controllers
 {
-kjkjjlhkljnl ;
+
     [Authorize]
     public class AccountController : Controller
     {
