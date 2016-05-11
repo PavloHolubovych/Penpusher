@@ -1,8 +1,9 @@
-using Penpusher;
 using System.Collections.Generic;
 using System.Linq;
+using Penpusher.DAL;
+using Penpusher.Services.Base;
 
-namespace Penpusher
+namespace Penpusher.Services
 {
     class ArticleService : ServiceBase<Article>, IArticleService
     {
@@ -25,7 +26,7 @@ namespace Penpusher
 
         public override IEnumerable<Article> Find(string title)
         {
-            return repository.GetAll<Article>().Where(_ => _.Title == title);
+            return repository.GetAll().Where(_ => _.Title == title);
         }
     }
 }

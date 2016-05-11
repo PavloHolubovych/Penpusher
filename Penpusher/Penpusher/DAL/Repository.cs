@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 
-namespace Penpusher
+namespace Penpusher.DAL
 {
     class Repository<T> : IRepository<T> where T : class
     {
@@ -14,7 +14,7 @@ namespace Penpusher
             this.dbSet = EntitiesContext.Set<T>();
         }
 
-        public IEnumerable<T> GetAll<T>()
+        public IEnumerable<T> GetAll()
         {
             throw new NotImplementedException();
         }
@@ -25,7 +25,7 @@ namespace Penpusher
             EntitiesContext.SaveChanges();
         }
 
-        public T Edit<T>(T entity)
+        public T Edit (T entity)
         {
             throw new NotImplementedException();
         }
