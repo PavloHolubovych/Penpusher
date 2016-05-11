@@ -117,6 +117,14 @@
       <HintPath>..\packages\Ninject.WebApi.DependencyResolver.0.1.4758.24814\lib\net45\Ninject.WebApi.DependencyResolver.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="StyleCop, Version=4.7.1000.0, Culture=neutral, PublicKeyToken=f904653c63bc2738, processorArchitecture=MSIL">
+      <HintPath>..\packages\StyleCop.4.7.49.0\lib\net35\StyleCop.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="StyleCop.CSharp, Version=4.7.1000.0, Culture=neutral, PublicKeyToken=f904653c63bc2738, processorArchitecture=MSIL">
+      <HintPath>..\packages\StyleCop.4.7.49.0\lib\net35\StyleCop.CSharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Entity" />
@@ -265,7 +273,25 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Article.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>PenpusherEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NewsProvider.cs">
+      <DependentUpon>PenpusherEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PenpusherEntityModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PenpusherEntityModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PenpusherEntityModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PenpusherEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PenpusherEntityModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PenpusherEntityModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Services\ArticleService.cs" />
     <Compile Include="Controllers\AccountController.cs" />
@@ -274,21 +300,6 @@
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
-    </Compile>
-    <Compile Include="Model1.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Model1.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model1.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="PenpusherEntityModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>PenpusherEntityModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -300,7 +311,13 @@
     <Compile Include="DAL\IRepository.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="User.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>PenpusherEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UsersArticle.cs">
+      <DependentUpon>PenpusherEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UsersNewsProvider.cs">
+      <DependentUpon>PenpusherEntityModel.tt</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -311,15 +328,15 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="Model1.Context.tt">
+    <Content Include="PenpusherEntityModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>PenpusherEntityModel.edmx</DependentUpon>
-      <LastGenOutput>Model1.Context.cs</LastGenOutput>
+      <LastGenOutput>PenpusherEntityModel.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="Model1.tt">
+    <Content Include="PenpusherEntityModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>PenpusherEntityModel.edmx</DependentUpon>
-      <LastGenOutput>Model1.cs</LastGenOutput>
+      <LastGenOutput>PenpusherEntityModel.cs</LastGenOutput>
     </Content>
     <Content Include="Scripts\ai.0.15.0-build58334.js" />
     <Content Include="Scripts\ai.0.15.0-build58334.min.js" />

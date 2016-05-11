@@ -14,13 +14,19 @@ namespace Penpusher
     
     public partial class Article
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Article()
+        {
+            this.UsersArticles = new HashSet<UsersArticle>();
+        }
+    
         public int Id { get; set; }
         public string Title { get; set; }
         public string Link { get; set; }
         public string Description { get; set; }
         public System.DateTime Date { get; set; }
-        public int IdProvider { get; set; }
     
-        public virtual User Users { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<UsersArticle> UsersArticles { get; set; }
     }
 }

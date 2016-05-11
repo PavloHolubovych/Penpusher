@@ -4,10 +4,16 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="0d17643ae9084b8cb15303de32c6159a" Name="Diagram1">
-        <EntityTypeShape EntityType="TestPenpusherModel.Article" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="TestPenpusherModel.User" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
-        <AssociationConnector Association="TestPenpusherModel.FK_Articles_IdProvider" ManuallyRouted="false" />
+      <Diagram DiagramId="1a935832074249518eea55d84e6989ce" Name="Diagram1">
+        <EntityTypeShape EntityType="PenpusherDatabaseModel.Article" Width="1.5" PointX="0.75" PointY="8" />
+        <EntityTypeShape EntityType="PenpusherDatabaseModel.NewsProvider" Width="1.5" PointX="0.75" PointY="11.875" />
+        <EntityTypeShape EntityType="PenpusherDatabaseModel.User" Width="1.5" PointX="0.75" PointY="3.625" />
+        <EntityTypeShape EntityType="PenpusherDatabaseModel.UsersArticle" Width="1.5" PointX="3" PointY="0.75" />
+        <EntityTypeShape EntityType="PenpusherDatabaseModel.UsersNewsProvider" Width="1.5" PointX="3" PointY="4" />
+        <AssociationConnector Association="PenpusherDatabaseModel.FK_UsersArticles_Articles" />
+        <AssociationConnector Association="PenpusherDatabaseModel.FK_UsersNewsProviders_NewsProviders" />
+        <AssociationConnector Association="PenpusherDatabaseModel.FK_UsersArticles_IdUser" />
+        <AssociationConnector Association="PenpusherDatabaseModel.FK_UsersNewsProviders_Users" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

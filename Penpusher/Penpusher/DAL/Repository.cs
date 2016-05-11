@@ -6,7 +6,7 @@ namespace Penpusher
 {
     class Repository<T> : IRepository<T> where T : class
     {
-        private PenpusherEntities EntitiesContext = new PenpusherEntities();
+        private PenpusherDatabaseEntities EntitiesContext = new PenpusherDatabaseEntities();
         internal DbSet<T> dbSet;
 
         public Repository()

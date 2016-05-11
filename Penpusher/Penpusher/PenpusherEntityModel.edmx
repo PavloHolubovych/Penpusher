@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="TestPenpusherModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="PenpusherDatabaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Articles">
           <Key>
             <PropertyRef Name="Id" />
@@ -14,7 +14,17 @@
           <Property Name="Link" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Date" Type="date" Nullable="false" />
-          <Property Name="IdProvider" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="NewsProviders">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Link" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="RssImage" Type="nvarchar(max)" />
+          <Property Name="SubscriptionDate" Type="date" Nullable="false" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
@@ -25,104 +35,294 @@
           <Property Name="Avatar" Type="nvarchar(max)" />
           <Property Name="FirstName" Type="nvarchar" MaxLength="50" />
           <Property Name="LastName" Type="nvarchar" MaxLength="50" />
-          <Property Name="Creationdate" Type="date" Nullable="false" />
+          <Property Name="CreationDate" Type="date" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="20" Nullable="false" />
         </EntityType>
-        <Association Name="FK_Articles_IdProvider">
+        <EntityType Name="UsersArticles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="ArticleId" Type="int" Nullable="false" />
+          <Property Name="IsFavorite" Type="bit" />
+          <Property Name="IsRead" Type="bit" />
+          <Property Name="IsToReadLater" Type="bit" />
+        </EntityType>
+        <EntityType Name="UsersNewsProviders">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdNewsProvider" Type="int" Nullable="false" />
+          <Property Name="IdUser" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_UsersArticles_Articles">
+          <End Role="Articles" Type="Self.Articles" Multiplicity="1" />
+          <End Role="UsersArticles" Type="Self.UsersArticles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Articles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UsersArticles">
+              <PropertyRef Name="ArticleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UsersArticles_IdUser">
           <End Role="Users" Type="Self.Users" Multiplicity="1" />
-          <End Role="Articles" Type="Self.Articles" Multiplicity="*" />
+          <End Role="UsersArticles" Type="Self.UsersArticles" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Users">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="Articles">
-              <PropertyRef Name="IdProvider" />
+            <Dependent Role="UsersArticles">
+              <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="TestPenpusherModelStoreContainer">
+        <Association Name="FK_UsersNewsProviders_NewsProviders">
+          <End Role="NewsProviders" Type="Self.NewsProviders" Multiplicity="1" />
+          <End Role="UsersNewsProviders" Type="Self.UsersNewsProviders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NewsProviders">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UsersNewsProviders">
+              <PropertyRef Name="IdNewsProvider" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UsersNewsProviders_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="UsersNewsProviders" Type="Self.UsersNewsProviders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UsersNewsProviders">
+              <PropertyRef Name="IdUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="PenpusherDatabaseModelStoreContainer">
           <EntitySet Name="Articles" EntityType="Self.Articles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NewsProviders" EntityType="Self.NewsProviders" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK_Articles_IdProvider" Association="Self.FK_Articles_IdProvider">
-            <End Role="Users" EntitySet="Users" />
+          <EntitySet Name="UsersArticles" EntityType="Self.UsersArticles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UsersNewsProviders" EntityType="Self.UsersNewsProviders" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_UsersArticles_Articles" Association="Self.FK_UsersArticles_Articles">
             <End Role="Articles" EntitySet="Articles" />
+            <End Role="UsersArticles" EntitySet="UsersArticles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UsersArticles_IdUser" Association="Self.FK_UsersArticles_IdUser">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UsersArticles" EntitySet="UsersArticles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UsersNewsProviders_NewsProviders" Association="Self.FK_UsersNewsProviders_NewsProviders">
+            <End Role="NewsProviders" EntitySet="NewsProviders" />
+            <End Role="UsersNewsProviders" EntitySet="UsersNewsProviders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UsersNewsProviders_Users" Association="Self.FK_UsersNewsProviders_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UsersNewsProviders" EntitySet="UsersNewsProviders" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="TestPenpusherModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="PenpusherDatabaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="PenpusherDatabaseEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Articles" EntityType="PenpusherDatabaseModel.Article" />
+          <EntitySet Name="NewsProviders" EntityType="PenpusherDatabaseModel.NewsProvider" />
+          <EntitySet Name="Users" EntityType="PenpusherDatabaseModel.User" />
+          <EntitySet Name="UsersArticles" EntityType="PenpusherDatabaseModel.UsersArticle" />
+          <EntitySet Name="UsersNewsProviders" EntityType="PenpusherDatabaseModel.UsersNewsProvider" />
+          <AssociationSet Name="FK_UsersArticles_Articles" Association="PenpusherDatabaseModel.FK_UsersArticles_Articles">
+            <End Role="Article" EntitySet="Articles" />
+            <End Role="UsersArticle" EntitySet="UsersArticles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UsersNewsProviders_NewsProviders" Association="PenpusherDatabaseModel.FK_UsersNewsProviders_NewsProviders">
+            <End Role="NewsProvider" EntitySet="NewsProviders" />
+            <End Role="UsersNewsProvider" EntitySet="UsersNewsProviders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UsersArticles_IdUser" Association="PenpusherDatabaseModel.FK_UsersArticles_IdUser">
+            <End Role="User" EntitySet="Users" />
+            <End Role="UsersArticle" EntitySet="UsersArticles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UsersNewsProviders_Users" Association="PenpusherDatabaseModel.FK_UsersNewsProviders_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="UsersNewsProvider" EntitySet="UsersNewsProviders" />
+          </AssociationSet>
+        </EntityContainer>
         <EntityType Name="Article">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Link" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Link" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="IdProvider" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Users" Relationship="Self.FK_Articles_IdProvider" FromRole="Articles" ToRole="Users" />
+          <NavigationProperty Name="UsersArticles" Relationship="PenpusherDatabaseModel.FK_UsersArticles_Articles" FromRole="Article" ToRole="UsersArticle" />
+        </EntityType>
+        <EntityType Name="NewsProvider">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Link" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="RssImage" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SubscriptionDate" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="UsersNewsProviders" Relationship="PenpusherDatabaseModel.FK_UsersNewsProviders_NewsProviders" FromRole="NewsProvider" ToRole="UsersNewsProvider" />
         </EntityType>
         <EntityType Name="User">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Avatar" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Creationdate" Type="DateTime" Nullable="false" Precision="0" />
-          <NavigationProperty Name="Articles" Relationship="Self.FK_Articles_IdProvider" FromRole="Users" ToRole="Articles" />
+          <Property Name="CreationDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="UsersArticles" Relationship="PenpusherDatabaseModel.FK_UsersArticles_IdUser" FromRole="User" ToRole="UsersArticle" />
+          <NavigationProperty Name="UsersNewsProviders" Relationship="PenpusherDatabaseModel.FK_UsersNewsProviders_Users" FromRole="User" ToRole="UsersNewsProvider" />
         </EntityType>
-        <Association Name="FK_Articles_IdProvider">
-          <End Role="Users" Type="TestPenpusherModel.User" Multiplicity="1" />
-          <End Role="Articles" Type="TestPenpusherModel.Article" Multiplicity="*" />
+        <EntityType Name="UsersArticle">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="ArticleId" Type="Int32" Nullable="false" />
+          <Property Name="IsFavorite" Type="Boolean" />
+          <Property Name="IsRead" Type="Boolean" />
+          <Property Name="IsToReadLater" Type="Boolean" />
+          <NavigationProperty Name="Article" Relationship="PenpusherDatabaseModel.FK_UsersArticles_Articles" FromRole="UsersArticle" ToRole="Article" />
+          <NavigationProperty Name="User" Relationship="PenpusherDatabaseModel.FK_UsersArticles_IdUser" FromRole="UsersArticle" ToRole="User" />
+        </EntityType>
+        <EntityType Name="UsersNewsProvider">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdNewsProvider" Type="Int32" Nullable="false" />
+          <Property Name="IdUser" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="NewsProvider" Relationship="PenpusherDatabaseModel.FK_UsersNewsProviders_NewsProviders" FromRole="UsersNewsProvider" ToRole="NewsProvider" />
+          <NavigationProperty Name="User" Relationship="PenpusherDatabaseModel.FK_UsersNewsProviders_Users" FromRole="UsersNewsProvider" ToRole="User" />
+        </EntityType>
+        <Association Name="FK_UsersArticles_Articles">
+          <End Type="PenpusherDatabaseModel.Article" Role="Article" Multiplicity="1" />
+          <End Type="PenpusherDatabaseModel.UsersArticle" Role="UsersArticle" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Users">
+            <Principal Role="Article">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="Articles">
-              <PropertyRef Name="IdProvider" />
+            <Dependent Role="UsersArticle">
+              <PropertyRef Name="ArticleId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="PenpusherEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Articles" EntityType="TestPenpusherModel.Article" />
-          <EntitySet Name="Users" EntityType="TestPenpusherModel.User" />
-          <AssociationSet Name="FK_Articles_IdProvider" Association="Self.FK_Articles_IdProvider">
-            <End Role="Users" EntitySet="Users" />
-            <End Role="Articles" EntitySet="Articles" />
-          </AssociationSet>
-        </EntityContainer>
+        <Association Name="FK_UsersNewsProviders_NewsProviders">
+          <End Type="PenpusherDatabaseModel.NewsProvider" Role="NewsProvider" Multiplicity="1" />
+          <End Type="PenpusherDatabaseModel.UsersNewsProvider" Role="UsersNewsProvider" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NewsProvider">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UsersNewsProvider">
+              <PropertyRef Name="IdNewsProvider" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UsersArticles_IdUser">
+          <End Type="PenpusherDatabaseModel.User" Role="User" Multiplicity="1" />
+          <End Type="PenpusherDatabaseModel.UsersArticle" Role="UsersArticle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UsersArticle">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UsersNewsProviders_Users">
+          <End Type="PenpusherDatabaseModel.User" Role="User" Multiplicity="1" />
+          <End Type="PenpusherDatabaseModel.UsersNewsProvider" Role="UsersNewsProvider" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UsersNewsProvider">
+              <PropertyRef Name="IdUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="TestPenpusherModelStoreContainer" CdmEntityContainer="PenpusherEntities">
+        <EntityContainerMapping StorageEntityContainer="PenpusherDatabaseModelStoreContainer" CdmEntityContainer="PenpusherDatabaseEntities">
           <EntitySetMapping Name="Articles">
-            <EntityTypeMapping TypeName="TestPenpusherModel.Article">
+            <EntityTypeMapping TypeName="PenpusherDatabaseModel.Article">
               <MappingFragment StoreEntitySet="Articles">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="Link" ColumnName="Link" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Date" ColumnName="Date" />
-                <ScalarProperty Name="IdProvider" ColumnName="IdProvider" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Link" ColumnName="Link" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NewsProviders">
+            <EntityTypeMapping TypeName="PenpusherDatabaseModel.NewsProvider">
+              <MappingFragment StoreEntitySet="NewsProviders">
+                <ScalarProperty Name="SubscriptionDate" ColumnName="SubscriptionDate" />
+                <ScalarProperty Name="RssImage" ColumnName="RssImage" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Link" ColumnName="Link" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Users">
-            <EntityTypeMapping TypeName="TestPenpusherModel.User">
+            <EntityTypeMapping TypeName="PenpusherDatabaseModel.User">
               <MappingFragment StoreEntitySet="Users">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Avatar" ColumnName="Avatar" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
                 <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="Creationdate" ColumnName="Creationdate" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="Avatar" ColumnName="Avatar" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UsersArticles">
+            <EntityTypeMapping TypeName="PenpusherDatabaseModel.UsersArticle">
+              <MappingFragment StoreEntitySet="UsersArticles">
+                <ScalarProperty Name="IsToReadLater" ColumnName="IsToReadLater" />
+                <ScalarProperty Name="IsRead" ColumnName="IsRead" />
+                <ScalarProperty Name="IsFavorite" ColumnName="IsFavorite" />
+                <ScalarProperty Name="ArticleId" ColumnName="ArticleId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UsersNewsProviders">
+            <EntityTypeMapping TypeName="PenpusherDatabaseModel.UsersNewsProvider">
+              <MappingFragment StoreEntitySet="UsersNewsProviders">
+                <ScalarProperty Name="IdUser" ColumnName="IdUser" />
+                <ScalarProperty Name="IdNewsProvider" ColumnName="IdNewsProvider" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -140,7 +340,7 @@
     <Options>
       <DesignerInfoPropertySet>
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
-        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
         <DesignerProperty Name="UseLegacyProvider" Value="false" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />

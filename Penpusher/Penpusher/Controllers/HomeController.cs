@@ -20,7 +20,7 @@ namespace Penpusher.Controllers
 
         public ActionResult Index()
         {
-           // articleService.AddArticle(new Article { Description = "saf", IdProvider = 1, Date = DateTime.Today, Link = "dsffdsf", Title = "sdfsd" });
+           articleService.AddArticle(new Article { Description = "saf", Date = DateTime.Today, Link = "dsffdsf", Title = "sdfsd" });
 
             return View();
         }
