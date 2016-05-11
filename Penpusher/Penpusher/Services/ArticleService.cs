@@ -26,7 +26,7 @@ namespace Penpusher.Services
 
         public override IEnumerable<Article> Find(string title)
         {
-            return repository.GetAll<Article>().Where(_ => _.Title == title);
+            return repository.GetAll().Where(_ => _.Title == title);
         }
     }
 }
