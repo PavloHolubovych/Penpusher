@@ -1,6 +1,6 @@
 ﻿using System.Web.Http;
 
-namespace Penpusher.App_Start
+namespace Penpusher
 {
     public static class WebApiConfig
     {

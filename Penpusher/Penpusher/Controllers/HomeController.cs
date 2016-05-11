@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Ninject;
+using Penpusher.Services;
+
 namespace Penpusher.Controllers
 {
     public class HomeController : Controller

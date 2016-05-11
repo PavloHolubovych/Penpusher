@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Penpusher
+namespace Penpusher.Services.Base
 {
     abstract class ServiceBase<T>
     {
