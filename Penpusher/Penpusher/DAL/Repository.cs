@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 
-namespace Penpusher
+namespace Penpusher.DAL
 {
     class Repository<T> : IRepository<T> where T : class
     {

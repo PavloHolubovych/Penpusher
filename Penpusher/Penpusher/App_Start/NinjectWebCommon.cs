@@ -7,6 +7,8 @@ using Ninject.Web.Common;
 using Ninject.Web.WebApi;
 using Penpusher;
 using Microsoft.Web.Infrastructure.DynamicModuleHelper;
+using Penpusher.DAL;
+using Penpusher.Services;
 using static Penpusher.Controllers.HomeController;
 using static Penpusher.Controllers.TestController;
 using WebApiContrib.IoC.Ninject;
@@ -71,7 +73,7 @@ namespace Penpusher
 
             kernel.Bind<IDbProvider>().To<SqlServerDbProvider>();
             kernel.Bind<IArticleService>().To<ArticleService>();
-            kernel.Bind<Penpusher.IRepository<Article>>().To<Penpusher.Repository<Article>>();
+            kernel.Bind<IRepository<Article>>().To<Repository<Article>>();
         }        
     }
 }
