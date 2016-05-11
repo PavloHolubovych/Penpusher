@@ -5,7 +5,10 @@ using Penpusher.Services.Base;
 
 namespace Penpusher.Services
 {
-    class ArticleService : ServiceBase<Article>, IArticleService
+    /// <summary>
+    /// The article service.
+    /// </summary>
+    public class ArticleService : IArticleService
     {
         private readonly IRepository<Article> repository;
 
@@ -24,7 +27,16 @@ namespace Penpusher.Services
             return true;
         }
 
-        public override IEnumerable<Article> Find(string title)
+        /// <summary>
+        /// The find.
+        /// </summary>
+        /// <param name="title">
+        /// The title.
+        /// </param>
+        /// <returns>
+        /// The <see cref="IEnumerable"/>.
+        /// </returns>
+        public IEnumerable<Article> Find(string title)
         {
             return repository.GetAll<Article>().Where(_ => _.Title == title);
         }
