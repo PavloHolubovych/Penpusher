@@ -8,10 +8,6 @@ namespace Penpusher.Controllers
 {
     public class HomeController : Controller
     {
-
-
-
-
         private readonly IDbProvider dbProvider;
         private readonly IArticleService articleService;
 
@@ -20,12 +16,12 @@ namespace Penpusher.Controllers
         {
             this.dbProvider = dbProvider;
             this.articleService = articleService;
-            articleService.AddArticle(new Article { Description = "saf", IdProvider = 1, Date = DateTime.Today, Link = "dsffdsf", Title = "sdfsd" });
-            
         }
 
         public ActionResult Index()
         {
+           // articleService.AddArticle(new Article { Description = "saf", IdProvider = 1, Date = DateTime.Today, Link = "dsffdsf", Title = "sdfsd" });
+
             return View();
         }
 
