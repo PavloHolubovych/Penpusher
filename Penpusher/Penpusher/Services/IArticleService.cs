@@ -5,7 +5,8 @@ using Penpusher.Services.Base;
 
 namespace Penpusher.Services
 {
-    interface IArticleService
+    public interface IArticleService
     {
+        void AddArticle(Article article);
     }
 }

@@ -1,10 +1,16 @@
-using System;
 using System.Collections.Generic;
-using System.Data.Entity;
+using System.Linq;
+using System.Web;
+using Ninject.Extensions.Conventions.Syntax;
 
-namespace Penpusher.DAL
+namespace Penpusher
 {
-    class IRepository
+    public interface IRepository<T> where T : class
     {
+        IEnumerable<T> GetAll<T>();
+        void Add(T entity);
+        T Edit<T>(T entity);
+        void Delete(int id);
+        T GetById(int id);
     }
 }

@@ -14,7 +14,7 @@ namespace Penpusher.DAL
             this.dbSet = EntitiesContext.Set<T>();
         }
 
-        public IEnumerable<T> GetAll()
+        public IEnumerable<T> GetAll<T>()
         {
             throw new NotImplementedException();
         }
@@ -25,7 +25,7 @@ namespace Penpusher.DAL
             EntitiesContext.SaveChanges();
         }
 
-        public T Edit (T entity)
+        public T Edit<T>(T entity)
         {
             throw new NotImplementedException();
         }
