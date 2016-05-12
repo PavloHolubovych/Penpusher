@@ -18,7 +18,7 @@
     public class ArticleServiceTest : TestBase
     {
        
-        [OneTimeSetUp]
+        [SetUp]
         public override void Initialize()
         {
             base.Initialize();
@@ -27,16 +27,36 @@
         }
         
         [Category("ArticleService")]
-        [TestCase("my title", TestName = "MustBeTrue")]
-        [TestCase("my title123321", TestName = "MustBeFalse")]
+        [TestCase("my title", TestName = "Test with exist title")]
+        [TestCase("my title123321", TestName = "Test with not exist title")]
         public void CheckDoesExistsTest(string title)
         {
-            this.MockKernel.GetMock<IRepository<Article>>().Setup(asrv => asrv.GetAll<Article>()).Returns(this.testData);
+         var testArticles = new List<Article>()
+            {
+                new Article()
+                { 
+                    Id = 1,
+                    Title = "test title"
+                },
+                new Article()
+                { 
+                    Id = 2, 
+                    Title = "my title"
+                },
+                new Article()
+                { 
+                    Id = 3, 
+                    Title = "my title"
+                }
+            };
+
+            this.MockKernel.GetMock<IRepository<Article>>().Setup(asrv => asrv.GetAll<Article>()).Returns(testArticles);
 
             bool actual = this.MockKernel.Get<ArticleService>().CheckDoesExists(title);
-            bool expected = this.testData.Count(x => x.Title == title) > 0;
+            bool expected =testArticles.Count(x => x.Title == title) > 0;
 
             Assert.AreEqual(expected, actual);
+
         }
 
         [TestCase()]
