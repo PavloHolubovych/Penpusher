@@ -1,20 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Ninject.MockingKernel.Moq;
-using Penpusher;
-
-namespace Penpusher.Test
+﻿namespace Penpusher.Test
 {
-    public class TestBase
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using Ninject.MockingKernel.Moq;
+
+    /// <summary>
+    /// The test base.
+    /// </summary>
+    public class TestBase :IDisposable
     {
+        /// <summary>
+        /// The mock kernel.
+        /// </summary>
         private MoqMockingKernel mockKernel;
 
+        /// <summary>
+        /// Gets the mock kernel.
+        /// </summary>
         protected MoqMockingKernel MockKernel
         {
-            get { return mockKernel; }
+            get { return this.mockKernel; }
         }
 
         /// <summary>
@@ -22,7 +30,12 @@ namespace Penpusher.Test
         /// </summary>
         public virtual void Initialize()
         {
-            mockKernel = new MoqMockingKernel();
+            this.mockKernel = new MoqMockingKernel();
+        }
+
+        public void Dispose()
+        {
+            MockKernel.Dispose();
         }
     }
 }

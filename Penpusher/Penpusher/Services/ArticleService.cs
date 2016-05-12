@@ -5,10 +5,7 @@ using Penpusher.Services.Base;
 
 namespace Penpusher.Services
 {
-    /// <summary>
-    /// The article service.
-    /// </summary>
-    public class ArticleService : IArticleService
+    public class ArticleService : ServiceBase<Article>, IArticleService
     {
         private readonly IRepository<Article> repository;
 
@@ -24,19 +21,10 @@ namespace Penpusher.Services
 
         public bool CheckDoesExists(string title)
         {
-            return true;
+            return repository.GetAll<Article>().Count(x => x.Title == title) > 0;
         }
 
-        /// <summary>
-        /// The find.
-        /// </summary>
-        /// <param name="title">
-        /// The title.
-        /// </param>
-        /// <returns>
-        /// The <see cref="IEnumerable"/>.
-        /// </returns>
-        public IEnumerable<Article> Find(string title)
+        public override IEnumerable<Article> Find(string title)
         {
             return repository.GetAll<Article>().Where(_ => _.Title == title);
         }
