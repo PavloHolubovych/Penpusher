@@ -56,7 +56,6 @@
             bool expected =testArticles.Count(x => x.Title == title) > 0;
 
             Assert.AreEqual(expected, actual);
-
         }
 
         [TestCase()]
@@ -72,19 +71,31 @@
             Assert.AreEqual(testArticle, actual, "Another article");
         }
 
-        [TestCase]
-        public void should_find_simple_article_by_title()
+        [Category("ArticleService")]
+        [TestCase("article1", TestName = "Should find article by title") ]
+        [TestCase("article2", TestName = "Should find first article")]
+        [TestCase(null, TestName = "Blank title article")]
+        public void FindArticleTest(string title)
         {
+            var testArticles = new List<Article>()
+            {
+                new Article() { Id = 1, Title = "article2"},
+                new Article() { Id = 2, Title = "article 1"},
+                new Article() { Id = 3, Title = null},
+                new Article() { Id = 4, Title = "article1"}
+            };
             //arrange
-            const string testTitle = "my title";
-
-            MockKernel.GetMock<IRepository<Article>>().Setup(asrv => asrv.GetAll<Article>()).Returns(this.testData);
+            
+            MockKernel.GetMock<IRepository<Article>>().Setup(asrv => asrv.GetAll<Article>()).Returns(testArticles);
             var target = MockKernel.Get<ArticleService>();
 
             //act
-            var result = target.Find(testTitle);
+            var result = target.Find(title);
+
             //assert
-            Assert.IsTrue(result.Count() == 2 && result.FirstOrDefault()?.Title == testTitle);
+            Assert.IsTrue(result.Count() == 1);
+            Assert.IsTrue(result.FirstOrDefault()?.Title == title);
+            Assert.IsTrue(result.Count() == 1);
         }
 
     }
