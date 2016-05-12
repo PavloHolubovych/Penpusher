@@ -100,32 +100,20 @@
             Assert.AreEqual(article, actual);
         }
 
-        [TestCase()]
-            public void should_find_simple_article_by_title()
-            {
-                //arrange
-                const string testTitle = "asda";
-                var articles = new List<Article>
-            {
-                new Article
-                {
-                    Title = testTitle
-                },
-                new Article
-                {
-                    Title = "qwerty"
-                }
+        [Test]
+        public void should_find_simple_article_by_title()
+        {
+            //arrange
+            const string testTitle = "my title";
 
-            };
+            MockKernel.GetMock<IRepository<Article>>().Setup(asrv => asrv.GetAll<Article>()).Returns(this.testData);
+            var target = MockKernel.Get<ArticleService>();
 
-                var target = new ArticleService(repository.Object);
-                repository.Setup(repository => repository.GetAll<Article>())
-                    .Returns(articles);
-                //act
-                var result = target.Find(testTitle);
-                //assert
-                Assert.IsTrue(result.Count() == 1 && result.FirstOrDefault()?.Title == testTitle);
-            }
-        
+            //act
+            var result = target.Find(testTitle);
+            //assert
+            Assert.IsTrue(result.Count() == 2 && result.FirstOrDefault()?.Title == testTitle);
+        }
+
     }
 }
