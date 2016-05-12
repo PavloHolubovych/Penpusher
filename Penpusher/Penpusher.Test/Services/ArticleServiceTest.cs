@@ -17,7 +17,7 @@
     [TestFixture]
     public class ArticleServiceTest : TestBase
     {
-       
+
         [SetUp]
         public override void Initialize()
         {
@@ -25,27 +25,27 @@
             this.MockKernel.Bind<ArticleService>().ToSelf();
             this.MockKernel.GetMock<IRepository<Article>>().Reset();
         }
-        
+
         [Category("ArticleService")]
         [TestCase("my title", TestName = "Test with exist title")]
         [TestCase("my title123321", TestName = "Test with not exist title")]
         public void CheckDoesExistsTest(string title)
         {
-         var testArticles = new List<Article>()
+            var testArticles = new List<Article>()
             {
                 new Article()
-                { 
+                {
                     Id = 1,
                     Title = "test title"
                 },
                 new Article()
-                { 
-                    Id = 2, 
+                {
+                    Id = 2,
                     Title = "my title"
                 },
                 new Article()
-                { 
-                    Id = 3, 
+                {
+                    Id = 3,
                     Title = "my title"
                 }
             };
@@ -53,7 +53,7 @@
             this.MockKernel.GetMock<IRepository<Article>>().Setup(asrv => asrv.GetAll<Article>()).Returns(testArticles);
 
             bool actual = this.MockKernel.Get<ArticleService>().CheckDoesExists(title);
-            bool expected =testArticles.Count(x => x.Title == title) > 0;
+            bool expected = testArticles.Count(x => x.Title == title) > 0;
 
             Assert.AreEqual(expected, actual);
         }
@@ -71,32 +71,40 @@
             Assert.AreEqual(testArticle, actual, "Another article");
         }
 
+        /// <summary>
+        /// The find article test.
+        /// </summary>
+        /// <param name="title">
+        /// The title.
+        /// </param>
+        /// <param name="expectedCount">
+        /// The expected count.
+        /// </param>
         [Category("ArticleService")]
-        [TestCase("article1", TestName = "Should find article by title") ]
-        [TestCase("article2", TestName = "Should find first article")]
-        [TestCase(null, TestName = "Blank title article")]
-        public void FindArticleTest(string title)
+        [TestCase("article1", 1, TestName = "Should find article by title")]
+        [TestCase("article 1", 1, TestName = "Should find article by title contains space")]
+        [TestCase("article2", 1, TestName = "Should find first article")]
+        [TestCase("", 0, TestName = "Blank title article")]
+        [TestCase("aticle3", 0, TestName = "Not exist article")]
+        [TestCase(default(string), 0, TestName = "Not title is null")]
+        public void FindArticleTest(string title, int expectedCount)
         {
-            var testArticles = new List<Article>()
-            {
-                new Article() { Id = 1, Title = "article2"},
-                new Article() { Id = 2, Title = "article 1"},
-                new Article() { Id = 3, Title = null},
-                new Article() { Id = 4, Title = "article1"}
-            };
             //arrange
-            
-            MockKernel.GetMock<IRepository<Article>>().Setup(asrv => asrv.GetAll<Article>()).Returns(testArticles);
+            var testArticles = new List<Article>
+            {
+                new Article { Id = 1, Title = "article2"},
+                new Article { Id = 2, Title = "article 1"},
+                new Article { Id = 3, Title = "article1"}
+            };
+
+            MockKernel.GetMock<IRepository<Article>>().Setup(_ => _.GetAll<Article>()).Returns(testArticles);
             var target = MockKernel.Get<ArticleService>();
 
             //act
             var result = target.Find(title);
 
             //assert
-            Assert.IsTrue(result.Count() == 1);
-            Assert.IsTrue(result.FirstOrDefault()?.Title == title);
-            Assert.IsTrue(result.Count() == 1);
+            Assert.IsTrue(result.Count() == expectedCount);
         }
-
     }
 }
