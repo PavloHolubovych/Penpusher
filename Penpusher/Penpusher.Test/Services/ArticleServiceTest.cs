@@ -62,10 +62,14 @@
         [TestCase()]
         public void AddArticleTest()
         {
-            //MockKernel.GetMock<IRepository<Article>>().Setup(ad => ad.Add(It.Is<Article>(a => a.Id == 1))).Returns(this.article);
-            Article actual = MockKernel.Get<IArticleService>().AddArticle(article);
-            MockKernel.GetMock<IRepository<Article>>().Verify(r => r.Add(It.Is<Article>(a => a.Id == 2)), Times.Once);
-            Assert.AreEqual(article, actual);
+            Article testArticle = new Article { Id = 1, Title = "newArticle" };
+
+            this.MockKernel.GetMock<IRepository<Article>>().Setup(ad => ad.Add(It.Is<Article>(a => a.Id == 1))).Returns(testArticle);
+
+            Article actual = this.MockKernel.Get<ArticleService>().AddArticle(testArticle);
+            this.MockKernel.GetMock<IRepository<Article>>().Verify(r => r.Add(It.Is<Article>(a => a.Id == 1)), Times.Once);
+
+            Assert.AreEqual(testArticle, actual, "Another article");
         }
 
         [TestCase]
