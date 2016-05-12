@@ -17,77 +17,23 @@
     [TestFixture]
     public class ArticleServiceTest : TestBase
     {
-        /// <summary>
-        /// Test articles.
-        /// </summary>
-        private readonly List<Article> testData = new List<Article>()
-        {
-                new Article()
-
-                {
-                    Date = DateTime.Now,
-                    Description = "Some description",
-                    Id = 1,
-                    IdNewsProvider = 1,
-                    Link = "Test link",
-                    Title = "test title"
-                },
-                new Article()
-                {
-                    Date = DateTime.Now,
-                    Description = "Some description",
-                    Id = 2,
-                    IdNewsProvider = 1,
-                    Link = "Test link",
-                    Title = "my title"
-                },
-                new Article()
-                {
-                    Date = DateTime.Now,
-                    Description = "Some description",
-                    Id = 3,
-                    IdNewsProvider = 1,
-                    Link = "Test link",
-                    Title = "my title"
-                }
-        };
-        Article article = new Article()
-
-        {
-            Date = DateTime.Now,
-            Description = "Some description",
-            Id = 2,
-            IdNewsProvider = 2,
-            Link = "Test link",
-            Title = "test title"
-        };
-
-        private Mock<IRepository<Article>> repository;
-
-        /// <summary>
-        /// Override initialize with binding.
-        /// </summary>
+       
         [OneTimeSetUp]
         public override void Initialize()
         {
             base.Initialize();
-            MockKernel.Bind<IArticleService>().To<ArticleService>();
-            MockKernel.GetMock<IRepository<Article>>().Setup(asrv => asrv.GetAll<Article>()).Returns(this.testData);
-            MockKernel.GetMock<IRepository<Article>>().Setup(ad => ad.Add(It.IsAny<Article>())).Returns(this.article);
-            repository = new Mock<IRepository<Article>>();
+            this.MockKernel.Bind<ArticleService>().ToSelf();
+            this.MockKernel.GetMock<IRepository<Article>>().Reset();
         }
-
-        /// <summary>
-        /// Test checking for existing.
-        /// </summary>
-        /// <param name="title">
-        /// Article title.
-        /// </param>
+        
         [Category("ArticleService")]
         [TestCase("my title", TestName = "MustBeTrue")]
+        [TestCase("my title123321", TestName = "MustBeFalse")]
         public void CheckDoesExistsTest(string title)
         {
-            bool actual = MockKernel.Get<ArticleService>().CheckDoesExists(title);
+            this.MockKernel.GetMock<IRepository<Article>>().Setup(asrv => asrv.GetAll<Article>()).Returns(this.testData);
+
+            bool actual = this.MockKernel.Get<ArticleService>().CheckDoesExists(title);
             bool expected = this.testData.Count(x => x.Title == title) > 0;
 
             Assert.AreEqual(expected, actual);
@@ -96,11 +42,13 @@
         [TestCase()]
         public void AddArticleTest()
         {
+            //MockKernel.GetMock<IRepository<Article>>().Setup(ad => ad.Add(It.Is<Article>(a => a.Id == 1))).Returns(this.article);
             Article actual = MockKernel.Get<IArticleService>().AddArticle(article);
+            MockKernel.GetMock<IRepository<Article>>().Verify(r => r.Add(It.Is<Article>(a => a.Id == 2)), Times.Once);
             Assert.AreEqual(article, actual);
         }
 
-        [Test]
+        [TestCase]
         public void should_find_simple_article_by_title()
         {
             //arrange
