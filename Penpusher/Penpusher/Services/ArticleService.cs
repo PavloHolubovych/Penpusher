@@ -14,9 +14,9 @@ namespace Penpusher.Services
             this.repository = repository;
         }
 
-        public void AddArticle(Article article)
+        public Article AddArticle(Article article)
         {
-            repository.Add(article);
+            return repository.Add(article);
         }
 
         public bool CheckDoesExists(string title)

@@ -25,7 +25,7 @@
                 new Article()
 
                 {
-                    Date = DateTime.Parse("10-04-2015"),
+                    Date = DateTime.Now,
                     Description = "Some description",
                     Id = 1,
                     IdNewsProvider = 1,
@@ -34,7 +34,7 @@
                 },
                 new Article()
                 {
-                    Date = DateTime.Parse("20-03-2016"),
+                    Date = DateTime.Now,
                     Description = "Some description",
                     Id = 2,
                     IdNewsProvider = 1,
@@ -43,7 +43,7 @@
                 },
                 new Article()
                 {
-                    Date = DateTime.Parse("18-03-2016"),
+                    Date = DateTime.Now,
                     Description = "Some description",
                     Id = 3,
                     IdNewsProvider = 1,
@@ -51,6 +51,18 @@
                     Title = "my title"
                 }
         };
+        Article article = new Article()
+
+        {
+            Date = DateTime.Now,
+            Description = "Some description",
+            Id = 2,
+            IdNewsProvider = 2,
+            Link = "Test link",
+            Title = "test title"
+        };
+
+        private Mock<IRepository<Article>> repository;
 
         /// <summary>
         /// Override initialize with binding.
@@ -61,6 +73,8 @@
             base.Initialize();
             MockKernel.Bind<IArticleService>().To<ArticleService>();
             MockKernel.GetMock<IRepository<Article>>().Setup(asrv => asrv.GetAll<Article>()).Returns(this.testData);
+            MockKernel.GetMock<IRepository<Article>>().Setup(ad => ad.Add(It.IsAny<Article>())).Returns(this.article);
+            repository = new Mock<IRepository<Article>>();
         }
 
         /// <summary>
@@ -78,19 +92,15 @@
 
             Assert.AreEqual(expected, actual);
         }
-        [TestFixture]
-        public class ArticleFindTest //: TestBase
+
+        [TestCase()]
+        public void AddArticleTest()
         {
-            private Mock<IRepository<Article>> repository;
+            Article actual = MockKernel.Get<IArticleService>().AddArticle(article);
+            Assert.AreEqual(article, actual);
+        }
 
-            [OneTimeSetUp]
-            public void Initialize()
-            {
-                //    base.Initialize();
-                repository = new Mock<IRepository<Article>>();
-            }
-
-            [Test]
+        [TestCase()]
             public void should_find_simple_article_by_title()
             {
                 //arrange
@@ -116,6 +126,6 @@
                 //assert
                 Assert.IsTrue(result.Count() == 1 && result.FirstOrDefault()?.Title == testTitle);
             }
-        }
+        
     }
 }

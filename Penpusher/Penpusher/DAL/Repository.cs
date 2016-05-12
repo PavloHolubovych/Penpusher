@@ -19,10 +19,11 @@ namespace Penpusher.DAL
             throw new NotImplementedException();
         }
 
-        public void Add(T entity)
+        public T Add(T entity)
         {
             dbSet.Add(entity);
             EntitiesContext.SaveChanges();
+            return entity;
         }
 
         public T Edit<T>(T entity)
