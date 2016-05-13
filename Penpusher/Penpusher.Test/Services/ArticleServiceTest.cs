@@ -23,7 +23,9 @@ namespace Penpusher.Test.Services
     [TestFixture]
     public class ArticleServiceTest : TestBase
     {
-
+        /// <summary>
+        /// The initialize.
+        /// </summary>
         [SetUp]
         public override void Initialize()
         {
@@ -66,36 +68,32 @@ namespace Penpusher.Test.Services
         /// The title.
         /// </param>
         /// <param name="expectedCount">
-        /// The expected count.
+        /// The expected Count.
         /// </param>
         [Category("ArticleService")]
         [TestCase("article1", 1, TestName = "Should find article by title")]
         [TestCase("article 1", 1, TestName = "Should find article by title contains space")]
         [TestCase("article2", 1, TestName = "Should find first article")]
-        [TestCase("", 0, TestName = "Blank title article")]
         [TestCase("aticle3", 0, TestName = "Not exist article")]
         [TestCase(default(string), 0, TestName = "Not title is null")]
         public void FindArticleTest(string title, int expectedCount)
         {
-            //arrange
+            // arrange
             var testArticles = new List<Article>
             {
-                new Article { Id = 1, Title = "article2"},
-                new Article { Id = 2, Title = "article 1"},
-                new Article { Id = 3, Title = "article1"}
+                new Article { Id = 1, Title = "article2" },
+                new Article { Id = 2, Title = "article 1" },
+                new Article { Id = 3, Title = "article1" },
             };
 
-            // TODO: underscore is not a valit variable name, even in the lambda-expressions, use first letters from words instead(i.e. rm (RepositoryMock))
-            MockKernel.GetMock<IRepository<Article>>().Setup(_ => _.GetAll<Article>()).Returns(testArticles);
-            //TODO: variable declaration here is redundant
-            var target = MockKernel.Get<ArticleService>();
+            MockKernel.GetMock<IRepository<Article>>().Setup(rm => rm.GetAll<Article>()).Returns(testArticles);
 
-            //act
-            var result = target.Find(title);
+            // act
+            var result = MockKernel.Get<ArticleService>().Find(title);
 
-            //assert
-            //TODO: Assert should be as easy as possible(so compare expected with actual here, without logic)
-            Assert.IsTrue(result.Count() == expectedCount);
+            // assert
+            var expected = result.Count();
+            Assert.AreEqual(expected,expectedCount);
         }
     }
 }
