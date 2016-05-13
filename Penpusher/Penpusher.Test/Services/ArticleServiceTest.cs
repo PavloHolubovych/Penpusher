@@ -66,7 +66,7 @@ namespace Penpusher.Test.Services
 
             bool actual = this.MockKernel.Get<ArticleService>().CheckDoesExists(title);
             // TODO: exists method could be used here as well as in the service. It would be better to move expected to a parameter in the TestCase
-            bool expected = testArticles.Exists(x => x.Title == title);
+            bool expected = testArticles.Count(x => x.Title == title) > 0;
 
             Assert.AreEqual(expected, actual);
         }
