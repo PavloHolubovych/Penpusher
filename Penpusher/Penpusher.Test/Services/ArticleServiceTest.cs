@@ -7,15 +7,16 @@
 
     All test for 1 service should have the same category
     */
+
+using System.Collections.Generic;
+using System.Linq;
+using Moq;
+using Ninject;
+using NUnit.Framework;
+using Penpusher.Services;
+
 namespace Penpusher.Test.Services
 {
-    using System.Collections.Generic;
-    using System.Linq;
-    using Moq;
-    using Ninject;
-    using NUnit.Framework;
-    using Penpusher.Services;
-
     /// <summary>
     /// The article service test class.
     /// </summary>
@@ -27,7 +28,7 @@ namespace Penpusher.Test.Services
         public override void Initialize()
         {
             base.Initialize();
-             MockKernel.Bind<IArticleService>().To<ArticleService>();
+            MockKernel.Bind<IArticleService>().To<ArticleService>();
             MockKernel.GetMock<IRepository<Article>>().Reset();
         }
 
@@ -40,20 +41,20 @@ namespace Penpusher.Test.Services
                 new Article()  {Id = 1,   Title = "test title"},
                 new Article()  {Id = 2,   Title = "my title" },
                 new Article()  {Id = 3,   Title = "my title" }};
-             MockKernel.GetMock<IRepository<Article>>().Setup(asrv => asrv.GetAll<Article>()).Returns(testArticles);
+            MockKernel.GetMock<IRepository<Article>>().Setup(asrv => asrv.GetAll<Article>()).Returns(testArticles);
             bool actual =  MockKernel.Get<IArticleService>().CheckDoesExists(title);
             return actual;
         }
 
-        //TODO Add name
-        [TestCase()]
+        [Category("ArticleService")]
+        [TestCase(ExpectedResult = true, TestName = "AddArticleTest checks if ArticleService adds a new article")]
         public void AddArticleTest()
         {
-            Article testArticle = new Article { Id = 1, Title = "newArticle" };
-            this.MockKernel.GetMock<IRepository<Article>>().Setup(ad => ad.Add(It.Is<Article>(a => a.Id == 1))).Returns(testArticle);
+            var testArticle = new Article { Id = 1, Title = "newArticle" };
+            MockKernel.GetMock<IRepository<Article>>().Setup(ad => ad.Add(It.Is<Article>(a => a.Id == 1))).Returns(testArticle);
 
-            Article actual = this.MockKernel.Get<ArticleService>().AddArticle(testArticle);
-            this.MockKernel.GetMock<IRepository<Article>>().Verify(r => r.Add(It.Is<Article>(a => a.Id == 1)), Times.Once);
+            var actual = this.MockKernel.Get<IArticleService>().AddArticle(testArticle);
+            MockKernel.GetMock<IRepository<Article>>().Verify(r => r.Add(It.Is<Article>(a => a.Id == 1)), Times.Once);
 
             Assert.AreEqual(testArticle, actual, "Another article");
         }
