@@ -1,4 +1,13 @@
-﻿namespace Penpusher.Test.Services
+﻿/* TODO:  Usings should be outside of namespace
+    remove redundand usings
+
+    Fix stylecop warnings
+
+    There is no need to put comments everywhere, code should be readable and undestandable. Write comments only for interfaces
+
+    All test for 1 service should have the same category
+    */
+namespace Penpusher.Test.Services
 {
     using System;
     using System.Collections.Generic;
@@ -22,15 +31,18 @@
         public override void Initialize()
         {
             base.Initialize();
+            //ToDO: bind to the interface here
             this.MockKernel.Bind<ArticleService>().ToSelf();
             this.MockKernel.GetMock<IRepository<Article>>().Reset();
         }
 
         [Category("ArticleService")]
+        // TODO: word "test" is redundant in the testcase name. Name here should be method name(CheckDoesExists) plus title exists/title is missing 
         [TestCase("my title", TestName = "Test with exist title")]
         [TestCase("my title123321", TestName = "Test with not exist title")]
         public void CheckDoesExistsTest(string title)
         {
+            /* TODO:  make initialization smaller (article creation can be put in 1 line)*/
             var testArticles = new List<Article>()
             {
                 new Article()
@@ -53,16 +65,17 @@
             this.MockKernel.GetMock<IRepository<Article>>().Setup(asrv => asrv.GetAll<Article>()).Returns(testArticles);
 
             bool actual = this.MockKernel.Get<ArticleService>().CheckDoesExists(title);
-            bool expected = testArticles.Count(x => x.Title == title) > 0;
+            // TODO: exists method could be used here as well as in the service. It would be better to move expected to a parameter in the TestCase
+            bool expected = testArticles.Exists(x => x.Title == title);
 
             Assert.AreEqual(expected, actual);
         }
 
+        //TODO Add name
         [TestCase()]
         public void AddArticleTest()
         {
             Article testArticle = new Article { Id = 1, Title = "newArticle" };
-
             this.MockKernel.GetMock<IRepository<Article>>().Setup(ad => ad.Add(It.Is<Article>(a => a.Id == 1))).Returns(testArticle);
 
             Article actual = this.MockKernel.Get<ArticleService>().AddArticle(testArticle);
@@ -97,13 +110,16 @@
                 new Article { Id = 3, Title = "article1"}
             };
 
+            // TODO: underscore is not a valit variable name, even in the lambda-expressions, use first letters from words instead(i.e. rm (RepositoryMock))
             MockKernel.GetMock<IRepository<Article>>().Setup(_ => _.GetAll<Article>()).Returns(testArticles);
+            //TODO: variable declaration here is redundant
             var target = MockKernel.Get<ArticleService>();
 
             //act
             var result = target.Find(title);
 
             //assert
+            //TODO: Assert should be as easy as possible(so compare expected with actual here, without logic)
             Assert.IsTrue(result.Count() == expectedCount);
         }
     }
