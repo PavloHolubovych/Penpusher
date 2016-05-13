@@ -9,12 +9,8 @@
     */
 namespace Penpusher.Test.Services
 {
-    using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.Dynamic;
     using System.Linq;
-    using System.Threading.Tasks;
     using Moq;
     using Ninject;
     using NUnit.Framework;
@@ -31,44 +27,22 @@ namespace Penpusher.Test.Services
         public override void Initialize()
         {
             base.Initialize();
-            //ToDO: bind to the interface here
-            this.MockKernel.Bind<ArticleService>().ToSelf();
-            this.MockKernel.GetMock<IRepository<Article>>().Reset();
+             MockKernel.Bind<IArticleService>().To<ArticleService>();
+            MockKernel.GetMock<IRepository<Article>>().Reset();
         }
 
         [Category("ArticleService")]
-        // TODO: word "test" is redundant in the testcase name. Name here should be method name(CheckDoesExists) plus title exists/title is missing 
-        [TestCase("my title", TestName = "Test with exist title")]
-        [TestCase("my title123321", TestName = "Test with not exist title")]
-        public void CheckDoesExistsTest(string title)
+        [TestCase("my title", ExpectedResult = true, TestName = "CheckDoesExists title exists")]
+        [TestCase("my title123321", ExpectedResult = false, TestName = "CheckDoesExists title is missing ")]
+        public bool CheckDoesExistsTest(string title)
         {
-            /* TODO:  make initialization smaller (article creation can be put in 1 line)*/
-            var testArticles = new List<Article>()
-            {
-                new Article()
-                {
-                    Id = 1,
-                    Title = "test title"
-                },
-                new Article()
-                {
-                    Id = 2,
-                    Title = "my title"
-                },
-                new Article()
-                {
-                    Id = 3,
-                    Title = "my title"
-                }
-            };
-
-            this.MockKernel.GetMock<IRepository<Article>>().Setup(asrv => asrv.GetAll<Article>()).Returns(testArticles);
-
-            bool actual = this.MockKernel.Get<ArticleService>().CheckDoesExists(title);
-            // TODO: exists method could be used here as well as in the service. It would be better to move expected to a parameter in the TestCase
-            bool expected = testArticles.Count(x => x.Title == title) > 0;
-
-            Assert.AreEqual(expected, actual);
+            var testArticles = new List<Article>() {
+                new Article()  {Id = 1,   Title = "test title"},
+                new Article()  {Id = 2,   Title = "my title" },
+                new Article()  {Id = 3,   Title = "my title" }};
+             MockKernel.GetMock<IRepository<Article>>().Setup(asrv => asrv.GetAll<Article>()).Returns(testArticles);
+            bool actual =  MockKernel.Get<IArticleService>().CheckDoesExists(title);
+            return actual;
         }
 
         //TODO Add name

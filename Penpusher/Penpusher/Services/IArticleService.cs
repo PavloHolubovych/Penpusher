@@ -9,5 +9,6 @@ namespace Penpusher.Services
     {
         Article AddArticle(Article article);
         IEnumerable<Article> Find(string value);
+        bool CheckDoesExists(string title);
     }
 }
