@@ -55,7 +55,7 @@ namespace Penpusher.Test.Services
             var testArticle = new Article { Id = 1, Title = "newArticle" };
             MockKernel.GetMock<IRepository<Article>>().Setup(ad => ad.Add(It.Is<Article>(a => a.Id == 1))).Returns(testArticle);
 
-            var actual = MockKernel.Get<IArticleService>().AddArticle(testArticle);
+            Article actual = MockKernel.Get<IArticleService>().AddArticle(testArticle);
             MockKernel.GetMock<IRepository<Article>>().Verify(r => r.Add(It.Is<Article>(a => a.Id == 1)), Times.Once);
 
             Assert.AreEqual(testArticle, actual, "Another article");
