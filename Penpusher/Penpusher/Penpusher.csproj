@@ -279,6 +279,7 @@
     <Compile Include="Article.cs">
       <DependentUpon>PenpusherEntityDatabase.tt</DependentUpon>
     </Compile>
+    <Compile Include="Controllers\ArticlesController.cs" />
     <Compile Include="NewsProvider.cs">
       <DependentUpon>PenpusherEntityDatabase.tt</DependentUpon>
     </Compile>
@@ -405,6 +406,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Articles\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
