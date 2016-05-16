@@ -11,7 +11,7 @@ namespace Penpusher.Controllers
         // GET: Articles
         public ActionResult Index()
         {
-            return View(); 
+            return View();
         }
     }
 }
