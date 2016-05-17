@@ -2,8 +2,7 @@
     padding-top: 50px;
     padding-bottom: 20px;
 }
-
-/* Set padding to keep content from hitting the edges */
+ 
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
@@ -32,7 +31,7 @@ ul {
     left:0;
     width:250px;
     height: auto;
-    background:#C6E96F;
+    background:#D4D4D5;
     border-radius: 5px;
 }
 
@@ -46,7 +45,6 @@ ul {
     border: none;
     float: right;
     vertical-align: central;
-
     border-radius: 8px;
     color: white;
     text-align: center;
@@ -55,52 +53,53 @@ ul {
     font-size: 15px;
 }
 
+#footer{
+    height: 20px;
+    width: auto;
+    background:#D4D4D5;
+    bottom: 0;
+}
  .side-bar-content {
-     padding: 20px;
-
+     padding: 20px; 
  }
 
+ul {
+    padding-left: 10px;
+}
+#copyrightLabel {
+text-align:center;
+}
  .styled-select {
    height: 29px;
    overflow: hidden;
       width: 200px;
      background-color: #582A72;
-      
-
+    color: white;
+    margin: 15px;
 }
-
+    select.selected { text-align:center; } 
  .myButton {    
-	box-shadow: 0px 10px 14px -7px #276873;
-	 filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#599bb3', endColorstr='#408c99',GradientType=0);
-	background-color:#498F96;
-	-moz-border-radius:8px;
-	-webkit-border-radius:8px;
+    border: none;
+	 background-color:#498F96;
+	-webkit-border-radius:4px;
 	border-radius:8px;
 	display:inline-block;
 	cursor:pointer;
 	color:#ffffff;
 	font-family:Arial;
 	font-size:20px;
-	font-weight:bold; 
-	text-decoration:none;
-	text-shadow:0px 1px 0px #3d768a;
-     width: 200px;
-     
-    margin-bottom: 10px;
-    margin-top: 10px;
+    width: 200px;
+    margin: 15px;
 }
  
-.myButton:active {
-	position:relative;
-	top:1px;
-}
+
 
  
  
 .rounded {
    -webkit-border-radius: 20px;
    -moz-border-radius: 20px;
-   border-radius: 10px;
+   border-radius: 8px;
 }
  
  

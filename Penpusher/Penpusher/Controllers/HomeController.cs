@@ -41,8 +41,9 @@ namespace Penpusher.Controllers
 
         public ActionResult Index()
         {
-            delNewsProvider();
-
+            //delNewsProvider();
+            ViewBag.UserName = "UserNAme1";
+            ViewBag.ProvidersList = new List<string> { "sdfs", "sdfsdf", "sdfsdf" };
             return View();
         }
 

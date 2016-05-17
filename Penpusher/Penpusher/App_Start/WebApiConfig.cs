@@ -15,6 +15,9 @@ namespace Penpusher
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+            config.Routes.MapHttpRoute("DefaultApiWithActionAndId",
+                                "api/{controller}/{action}/{id}",
+                                new { id = RouteParameter.Optional });
         }
     }
 }

@@ -1,0 +1,18 @@
+﻿<script>
+    $(document).ready(function () {
+        var APIController = window.location.origin + "/api/Articles/ArticlesFromProvider?idProvider=";
+        var SubscriptionID = 1;
+        $.ajax({
+            url: APIController + SubscriptionID,
+            method: "GET",
+            success: function (result) {
+                $("#div1").html(result);
+            },
+            error: function(request, textStatus) {
+                alert("Error: " + textStatus);
+            }
+        });
+        
+    })
+</script>
+
