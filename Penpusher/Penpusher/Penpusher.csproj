@@ -280,7 +280,6 @@
       <DependentUpon>PenpusherEntityDatabase.tt</DependentUpon>
     </Compile>
     <Compile Include="Controllers\ArticlesController.cs" />
-    <Compile Include="Controllers\SubscriptionsController.cs" />
     <Compile Include="NewsProvider.cs">
       <DependentUpon>PenpusherEntityDatabase.tt</DependentUpon>
     </Compile>
@@ -407,7 +406,6 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Subscriptions\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

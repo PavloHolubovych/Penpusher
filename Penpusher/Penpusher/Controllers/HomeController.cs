@@ -12,17 +12,36 @@ namespace Penpusher.Controllers
     {
         private readonly IDbProvider dbProvider;
         private readonly IArticleService articleService;
+        private readonly INewsProviderService newsProviderService;
 
 
-        public HomeController(IDbProvider dbProvider, IArticleService articleService)
+        public HomeController(IDbProvider dbProvider, IArticleService articleService, INewsProviderService newsProviderService)
         {
             this.dbProvider = dbProvider;
             this.articleService = articleService;
+            this.newsProviderService = newsProviderService;
+        }
+
+        public void addNewsProvider()
+        {
+            newsProviderService.AddNewsProvider(new NewsProvider
+            {
+                Name = "etr",
+                Description = "ert",
+                Link = "ghgjg",
+                RssImage = "image",
+                SubscriptionDate = DateTime.Today
+            });
+        }
+
+        public void delNewsProvider()
+        {
+            newsProviderService.DeleteNewsProvider(15);
         }
 
         public ActionResult Index()
         {
-         //  articleService.AddArticle(new Article { Description = "saf", Date = DateTime.Today, Link = "dsffdsf", Title = "sdfsd",IdNewsProvider = 1});
+            delNewsProvider();
 
             return View();
         }

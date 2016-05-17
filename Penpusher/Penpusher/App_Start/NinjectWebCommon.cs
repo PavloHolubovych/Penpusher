@@ -74,6 +74,8 @@ namespace Penpusher
             kernel.Bind<IDbProvider>().To<SqlServerDbProvider>();
             kernel.Bind<IArticleService>().To<ArticleService>();
             kernel.Bind<IRepository<Article>>().To<Repository<Article>>();
+            kernel.Bind<INewsProviderService>().To<NewsProviderService>();
+            kernel.Bind<IRepository<NewsProvider>>().To<Repository<NewsProvider>>();
         }        
     }
 }

@@ -17,7 +17,7 @@ namespace Penpusher.Services
     public interface INewsProviderService
     {
         /// <summary>
-        /// The add news provider.
+        /// The add news provider. 
         /// </summary>
         /// <param name="newsProvider">
         /// The news provider.
@@ -27,5 +27,12 @@ namespace Penpusher.Services
         /// </returns>
         NewsProvider AddNewsProvider(NewsProvider newsProvider);
 
+        /// <summary>
+        /// The delete news provider.
+        /// </summary>
+        /// <param name="id">
+        /// The id.
+        /// </param>
+        void DeleteNewsProvider(int id);
     }
 }

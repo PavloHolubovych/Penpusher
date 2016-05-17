@@ -42,5 +42,16 @@ namespace Penpusher.Services
         {
             return repository.Add(provider);
         }
+
+        /// <summary>
+        /// The delete news provider.
+        /// </summary>
+        /// <param name="id">
+        /// The id.
+        /// </param>
+        public void DeleteNewsProvider(int id)
+        {
+          repository.Delete(id);  
+        }
     }
 }

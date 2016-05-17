@@ -21,7 +21,7 @@ namespace Penpusher.DAL
             this.dbSet = EntitiesContext.Set<T>();
         }
 
-        public IEnumerable<T> GetAll<T>()
+        public IEnumerable<T> GetAll()
         {
             throw new NotImplementedException();
         }
@@ -33,14 +33,16 @@ namespace Penpusher.DAL
             return entity;
         }
 
-        public T Edit<T>(T entity)
+        public T Edit(T entity)
         {
             throw new NotImplementedException();
         }
 
         public void Delete(int id)
         {
-            throw new NotImplementedException();
+            var item = dbSet.Find(id);
+            dbSet.Remove(item);
+            EntitiesContext.SaveChanges();
         }
 
         public T GetById(int id)

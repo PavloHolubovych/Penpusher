@@ -53,7 +53,7 @@ namespace Penpusher.Test.Services
                 new Article() { Id = 2, Title = "my title" },
                 new Article() { Id = 3, Title = "my title" }
             };
-            MockKernel.GetMock<IRepository<Article>>().Setup(asrv => asrv.GetAll<Article>()).Returns(testArticles);
+            MockKernel.GetMock<IRepository<Article>>().Setup(asrv => asrv.GetAll()).Returns(testArticles);
             bool actual = MockKernel.Get<IArticleService>().CheckDoesExists(title);
             return actual;
         }
@@ -99,7 +99,7 @@ namespace Penpusher.Test.Services
                 new Article { Id = 3, Title = "article1" },
             };
 
-            MockKernel.GetMock<IRepository<Article>>().Setup(rm => rm.GetAll<Article>()).Returns(testArticles);
+            MockKernel.GetMock<IRepository<Article>>().Setup(rm => rm.GetAll()).Returns(testArticles);
 
             // act
             var result = MockKernel.Get<ArticleService>().Find(title);
