@@ -21,12 +21,17 @@ namespace Penpusher.Services
 
         public bool CheckDoesExists(string title)
         {
-            return repository.GetAll<Article>().Count(x => x.Title == title) > 0;
+            return repository.GetAll().Count(x => x.Title == title) > 0;
         }
 
         public override IEnumerable<Article> Find(string title)
         {
-            return repository.GetAll<Article>().Where(_ => _.Title == title);
+            return repository.GetAll().Where(_ => _.Title == title);
+        }
+
+        public override IEnumerable<Article> GetArticlesFromProvider(int id)
+        {
+            return repository.GetAll().Where(_ => _.IdNewsProvider == id).ToList();
         }
     }
 }

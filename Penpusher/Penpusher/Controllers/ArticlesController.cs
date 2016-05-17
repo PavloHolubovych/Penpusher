@@ -1,17 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+using System.Web.Http;
 using System.Web.Mvc;
+using System.Web.UI.WebControls;
+using Penpusher.Services;
 
 namespace Penpusher.Controllers
 {
-    public class ArticlesController : Controller
+    public class ArticlesController : ApiController
     {
-        // GET: Articles
-        public ActionResult Index()
+        private readonly IArticleService _articleService;
+
+        public ArticlesController(IArticleService articleService)
         {
-            return View();
+            this._articleService = articleService;
         }
+
+        // GET: Articles
+        //public ActionResult Index()
+        //{
+        //    return View();
+        //}
+        [System.Web.Http.HttpGet]
+        public IEnumerable<Article> ArticlesFromProvider(int idProvider)
+        {
+            var articles = _articleService.GetArticlesFromProvider(idProvider);
+            return articles;
+        }
+
     }
 }

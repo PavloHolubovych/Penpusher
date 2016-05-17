@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Linq;
+using Ninject.Infrastructure.Language;
 
 namespace Penpusher.DAL
 {
@@ -14,9 +16,10 @@ namespace Penpusher.DAL
             this.dbSet = EntitiesContext.Set<T>();
         }
 
-        public IEnumerable<T> GetAll<T>()
+        public IEnumerable<T> GetAll()
         {
-            throw new NotImplementedException();
+
+            return dbSet.ToEnumerable();
         }
 
         public T Add(T entity)
@@ -26,7 +29,7 @@ namespace Penpusher.DAL
             return entity;
         }
 
-        public T Edit<T>(T entity)
+        public T Edit(T entity)
         {
             throw new NotImplementedException();
         }
