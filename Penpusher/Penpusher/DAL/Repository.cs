@@ -6,8 +6,15 @@ namespace Penpusher.DAL
 {
     class Repository<T> : IRepository<T> where T : class
     {
+        /// <summary>
+        /// The entities context.
+        /// </summary>
         private PenpusherDatabaseEntities EntitiesContext = new PenpusherDatabaseEntities();
-        internal DbSet<T> dbSet;
+
+        /// <summary>
+        /// The db set.
+        /// </summary>
+        private DbSet<T> dbSet;
 
         public Repository()
         {

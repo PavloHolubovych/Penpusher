@@ -1,22 +1,21 @@
-﻿/* TODO:  Usings should be outside of namespace
-    remove redundand usings
-
-    Fix stylecop warnings
-
-    There is no need to put comments everywhere, code should be readable and undestandable. Write comments only for interfaces
-
-    All test for 1 service should have the same category
-    */
-
-using System.Collections.Generic;
-using System.Linq;
-using Moq;
-using Ninject;
-using NUnit.Framework;
-using Penpusher.Services;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright company="Sigma" file="ArticleServiceTest.cs">
+//   
+// </copyright>
+// <summary>
+//   The article service test class.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace Penpusher.Test.Services
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using Moq;
+    using Ninject;
+    using NUnit.Framework;
+    using Penpusher.Services;
+
     /// <summary>
     /// The article service test class.
     /// </summary>
@@ -34,20 +33,34 @@ namespace Penpusher.Test.Services
             MockKernel.GetMock<IRepository<Article>>().Reset();
         }
 
+        /// <summary>
+        /// The check does exists test.
+        /// </summary>
+        /// <param name="title">
+        /// The title.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
         [Category("ArticleService")]
         [TestCase("my title", ExpectedResult = true, TestName = "CheckDoesExists title exists")]
         [TestCase("my title123321", ExpectedResult = false, TestName = "CheckDoesExists title is missing ")]
         public bool CheckDoesExistsTest(string title)
         {
-            var testArticles = new List<Article>() {
-                new Article()  {Id = 1,   Title = "test title"},
-                new Article()  {Id = 2,   Title = "my title" },
-                new Article()  {Id = 3,   Title = "my title" }};
+            var testArticles = new List<Article>()
+            {
+                new Article() { Id = 1, Title = "test title" },
+                new Article() { Id = 2, Title = "my title" },
+                new Article() { Id = 3, Title = "my title" }
+            };
             MockKernel.GetMock<IRepository<Article>>().Setup(asrv => asrv.GetAll<Article>()).Returns(testArticles);
-            bool actual =  MockKernel.Get<IArticleService>().CheckDoesExists(title);
+            bool actual = MockKernel.Get<IArticleService>().CheckDoesExists(title);
             return actual;
         }
 
+        /// <summary>
+        /// The add article test.
+        /// </summary>
         [Category("ArticleService")]
         [TestCase(TestName = "Checks if ArticleService adds a new article")]
         public void AddArticleTest()
@@ -93,7 +106,7 @@ namespace Penpusher.Test.Services
 
             // assert
             var expected = result.Count();
-            Assert.AreEqual(expected,expectedCount);
+            Assert.AreEqual(expected, expectedCount);
         }
     }
 }
