@@ -22,11 +22,33 @@ namespace Penpusher.Services
         /// The repository.
         /// </summary>
         private readonly IRepository<NewsProvider> repository;
+        private readonly IRepository<UsersNewsProvider> usersNewsProvider;
 
-
-        public NewsProviderService(IRepository<NewsProvider> repository)
+        public NewsProviderService(IRepository<NewsProvider> repository, IRepository<UsersNewsProvider> usersNewsProvider)
         {
             this.repository = repository;
+            this.usersNewsProvider = usersNewsProvider;
+        }
+        public IEnumerable<NewsProvider> GetAll()
+        {
+            IEnumerable<NewsProvider> newsprovider = from n in repository.GetAll()
+                                                     select new NewsProvider()
+                                                     {
+                                                         Id = n.Id,
+                                                         Name = n.Name,
+                                                         Description = n.Description,
+                                                         Link = n.Link,
+                                                         RssImage = n.RssImage,
+                                                         SubscriptionDate = n.SubscriptionDate
+
+                                                     };
+
+            return newsprovider;
+        }
+
+        public IEnumerable<UsersNewsProvider> GetByUserId()
+        {
+            return usersNewsProvider.GetAll();
         }
 
         /// <summary>

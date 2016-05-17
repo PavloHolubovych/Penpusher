@@ -36,7 +36,7 @@ namespace Penpusher.Controllers
 
         public void delNewsProvider()
         {
-            newsProviderService.DeleteNewsProvider(15);
+           // newsProviderService.DeleteNewsProvider(15);
         }
 
         public ActionResult Index()
