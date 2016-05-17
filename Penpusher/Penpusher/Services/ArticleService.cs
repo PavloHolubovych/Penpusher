@@ -28,5 +28,10 @@ namespace Penpusher.Services
         {
             return repository.GetAll().Where(_ => _.Title == title);
         }
+
+        public override IEnumerable<Article> GetArticlesFromProvider(int id)
+        {
+            return repository.GetAll().Where(_ => _.IdNewsProvider == id);
+        }
     }
 }

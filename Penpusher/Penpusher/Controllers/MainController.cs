@@ -13,5 +13,10 @@ namespace Penpusher.Controllers
         {
             return View();
         }
+
+        public ActionResult ArticlesBySubscription()
+        {
+            return View();
+        }
     }
 }

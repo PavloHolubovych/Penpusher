@@ -16,11 +16,6 @@ namespace Penpusher.Controllers
             this._articleService = articleService;
         }
 
-        // GET: Articles
-        //public ActionResult Index()
-        //{
-        //    return View();
-        //}
         [System.Web.Http.HttpGet]
         public IEnumerable<Article> ArticlesFromProvider(int idProvider)
         {
@@ -29,4 +24,5 @@ namespace Penpusher.Controllers
         }
 
     }
+
 }
