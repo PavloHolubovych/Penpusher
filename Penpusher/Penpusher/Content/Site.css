@@ -60,11 +60,12 @@ ul {
     bottom: 0;
 }
  .side-bar-content {
-     padding: 20px;
-
+     padding: 20px; 
  }
 
-
+ul {
+    padding-left: 10px;
+}
 #copyrightLabel {
 text-align:center;
 }
