@@ -1,4 +1,9 @@
-﻿<form>
+﻿@{
+    Layout = null;
+}
+<script type='text/javascript' src="~/Scripts/knockout-3.4.0.js"></script>
+<script type="text/javascript" src="~/Scripts/jquery-1.10.2.js"></script>
+<form>
     <p>You have asked for <span data-bind='text: newsproviders().length'>&nbsp;</span> newsprovider(s)</p>
     <table data-bind='visible: newsproviders().length > 0'>
         <thead>
