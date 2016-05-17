@@ -31,7 +31,7 @@ namespace Penpusher.Services
 
         public override IEnumerable<Article> GetArticlesFromProvider(int id)
         {
-            return repository.GetAll().Where(_ => _.IdNewsProvider == id);
+            return repository.GetAll().Where(_ => _.IdNewsProvider == id).ToList();
         }
     }
 }
