@@ -22,8 +22,16 @@ namespace Penpusher.Controllers
 
         public ActionResult Index()
         {
-           articleService.AddArticle(new Article { Description = "saf", Date = DateTime.Today, Link = "dsffdsf", Title = "sdfsd",IdNewsProvider = 1});
-
+         //  articleService.AddArticle(new Article { Description = "saf", Date = DateTime.Today, Link = "dsffdsf", Title = "sdfsd",IdNewsProvider = 1});
+            ViewBag.UserName = "User111";
+            ViewBag.ProvidersList = new List<string>
+            {
+                "Provider1",
+                "Provider2",
+                "Provider3",
+                "Provider4",
+                "Provider5"
+            };
             return View();
         }
 
@@ -69,7 +77,6 @@ namespace Penpusher.Controllers
 
             }
         }
-
         public class Item
         {
         }
