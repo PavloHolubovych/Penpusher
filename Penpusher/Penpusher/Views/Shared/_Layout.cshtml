@@ -24,32 +24,31 @@
                 </div>
             </div>
             <hr />
-            <ul>
-                <li><button class="myButton">Favorite</button></li>
-                <li><button class="myButton">Saved for later</button></li>
-                <li>
-                    <select id="sideBarSelect" class="styled-select green rounded">
-                        @{
-                            foreach (var item in ViewBag.ProvidersList)
-                            {
-                                <option>@item</option>
-                            }
-                        }
+            <button id="ToFavoriteButton" class="myButton">Favorite</button>
+            <button class="myButton">Saved for later</button>
 
-                    </select>
-                </li>
-                <li><button class="myButton">Manage content</button></li>
-            </ul>
+            <select id="sideBarSelect" class="styled-select green rounded">
+                @{
+                    foreach (var item in ViewBag.ProvidersList)
+                    {
+                        <option>@item</option>
+                    }
+                }
+            </select>
+
+            <button class="myButton">Manage content</button>
+
         </div>
         <div id="content">
             @RenderBody()
 
         </div>
-        <div id="footer"></div>
+        <div id="footer">
+            <div id="copyrightLabel">
+                <label>Penpusher 2016</label>
+            </div>
+        </div>
     </div>
-
-
-
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
