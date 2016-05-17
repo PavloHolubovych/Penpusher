@@ -41,7 +41,7 @@ namespace Penpusher.Controllers
 
         public ActionResult Index()
         {
-            delNewsProvider();
+            ///delNewsProvider();
 
             return View();
         }

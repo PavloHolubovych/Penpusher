@@ -4,6 +4,7 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.UI.WebControls;
 using Penpusher.Services;
+using System.Web.Http;
 
 namespace Penpusher.Controllers
 {
@@ -15,13 +16,17 @@ namespace Penpusher.Controllers
         {
             this._articleService = articleService;
         }
+        
 
         [System.Web.Http.HttpGet]
+        [System.Web.Http.ActionName("ArticlesFromProvider")]
         public IEnumerable<Article> ArticlesFromProvider(int idProvider)
         {
             var articles = _articleService.GetArticlesFromProvider(idProvider);
             return articles;
         }
+
+
 
     }
 
