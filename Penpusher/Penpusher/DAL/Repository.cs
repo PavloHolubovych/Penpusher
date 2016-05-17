@@ -1,20 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Linq;
+using Ninject.Infrastructure.Language;
 
 namespace Penpusher.DAL
 {
     class Repository<T> : IRepository<T> where T : class
     {
-        /// <summary>
-        /// The entities context.
-        /// </summary>
         private PenpusherDatabaseEntities EntitiesContext = new PenpusherDatabaseEntities();
-
-        /// <summary>
-        /// The db set.
-        /// </summary>
-        private DbSet<T> dbSet;
+        internal DbSet<T> dbSet;
 
         public Repository()
         {
@@ -23,7 +18,8 @@ namespace Penpusher.DAL
 
         public IEnumerable<T> GetAll()
         {
-            throw new NotImplementedException();
+
+            return dbSet.ToEnumerable();
         }
 
         public T Add(T entity)
