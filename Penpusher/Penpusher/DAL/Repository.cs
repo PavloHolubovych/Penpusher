@@ -21,9 +21,9 @@ namespace Penpusher.DAL
             this.dbSet = EntitiesContext.Set<T>();
         }
 
-        public IEnumerable<T> GetAll<T>()
+        public IEnumerable<T> GetAll()
         {
-            throw new NotImplementedException();
+            return dbSet;
         }
 
         public T Add(T entity)

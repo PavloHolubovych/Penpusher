@@ -7,7 +7,7 @@ namespace Penpusher
 {
     public interface IRepository<T> where T : class
     {
-        IEnumerable<T> GetAll<T>();
+        IEnumerable<T> GetAll();
         T Add(T entity);
         T Edit<T>(T entity);
         void Delete(int id);
