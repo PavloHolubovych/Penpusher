@@ -28,7 +28,7 @@ namespace Penpusher.Services
         {
             return repository.GetAll().Where(_ => _.Title == title);
         }
-
+        //parametr naming. id is not identifier in the current context. bettenr name is newsProviderId
         public override IEnumerable<Article> GetArticlesFromProvider(int id)
         {
             return repository.GetAll().Where(_ => _.IdNewsProvider == id).ToList();
