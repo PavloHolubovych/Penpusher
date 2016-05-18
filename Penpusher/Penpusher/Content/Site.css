@@ -59,6 +59,10 @@ ul {
     background:#D4D4D5;
     bottom: 0;
 }
+
+#content {
+    min-height: 370px;
+}
  .side-bar-content {
      padding: 20px; 
  }
@@ -69,42 +73,19 @@ ul {
 #copyrightLabel {
 text-align:center;
 }
- .styled-select {
+.styledselect {
    height: 29px;
-   overflow: hidden;
-      width: 200px;
-     background-color: #582A72;
-    color: white;
+      width: 200px; 
     margin: 15px;
+    text-align: center;    
 }
-    select.selected { text-align:center; } 
+
  .myButton {    
     border: none;
-	 background-color:#498F96;
-	-webkit-border-radius:4px;
-	border-radius:8px;
+	 
 	display:inline-block;
 	cursor:pointer;
-	color:#ffffff;
-	font-family:Arial;
-	font-size:20px;
+	 
     width: 200px;
     margin: 15px;
 }
- 
-
-
- 
- 
-.rounded {
-   -webkit-border-radius: 20px;
-   -moz-border-radius: 20px;
-   border-radius: 8px;
-}
- 
- 
-.green   { background-color: #4CAF50; } 
- 
- 
-
- 
