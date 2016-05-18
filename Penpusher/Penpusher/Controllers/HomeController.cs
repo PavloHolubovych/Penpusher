@@ -24,14 +24,14 @@ namespace Penpusher.Controllers
 
         public void addNewsProvider()
         {
-            newsProviderService.AddNewsProvider(new NewsProvider
-            {
-                Name = "etr",
-                Description = "ert",
-                Link = "ghgjg",
-                RssImage = "image",
-                SubscriptionDate = DateTime.Today
-            });
+            //newsProviderService.AddNewsProvider(new NewsProvider
+            //{
+            //    Name = "etr",
+            //    Description = "ert",
+            //    Link = "ghgjg",
+            //    RssImage = "image",
+            //    SubscriptionDate = DateTime.Today
+            //});
         }
 
         public void delNewsProvider()

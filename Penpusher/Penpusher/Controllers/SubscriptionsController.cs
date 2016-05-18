@@ -28,15 +28,18 @@ namespace Penpusher.Controllers
         }
 
         // GET api/<controller>/5
-        [System.Web.Http.Route("getall2")]
-        public UsersNewsProvider[] Getb()
+        [System.Web.Http.Route("getall2/{id}")]
+        public NewsProvider[] GetByUser(int id)
         {
-            return _newsProviderService.GetByUserId().ToArray();
+            return _newsProviderService.GetByUserId(id).ToArray();
         }
 
         // POST api/<controller>
-        public void Post([FromBody]string value)
+        [System.Web.Http.Route("add")]
+        public string Post(NewsProvider newsProvider)
         {
+            var link = newsProvider.Link;
+            return link;
         }
 
         // PUT api/<controller>/5
@@ -45,8 +48,11 @@ namespace Penpusher.Controllers
         }
 
         // DELETE api/<controller>/5
+        [System.Web.Http.Route("delete/{id}")]
+
         public void Delete(int id)
         {
+            _newsProviderService.DeleteNewsProvider(id);
         }
     }
 }

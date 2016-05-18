@@ -1,77 +1,88 @@
-﻿@{
-    Layout = null;
-}
-<script type='text/javascript' src="~/Scripts/knockout-3.4.0.js"></script>
-<script type="text/javascript" src="~/Scripts/jquery-1.10.2.js"></script>
-<form>
-    <p>You have asked for <span data-bind='text: newsproviders().length'>&nbsp;</span> newsprovider(s)</p>
-    <table data-bind='visible: newsproviders().length > 0'>
+﻿<form>
+    <h1><p>You have subscribe for <span data-bind='text: newsproviders().length'>&nbsp;</span> newsprovider(s)
+    </p></h1>
+    <table class="table" data-bind='visible: newsproviders().length > 0'>
         <thead>
-            <tr>
-                <th>Name</th>
-                <th>Link</th>
-                <th>Description</th>
-                <th>RssImage</th>
-                <th>SubscriptionDate</th>
-                <th />
-            </tr>
+        <tr>
+            <th>Name</th>
+            <th>Link</th>
+            <th>Description</th>
+            <th>RssImage</th>
+            <th>SubscriptionDate</th>
+            <th/>
+        </tr>
         </thead>
         <tbody data-bind='foreach: newsproviders'>
-            <tr>
-                <td><input class='required number' data-bind='value: Name, uniqueName: true' /></td>
-                <td>
-                    <input class='required number' data-bind='value: Link, uniqueName: true' />
-                </td>
-                <td>
-                    <input class='required number' data-bind='value: Description, uniqueName: true' />
-                </td>
-                <td>
-                    <input class='required number' data-bind='value: RssImage, uniqueName: true' />
-                </td>
-                <td>
-                    <input class='required number' data-bind='value: SubscriptionDate, uniqueName: true' />
-                </td>
-                <td><a href='#' data-bind='click: $root.removePeople'>Delete</a></td>
-            </tr>
+        <tr>
+            <td><span class='required number' data-bind='text: Name, uniqueName: true' /></td>
+            <td>
+                <span class='required number' data-bind='text: Link, uniqueName: true' />
+            </td>
+            <td>
+                <span class='required number' data-bind='text: Description, uniqueName: true' />
+            </td>
+            <td>
+                <span class='required number' data-bind='text: RssImage, uniqueName: true' />
+            </td>
+            <td>
+                <span class='required number' data-bind='text: SubscriptionDate, uniqueName: true' />
+            </td>
+            <td><a href='#' data-bind='click: $root.removeNewsProvider'>Unsubscribe</a></td>
+        </tr>
         </tbody>
     </table>
+</form>
 
-    <button data-bind='click: addPeople'>Add newsprovider</button>
-    <button data-bind='click: save' type='submit'>Submit</button>
+<form class="form-inline">
+    <div class="form-group">
+        <div class="input-group">
+            <input class="form-control" placeholder="wwww.liga.net" data-bind='value: AddLink' />
+        </div>
+    </div>
+    <button class="btn btn-primary" data-bind='click: $root.addNewsProvider'>Add newsprovider</button>
 </form>
 <script>
 
     var NewsProviderModel = function () {
         var self = this;
         self.newsproviders = ko.observableArray([]);
-        $.getJSON('/api/getall', function (data) {
+        self.AddLink = ko.observable("example");
+        $.getJSON('/api/getall2/4', function (data) {
 
                 self.newsproviders(data);
 
-            console.log(data);
         });
 
 
 
 
-        self.addNewsProvider = function () {
-            self.peoples.push({
-                name: "",
-                email: "",
-                phone: ""
+        self.addNewsProvider = function (newsprovider) {
+            var Link = newsprovider.AddLink;
+            console.log({ Link });
+            var newsProvider = {};
+            newsProvider.Link = Link;
+            $.ajax({
+                url: '/api/add',
+                type: "POST",
+                //contentType: 'application/json; charset=utf-8',
+                data: newsProvider,
+                success: function (data) {
+                    //self.newsproviders(data);
+                    //console.log(data);
+                    //alert('data.result');
+                    //console.log(data.result);
+                }
             });
         };
 
         self.removeNewsProvider = function (newsprovider) {
-            self.newsprovider.remove(newsprovider);
-        };
+            var id = newsprovider.Id;
 
-        self.save = function (form) {
             $.ajax({
-                url: '/echo/json/',
+                url: '/api/delete/'+id,
                 type: "POST",
                 /*contentType: "application/json; charset=utf-8",*/
-                data: ko.toJSON({ people: self }),
+                data:{},
                 dataType: 'json',
                 success: function (data) {
                     //console.log(data);
@@ -79,10 +90,9 @@
                     //console.log(data.result);
                 }
             });
-
-            //alert("Could now transmit to server: " + ko.utils.stringifyJson(self.peoples));
-            //// To actually transmit to server as a regular form post, write this: ko.utils.postJson($("form")[0], self.gifts);
+            self.newsproviders.remove(newsprovider);
         };
+
     };
 
 

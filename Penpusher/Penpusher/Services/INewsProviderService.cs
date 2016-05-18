@@ -26,7 +26,7 @@ namespace Penpusher.Services
         /// The <see cref="NewsProvider"/>.
         /// </returns>
         IEnumerable<NewsProvider> GetAll();
-        IEnumerable<UsersNewsProvider> GetByUserId();
+        IEnumerable<NewsProvider> GetByUserId(int id);
 
 
         NewsProvider AddNewsProvider(NewsProvider newsProvider);

@@ -46,9 +46,20 @@ namespace Penpusher.Services
             return newsprovider;
         }
 
-        public IEnumerable<UsersNewsProvider> GetByUserId()
+        public IEnumerable<NewsProvider> GetByUserId(int id)
         {
-            return usersNewsProvider.GetAll();
+            IEnumerable<NewsProvider> news = from un in usersNewsProvider.GetAll().Where(_ => _.IdUser == id).ToList()
+                select new NewsProvider()
+                {
+                    Id = un.Id,
+                    Name = un.NewsProvider.Name,
+                    Description = un.NewsProvider.Description,
+                    Link = un.NewsProvider.Link,
+                    RssImage = un.NewsProvider.RssImage,
+                    SubscriptionDate = un.NewsProvider.SubscriptionDate
+
+                };
+            return news;
         }
 
         /// <summary>
@@ -62,6 +73,7 @@ namespace Penpusher.Services
         /// </returns>
         public NewsProvider AddNewsProvider(NewsProvider provider)
         {
+
             return repository.Add(provider);
         }
 
@@ -73,7 +85,7 @@ namespace Penpusher.Services
         /// </param>
         public void DeleteNewsProvider(int id)
         {
-          repository.Delete(id);  
+            usersNewsProvider.Delete(id);  
         }
     }
 }
