@@ -32,7 +32,7 @@ namespace Penpusher.Services
             return _repository.GetAll().Where(x => x.Title == title);
         }
 
-        public override IEnumerable<Article> GetArticlesFromProvider(int newsProviderId)
+        public IEnumerable<Article> GetArticlesFromProvider(int newsProviderId)
         {
             return _repository.GetAll().Where(x=> x.IdNewsProvider == newsProviderId).ToList();
         }
@@ -40,6 +40,20 @@ namespace Penpusher.Services
         public IEnumerable<Article> GetAllArticleses()
         {
             return _repository.GetAll();
+        }
+
+        public IEnumerable<Article> GetArticlesFromSelectedProviders(IEnumerable<NewsProvider> newsProviders)
+        {
+            var articles = new List<Article>();
+            if (newsProviders.ToList().Count > 0)
+            {
+                foreach (var provider in newsProviders)
+                {
+                    var newArticles = GetArticlesFromProvider(provider.Id).ToList();
+                    articles.AddRange(newArticles);
+                }
+            }
+            return articles;
         }
     }
 }
