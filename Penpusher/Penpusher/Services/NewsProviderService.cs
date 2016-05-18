@@ -9,12 +9,12 @@
 
 using System;
 using System.Web;
-
+using System.Collections.Generic;
+using System.Linq;
+using Penpusher.Services.Base;
 namespace Penpusher.Services
 {
-    using System.Collections.Generic;
-    using System.Linq;
-    using Penpusher.Services.Base;
+
 
     /// <summary>
     /// The provider service.
@@ -34,7 +34,7 @@ namespace Penpusher.Services
         }
         public IEnumerable<NewsProvider> GetAll()
         {
-            IEnumerable<NewsProvider> newsprovider = repository.GetAll().Select(n => new NewsProvider
+            IEnumerable<NewsProvider> newsprovider = newsProviderRepository.GetAll().Select(n => new NewsProvider
             {
                 Id = n.Id,
                 Name = n.Name,
@@ -49,15 +49,16 @@ namespace Penpusher.Services
 
         public IEnumerable<NewsProvider> GetByUserId(int id)
         {
-            IEnumerable<NewsProvider> news = usersNewsProvider.GetAll().Where(_ => _.IdUser == id).Select(un=> new NewsProvider
-            {
-                Id = un.Id,
-                Name = un.NewsProvider.Name,
-                Description = un.NewsProvider.Description,
-                Link = un.NewsProvider.Link,
-                RssImage = un.NewsProvider.RssImage,
-                SubscriptionDate = un.NewsProvider.SubscriptionDate
-            });
+            IEnumerable<NewsProvider> news = usersNewsProvider.GetAll().Where(_ => _.IdUser == id)
+                .Select(un => new NewsProvider
+                {
+                    Id = un.Id,
+                    Name = un.NewsProvider.Name,
+                    Description = un.NewsProvider.Description,
+                    Link = un.NewsProvider.Link,
+                    RssImage = un.NewsProvider.RssImage,
+                    SubscriptionDate = un.NewsProvider.SubscriptionDate
+                });
             return news;
         }
 
