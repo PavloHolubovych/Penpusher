@@ -48,13 +48,9 @@
         self.newsproviders = ko.observableArray([]);
         self.AddLink = ko.observable("example");
         $.getJSON('/api/getall2/4', function (data) {
-
-                self.newsproviders(data);
+                 self.newsproviders(data);
 
         });
-
-
-
 
         self.addNewsProvider = function (newsprovider) {
             var Link = newsprovider.AddLink;

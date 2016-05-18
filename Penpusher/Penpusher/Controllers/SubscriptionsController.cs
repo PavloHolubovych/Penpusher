@@ -1,16 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Http;
-using System.Web.Mvc;
-using Penpusher.Services;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="SubscriptionsController.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   Defines the SubscriptionsController type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace Penpusher.Controllers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Web;
+    using System.Web.Http;
+    using System.Web.Mvc;
+    using Penpusher.Services;
+
+    /// <summary>
+    /// The subscriptions controller.
+    /// </summary>
     [System.Web.Http.RoutePrefix("api")]
     public class SubscriptionsController : ApiController
     {
+        /// <summary>
+        /// The _news provider service.
+        /// </summary>
         private readonly INewsProviderService _newsProviderService;
 
 
@@ -20,6 +35,13 @@ namespace Penpusher.Controllers
         }
 
         // GET api/<controller>
+
+        /// <summary>
+        /// The get.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="NewsProvider[]"/>.
+        /// </returns>
         [System.Web.Http.Route("getall")]
         public NewsProvider[] Get()
         {
@@ -28,6 +50,16 @@ namespace Penpusher.Controllers
         }
 
         // GET api/<controller>/5
+
+        /// <summary>
+        /// The get by user.
+        /// </summary>
+        /// <param name="id">
+        /// The id.
+        /// </param>
+        /// <returns>
+        /// The <see cref="NewsProvider[]"/>.
+        /// </returns>
         [System.Web.Http.Route("getall2/{id}")]
         public NewsProvider[] GetByUser(int id)
         {
@@ -35,19 +67,42 @@ namespace Penpusher.Controllers
         }
 
         // POST api/<controller>
+
+        /// <summary>
+        /// The post.
+        /// </summary>
+        /// <param name="newsProvider">
+        /// The news provider.
+        /// </param>
         [System.Web.Http.Route("add")]
-        public string Post(NewsProvider newsProvider)
+        public void Post(NewsProvider newsProvider)
         {
             var link = newsProvider.Link;
-            return link;
+            _newsProviderService.AddSubscription(link);
         }
 
         // PUT api/<controller>/5
+
+        /// <summary>
+        /// The put.
+        /// </summary>
+        /// <param name="id">
+        /// The id.
+        /// </param>
+        /// <param name="value">
+        /// The value.
+        /// </param>
         public void Put(int id, [FromBody]string value)
         {
         }
 
         // DELETE api/<controller>/5
+        /// <summary>
+        /// The delete.
+        /// </summary>
+        /// <param name="id">
+        /// The id.
+        /// </param>
         [System.Web.Http.Route("delete/{id}")]
 
         public void Delete(int id)
