@@ -53,11 +53,8 @@ ul {
     list-style: none;
     
 }
-.container {
-    position: relative;
-    padding: 0 0 0 255px;
-}
-
+.container { position:relative;
+              padding:0 0 0 255px; }
 #sidebar {
     position:absolute;
     top:0; 
@@ -123,3 +120,21 @@ text-align:center;
     width: 200px;
     margin: 15px;
 }
+
+#articleContentDiv {
+    margin: 30px;
+    border-radius: 6px;
+    background:
+}
+
+#articleLinkDiv{}
+
+
+#articleTitleDiv {
+    text-align: center;
+
+}
+
+
+
+

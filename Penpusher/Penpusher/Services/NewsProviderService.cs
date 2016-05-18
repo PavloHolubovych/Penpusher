@@ -74,8 +74,7 @@ namespace Penpusher.Services
         public NewsProvider AddNewsProvider(NewsProvider provider)
         {
 
-            return newsProviderRepository.Add(provider);
-            return repository.Add(provider);
+            return newsProviderRepository.Add(provider); 
         }
 
         /// <summary>
