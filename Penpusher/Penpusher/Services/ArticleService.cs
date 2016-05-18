@@ -33,11 +33,16 @@ namespace Penpusher.Services
             return _repository.GetAll().Where(_ => _.IdNewsProvider == newsProviderId).ToList();
         }
 
+        public IEnumerable<Article> GetAllArticleses()
+        {
+            return _repository.GetAll();
+        }
+
         public IEnumerable<Article> GetArticlesFromSelectedProviders(IEnumerable<NewsProvider> newsProviders)
         {
             var articles = new List<Article>();
-            if(newsProviders.ToList().Count>0)
-            { 
+            if (newsProviders.ToList().Count > 0)
+            {
                 foreach (var provider in newsProviders)
                 {
                     var newArticles = GetArticlesFromProvider(provider.Id).ToList();
