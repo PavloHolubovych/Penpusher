@@ -34,5 +34,12 @@ namespace Penpusher.Controllers
 
             return readArticles;
         }
+
+        [HttpGet]
+        [ActionName("GetArticleDetail")]
+        public  Article ArticleDetails(int articleId)
+        {
+           return  _articleService.GetById(articleId);
+        }
     }
 }

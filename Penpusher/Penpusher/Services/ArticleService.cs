@@ -18,6 +18,10 @@ namespace Penpusher.Services
             return _repository.Add(article);
         }
 
+        public  Article GetById(int id) {
+            return _repository.GetAll().FirstOrDefault(x => x.Id == id);
+        } 
+
         public bool CheckDoesExists(string title)
         {
             return _repository.GetAll().Count(x => x.Title == title) > 0;
@@ -25,12 +29,12 @@ namespace Penpusher.Services
 
         public override IEnumerable<Article> Find(string title)
         {
-            return _repository.GetAll().Where(_ => _.Title == title);
+            return _repository.GetAll().Where(x => x.Title == title);
         }
 
         public override IEnumerable<Article> GetArticlesFromProvider(int newsProviderId)
         {
-            return _repository.GetAll().Where(_ => _.IdNewsProvider == newsProviderId).ToList();
+            return _repository.GetAll().Where(x=> x.IdNewsProvider == newsProviderId).ToList();
         }
 
         public IEnumerable<Article> GetAllArticleses()

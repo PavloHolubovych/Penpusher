@@ -11,7 +11,31 @@
 .dl-horizontal dt {
     white-space: normal;
 }
+ .main {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        padding: 1%;
+       
+    }
 
+        .main img {
+            width: 40%;
+            height: 20%;
+            max-width: 200px;
+            float: none;
+            vertical-align: middle;
+            padding-bottom: 1%;
+        }
+
+    .content {
+        width: 60%;
+        padding-left: 2%;
+        max-height: 10%; 
+        overflow: hidden;
+        text-overflow: ellipsis;
+        height: 100px;
+    }
  input,
 select,
 textarea {

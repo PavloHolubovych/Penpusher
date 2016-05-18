@@ -38,5 +38,9 @@ namespace Penpusher.Controllers
         {
             return View();
         }
+
+        public ActionResult ArticleDescriptionView() {
+            return View();
+        }
     }
 }

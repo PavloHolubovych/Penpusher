@@ -73,7 +73,6 @@ namespace Penpusher.Services
         /// </returns>
         public NewsProvider AddNewsProvider(NewsProvider provider)
         {
-
             return repository.Add(provider);
         }
 
@@ -100,16 +99,13 @@ namespace Penpusher.Services
         public UsersNewsProvider AddSubscription(string link)
         {
             var channels = repository.GetAll().FirstOrDefault(rm => rm.Link == link);
-
             if (channels == null)
             {
                 channels = new NewsProvider();
                 // add channel
                 AddNewsProvider(channels);
             }
-
             var b = usersNewsProvider.GetAll().FirstOrDefault(rm => rm.IdNewsProvider == channels.Id);
-
             if (b == null)
             {
                 return usersNewsProvider.Add(b);
