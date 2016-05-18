@@ -10,6 +10,7 @@
     <script type='text/javascript' src="~/Scripts/knockout-3.4.0.js"></script>
     <script type="text/javascript" src="~/Scripts/jquery-1.10.2.js"></script>
     <script type="text/javascript" src="~/Scripts/MasterPageScript.js"></script>
+
 </head>
 <body>
     <div class="container">
@@ -20,15 +21,15 @@
                          width="40"
                          height="40" />
                     <label>@ViewBag.UserName</label>
-                    <button id="logOutBtn" onclick="location.href='@Url.Action("LogOff", "Account")'">Log out</button>
+                    <button id="logOutBtn" class="btn btn-primary" onclick="location.href='@Url.Action("LogOff", "Account")'">Log out</button>
                 </div>
             </div>
             <hr />
             <ul>
-                <li><button class="myButton">Favorite</button></li>
-                <li><button class="myButton">Saved for later</button></li>
+                <li><button class="btn btn-primary myButton">Favorite</button></li>
+                <li><button class="btn btn-primary myButton">Saved for later</button></li>
                 <li>
-                    <select id="sideBarSelect" class="styled-select green rounded">
+                    <select id="sideBarSelect" class="styledselect">
                         @{
                             foreach (var item in ViewBag.ProvidersList)
                             {
@@ -38,7 +39,8 @@
 
                     </select>
                 </li>
-                <li><button class="myButton"onclick="location.href='@Url.Action("Subscriptions", "Main")'">Manage content</button></li>
+
+                <li><button class="btn btn-primary myButton" onclick="location.href='@Url.Action("Subscriptions", "Main")'">Manage content</button></li>
             </ul>
         </div>
         <div id="content">
