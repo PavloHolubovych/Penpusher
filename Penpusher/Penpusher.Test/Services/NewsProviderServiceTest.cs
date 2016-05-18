@@ -1,9 +1,9 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright company="Sigma" file="ArticleServiceTest.cs">
+// <copyright company="Sigma" file="NewsProviderServiceTest.cs">
 //   
 // </copyright>
 // <summary>
-//   The article service test class.
+//   The NewsProvider service test class.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -20,7 +20,7 @@ namespace Penpusher.Test.Services
 
 
     /// <summary>
-    /// The article service test class.
+    /// The NewsProvider service test class.
     /// </summary>
     [TestFixture]
     public class NewsProviderTest : TestBase
