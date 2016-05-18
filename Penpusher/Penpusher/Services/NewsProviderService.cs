@@ -97,6 +97,7 @@ namespace Penpusher.Services
         /// <returns>
         /// The <see cref="UsersNewsProvider"/>.
         /// </returns>
+        public UsersNewsProvider AddSubscription(string link)
         {
             var channels = repository.GetAll().FirstOrDefault(rm => rm.Link == link);
 
