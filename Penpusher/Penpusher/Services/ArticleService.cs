@@ -45,12 +45,13 @@ namespace Penpusher.Services
         public IEnumerable<Article> GetArticlesFromSelectedProviders(IEnumerable<NewsProvider> newsProviders)
         {
             var articles = new List<Article>();
+
             if (newsProviders.ToList().Count > 0)
             {
-                foreach (var provider in newsProviders)
+                foreach (NewsProvider provider in newsProviders)
                 {
-                    var newArticles = GetArticlesFromProvider(provider.Id).ToList();
-                    articles.AddRange(newArticles);
+                    var nextProviderArticles = GetArticlesFromProvider(provider.Id).ToList();
+                    articles.AddRange(nextProviderArticles);
                 }
             }
             return articles;
