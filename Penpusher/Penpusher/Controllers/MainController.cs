@@ -8,9 +8,16 @@ namespace Penpusher.Controllers
 {
     public class MainController : Controller
     {
+        public MainController()
+        {
+            ViewBag.UserName = "UserNAme1";
+            ViewBag.ProvidersList = new List<string> { "sdfs", "sdfsdf", "sdfsdf" };
+        }
+
         // GET: Main
         public ActionResult Index()
         {
+
             return View();
         }
 
