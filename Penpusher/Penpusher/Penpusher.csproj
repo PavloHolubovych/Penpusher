@@ -416,7 +416,7 @@
     <Content Include="Views\Main\Index.cshtml" />
     <Content Include="Views\Main\Subscriptions.cshtml" />
     <Content Include="Views\Main\ArticlesBySubscription.cshtml" />
-    <Content Include="Views\Main\UserReadArticles.cshtml" />
+    <Content Include="Views\Main\ArticleDescriptionView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -7,6 +7,9 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System;
+using System.Web;
+
 namespace Penpusher.Services
 {
     using System.Collections.Generic;
@@ -21,12 +24,12 @@ namespace Penpusher.Services
         /// <summary>
         /// The repository.
         /// </summary>
-        private readonly IRepository<NewsProvider> repository;
+        private readonly IRepository<NewsProvider> newsProviderRepository;
         private readonly IRepository<UsersNewsProvider> usersNewsProvider;
 
         public NewsProviderService(IRepository<NewsProvider> repository, IRepository<UsersNewsProvider> usersNewsProvider)
         {
-            this.repository = repository;
+            this.newsProviderRepository = repository;
             this.usersNewsProvider = usersNewsProvider;
         }
         public IEnumerable<NewsProvider> GetAll()
@@ -70,7 +73,7 @@ namespace Penpusher.Services
         public NewsProvider AddNewsProvider(NewsProvider provider)
         {
 
-            return repository.Add(provider);
+            return newsProviderRepository.Add(provider);
         }
 
         /// <summary>
@@ -95,25 +98,23 @@ namespace Penpusher.Services
         /// </returns>
         public UsersNewsProvider AddSubscription(string link)
         {
-            var channels = repository.GetAll().FirstOrDefault(rm => rm.Link == link);
+            var channel = newsProviderRepository.GetAll().FirstOrDefault(rm => rm.Link == link);
 
-            if (channels == null)
+            if (channel == null)
             {
-                channels = new NewsProvider();
-                // add channel
-                AddNewsProvider(channels);
+                channel = new NewsProvider
+                {
+                    Link = link, Name = "test", Description = "test", SubscriptionDate = DateTime.Today
+                };
+
+                channel = AddNewsProvider(channel);
             }
 
-            var b = usersNewsProvider.GetAll().FirstOrDefault(rm => rm.IdNewsProvider == channels.Id);
-
-            if (b == null)
+            return usersNewsProvider.Add(new UsersNewsProvider
             {
-                return usersNewsProvider.Add(b);
-            }
-            else
-            {
-                return new UsersNewsProvider();
-            }
+                IdNewsProvider = channel.Id,
+                IdUser = 4
+            });
         }
     }
 

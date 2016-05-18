@@ -13,5 +13,6 @@ namespace Penpusher.Services
         IEnumerable<Article> GetArticlesFromProvider(int newsProviderId);
 
         IEnumerable<Article> GetAllArticleses();
-    }
+
+        IEnumerable<Article> GetArticlesFromSelectedProviders(IEnumerable<NewsProvider> newsProviders);}
 }

@@ -14,37 +14,38 @@
 
 </head>
 <body>
-<div class="container">
-    <div id="sidebar">
-        <div class="side-bar-content">
-            <div>
-                <img src="https://cdn4.iconfinder.com/data/icons/small-n-flat/24/user-alt-128.png"
-                     width="40"
-                     height="40"/>
-                <label>@ViewBag.UserName</label>
-                <button id="logOutBtn" onclick="location.href = '@Url.Action("LogOff", "Account")'">Log out</button>
+    <div class="container">
+        <div id="sidebar">
+            <div class="side-bar-content">
+                <div>
+                    <img src="https://cdn4.iconfinder.com/data/icons/small-n-flat/24/user-alt-128.png"
+                         width="40"
+                         height="40" />
+                    <label>@ViewBag.UserName</label>
+                    <button id="logOutBtn" class="btn btn-primary" onclick="location.href='@Url.Action("LogOff", "Account")'">Log out</button>
+                </div>
             </div>
-        </div>
-        <hr/>
-        <ul>
-            <li><button class="myButton">Favorite</button></li>
-            <li><button class="myButton">Saved for later</button></li>
-            <li>
-                <select id="sideBarSelect" class="styled-select green rounded">
-                    @{
-                        foreach (var item in ViewBag.ProvidersList)
-                        {
-                            <option>@item</option>
+            <hr />
+            <ul>
+                <li><button class="btn btn-primary myButton">Favorite</button></li>
+                <li><button class="btn btn-primary myButton">Saved for later</button></li>
+                <li>
+                    <select id="sideBarSelect" class="styledselect">
+                        @{
+                            foreach (var item in ViewBag.ProvidersList)
+                            {
+                                <option>@item</option>
+                            }
                         }
-                    }
 
-                </select>
-            </li>
-            <li><button class="myButton"onclick="location.href = '@Url.Action("Subscriptions", "Main")'">Manage content</button></li>
-        </ul>
-    </div>
-    <div id="content">
-        @RenderBody()
+                    </select>
+                </li>
+
+                <li><button class="btn btn-primary myButton" onclick="location.href='@Url.Action("Subscriptions", "Main")'">Manage content</button></li>
+            </ul>
+        </div>
+        <div id="content">
+            @RenderBody()
 
     </div>
     <div id="footer">
