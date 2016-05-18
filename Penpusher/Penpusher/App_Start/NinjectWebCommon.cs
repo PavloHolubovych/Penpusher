@@ -76,6 +76,7 @@ namespace Penpusher
             kernel.Bind<IRepository<Article>>().To<Repository<Article>>();
             kernel.Bind<INewsProviderService>().To<NewsProviderService>();
             kernel.Bind<IRepository<NewsProvider>>().To<Repository<NewsProvider>>();
+            kernel.Bind<IRepository<UsersNewsProvider>>().To<Repository<UsersNewsProvider>>();
         }        
     }
 }

@@ -281,6 +281,7 @@
     </Compile>
     <Compile Include="Controllers\ArticlesController.cs" />
     <Compile Include="Controllers\MainController.cs" />
+    <Compile Include="Controllers\SubscriptionsController.cs" />
     <Compile Include="NewsProvider.cs">
       <DependentUpon>PenpusherEntityDatabase.tt</DependentUpon>
     </Compile>
@@ -408,12 +409,13 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Articles\ArticlesFromProvider.cshtml" />
     <Content Include="Views\Main\Index.cshtml" />
+    <Content Include="Views\Main\Subscriptions.cshtml" />
     <Content Include="Views\Main\ArticlesBySubscription.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Articles\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
