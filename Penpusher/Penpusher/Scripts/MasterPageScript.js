@@ -7,45 +7,29 @@
 
         });
     });
-
-
     
-    
-    var DrawSubscriptions = function (result) {
+    //var DrawSubscriptions = function (result) {
+    //    var viewModel = {
+    //        SubscriptionsSelect: ko.observableArray(result),
+    //        selectedSubscription: ko.observable()
+    //};
 
-        ko.applyBindings({
-            availableCountries: result
-        });
+    //    ko.applyBindings(viewModel);
+    //};
 
-        //var viewModel = {
-        //    // These are the initial options
-        //    availableCountries: ko.observableArray(result)
-        //};
-
-        //// ... then later ...
-        //viewModel.availableCountries.push('China'); // Adds another option
-    };
-
-    
-
-    $.ajax({
-        url: window.location.origin + "/api/Subscriprions/Get",
-        method: "GET",
-        success: function (result) {
-            DrawSubscriptions(result);
-        },
-        error: function (request, textStatus) {
-            alert("Error: " + textStatus);
-        }
-    });
-
-
-
+    //$.ajax({
+    //    url: window.location.origin + "/api/getall2/4",
+    //    method: "GET",
+    //    success: function (result) {
+    //        DrawSubscriptions(result);
+    //    },
+    //    error: function (request, textStatus) {
+    //        alert("Error: " + textStatus);
+    //    }
+    //});
 
     $("#sideBarSelect").change(function () {
         
     });
 
 });
-
-

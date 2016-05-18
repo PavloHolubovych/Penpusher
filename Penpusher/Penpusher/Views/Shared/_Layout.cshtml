@@ -31,6 +31,8 @@
                     <select id="sideBarSelect" class="styled-select green rounded">
                         <option></option>
                     </select>
+                    @*<select data-bind="foreach: viewModel.SubscriptionsSelect, optionsText: function(item) {
+                       return item.Title}, value: selectedSubscription, optionsCaption:'Choose...'" id="sideBarSelect" class="styled-select green rounded"></select>*@
                 </li>
                 <li><button class="myButton"onclick="location.href='@Url.Action("Subscriptions", "Main")'">Manage content</button></li>
             </ul>

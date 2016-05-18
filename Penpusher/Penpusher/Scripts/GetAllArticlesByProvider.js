@@ -3,7 +3,7 @@
     var SubscriptionID = 1;
     var DrawArticlesOnPage = function(result) {
         ko.applyBindings({
-            Articles:result
+            Articles: result
         });
     };
     $.ajax({
@@ -11,7 +11,6 @@
         method: "GET",
         success: function (result) {
             DrawArticlesOnPage(result);
-            //console.log(result);
         },
         error: function (request, textStatus) {
             alert("Error: " + textStatus);
