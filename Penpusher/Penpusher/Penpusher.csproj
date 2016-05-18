@@ -317,7 +317,9 @@
     <Compile Include="Services\IArticleService.cs" />
     <Compile Include="DAL\IRepository.cs" />
     <Compile Include="Services\INewsProviderService.cs" />
+    <Compile Include="Services\IUsersArticlesService.cs" />
     <Compile Include="Services\NewsProviderService.cs" />
+    <Compile Include="Services\UsersArticlesService.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="User.cs">
       <DependentUpon>PenpusherEntityDatabase.tt</DependentUpon>
@@ -413,6 +415,7 @@
     <Content Include="Views\Main\Index.cshtml" />
     <Content Include="Views\Main\Subscriptions.cshtml" />
     <Content Include="Views\Main\ArticlesBySubscription.cshtml" />
+    <Content Include="Views\Main\UserReadArticles.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
