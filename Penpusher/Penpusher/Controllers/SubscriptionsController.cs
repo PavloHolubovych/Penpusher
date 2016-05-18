@@ -28,7 +28,7 @@ namespace Penpusher.Controllers
         }
 
         // GET api/<controller>/5
-        [System.Web.Http.Route("getall2/{id}")]
+        [System.Web.Http.Route("getallsubscription/{id}")]
         public NewsProvider[] GetByUser(int id)
         {
             return _newsProviderService.GetByUserId(id).ToArray();
@@ -36,10 +36,11 @@ namespace Penpusher.Controllers
 
         // POST api/<controller>
         [System.Web.Http.Route("add")]
-        public string Post(NewsProvider newsProvider)
+        public void Post(NewsProvider newsProvider)
         {
             var link = newsProvider.Link;
-            return link;
+            _newsProviderService.AddSubscription(link);
+
         }
 
         // PUT api/<controller>/5

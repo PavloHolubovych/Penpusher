@@ -31,34 +31,30 @@ namespace Penpusher.Services
         }
         public IEnumerable<NewsProvider> GetAll()
         {
-            IEnumerable<NewsProvider> newsprovider = from n in repository.GetAll()
-                                                     select new NewsProvider()
-                                                     {
-                                                         Id = n.Id,
-                                                         Name = n.Name,
-                                                         Description = n.Description,
-                                                         Link = n.Link,
-                                                         RssImage = n.RssImage,
-                                                         SubscriptionDate = n.SubscriptionDate
-
-                                                     };
+            IEnumerable<NewsProvider> newsprovider = repository.GetAll().Select(n => new NewsProvider
+            {
+                Id = n.Id,
+                Name = n.Name,
+                Description = n.Description,
+                Link = n.Link,
+                RssImage = n.RssImage,
+                SubscriptionDate = n.SubscriptionDate
+            });
 
             return newsprovider;
         }
 
         public IEnumerable<NewsProvider> GetByUserId(int id)
         {
-            IEnumerable<NewsProvider> news = from un in usersNewsProvider.GetAll().Where(_ => _.IdUser == id).ToList()
-                select new NewsProvider()
-                {
-                    Id = un.Id,
-                    Name = un.NewsProvider.Name,
-                    Description = un.NewsProvider.Description,
-                    Link = un.NewsProvider.Link,
-                    RssImage = un.NewsProvider.RssImage,
-                    SubscriptionDate = un.NewsProvider.SubscriptionDate
-
-                };
+            IEnumerable<NewsProvider> news = usersNewsProvider.GetAll().Where(_ => _.IdUser == id).Select(un=> new NewsProvider
+            {
+                Id = un.Id,
+                Name = un.NewsProvider.Name,
+                Description = un.NewsProvider.Description,
+                Link = un.NewsProvider.Link,
+                RssImage = un.NewsProvider.RssImage,
+                SubscriptionDate = un.NewsProvider.SubscriptionDate
+            });
             return news;
         }
 
