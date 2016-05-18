@@ -87,5 +87,38 @@ namespace Penpusher.Services
         {
             usersNewsProvider.Delete(id);  
         }
+
+        /// <summary>
+        /// The add subscription news provider.
+        /// </summary>
+        /// <param name="link">
+        /// The link.
+        /// </param>
+        /// <returns>
+        /// The <see cref="UsersNewsProvider"/>.
+        /// </returns>
+        public UsersNewsProvider AddSubscription(string link)
+        {
+            var channels = repository.GetAll().FirstOrDefault(rm => rm.Link == link);
+
+            if (channels == null)
+            {
+                channels = new NewsProvider();
+                // add channel
+                AddNewsProvider(channels);
+            }
+
+            var b = usersNewsProvider.GetAll().FirstOrDefault(rm => rm.IdNewsProvider == channels.Id);
+
+            if (b == null)
+            {
+                return usersNewsProvider.Add(b);
+            }
+            else
+            {
+                return new UsersNewsProvider();
+            }
+        }
     }
+
 }
