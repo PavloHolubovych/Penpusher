@@ -2,54 +2,13 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<script src="~/Scripts/UserReadArticleScript.js"></script>
 
-<link type="text/css" href="~/Content/Site.css" />
- 
-<script>
-    var articleInfo = function (title, articleText, image) {
-        this.title = title;
-        this.articleText = articleText;
-        this.image = image;
-    }
-
-    var articlesList;t
-    var userId = 4;
-
-    $(document)
-        .ready(function () {
-            articlesList = new ko.observableArray();
-
-            $.ajax({
-                type: "GET",
-                url: "/api/Articles/GetReadArticles?userId=" + userId,
-                data: JSON.stringify(articleInfo),
-                contentType: "application/json; charset=utf8",
-                accept: "application/json",
-                success: function (data) {
-                    $.each(data,
-                        function (key, item) {
-                            var article = new articleInfo(item.Title, item.Description, null);
-                            articlesList.push(article);
-                        });
-                },
-                error: function (request, textStatus) {
-                    alert("Error: " + textStatus);
-                }
-            });
-            ko.applyBindings(articlesList);
-        });
-</script>
- 
-<div class="main" data-bind="foreach: $data">
-    <img src="http://hi-news.ru/wp-content/uploads/2015/10/community_image_1403628549-650x370.jpg" />
+<div class="readArticles" data-bind="foreach: $data">
+    <img data-bind="attr: { 'src': image }" />
     <div class="textContent">
         <h3><span data-bind="text: title"></span></h3>
         <p><span data-bind="text: articleText"></span></p>
     </div>
     <hr class="between" />
 </div>
-
-
-
-
-
