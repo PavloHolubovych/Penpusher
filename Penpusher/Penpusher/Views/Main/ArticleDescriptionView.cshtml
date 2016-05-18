@@ -1,11 +1,12 @@
-﻿<div id="articleContent">
-    <div id="titleDiv">
-        <label data-bind='text: title' />
+﻿<link rel="stylesheet" href="~/Content/Site.css"/>
+<div id="articleContent">
+    <div id="titleDiv"  >
+        <label data-bind='text: title' id="articleTitleDiv" />
     </div>
-    <div id="contentDiv">
-        <label data-bind='text: content' />
+    <div id="contentDiv" id="articleContentDiv">
+        <label data-bind='text: content'/>
     </div>
-    <div id="linkDiv">
+    <div id="linkDiv" id="articleLinkDiv">
         <label> You can view original article content here:  </label><a data-bind='text: link'> </a>
     </div>
 </div>
@@ -17,10 +18,7 @@
                   this.content = contentData;
                   this.link=link;
                   this.title=title;
-              } 
-              //var article = new ArticleModel("skjfgsdhgfjhsadgfjsadgfsadjfgsajfskdjf",
-              //    "wksefwefw",
-              //    "Title");
+              }  
               var article;
               $.ajax({
                   type: "GET",

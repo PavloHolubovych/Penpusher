@@ -11,12 +11,12 @@
 .dl-horizontal dt {
     white-space: normal;
 }
+
  .main {
         width: 100%;
         display: flex;
         flex-wrap: wrap;
         padding: 1%;
-       
     }
 
         .main img {
@@ -28,7 +28,7 @@
             padding-bottom: 1%;
         }
 
-    .content {
+    .textContent {
         width: 60%;
         padding-left: 2%;
         max-height: 10%; 
@@ -36,6 +36,13 @@
         text-overflow: ellipsis;
         height: 100px;
     }
+
+    .between {
+        border: 1px solid gray;
+        margin-left:10px;
+        margin-right:10px;
+        width: 100%;
+}
  input,
 select,
 textarea {
@@ -113,3 +120,21 @@ text-align:center;
     width: 200px;
     margin: 15px;
 }
+
+#articleContentDiv {
+    margin: 30px;
+    border-radius: 6px;
+    background:
+}
+
+#articleLinkDiv{}
+
+
+#articleTitleDiv {
+    text-align: center;
+
+}
+
+
+
+
