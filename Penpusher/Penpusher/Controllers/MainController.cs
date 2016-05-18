@@ -28,7 +28,13 @@ namespace Penpusher.Controllers
             ViewBag.ProvidersList = new List<string> { "sdfs", "sdfsdf", "sdfsdf" };
             return View();
         }
+
         public ActionResult Subscriptions()
+        {
+            return View();
+        }
+
+        public ActionResult UserReadArticles()
         {
             return View();
         }

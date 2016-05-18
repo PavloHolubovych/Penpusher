@@ -317,7 +317,9 @@
     <Compile Include="Services\IArticleService.cs" />
     <Compile Include="DAL\IRepository.cs" />
     <Compile Include="Services\INewsProviderService.cs" />
+    <Compile Include="Services\IUsersArticlesService.cs" />
     <Compile Include="Services\NewsProviderService.cs" />
+    <Compile Include="Services\UsersArticlesService.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="User.cs">
       <DependentUpon>PenpusherEntityDatabase.tt</DependentUpon>
@@ -371,6 +373,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\knockout-3.4.0.js" />
+    <Content Include="Scripts\Main\subscriptions.js" />
     <Content Include="Scripts\MasterPageScript.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
@@ -413,6 +416,7 @@
     <Content Include="Views\Main\Index.cshtml" />
     <Content Include="Views\Main\Subscriptions.cshtml" />
     <Content Include="Views\Main\ArticlesBySubscription.cshtml" />
+    <Content Include="Views\Main\ArticleDescriptionView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

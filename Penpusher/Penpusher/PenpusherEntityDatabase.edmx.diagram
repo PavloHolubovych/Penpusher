@@ -7,7 +7,7 @@
       <Diagram DiagramId="b9c0fad0f0ae44159fc9bdb2f2283f47" Name="Diagram1">
         <EntityTypeShape EntityType="PenpusherDatabaseModel.Article" Width="1.5" PointX="3" PointY="3.5" IsExpanded="true" />
         <EntityTypeShape EntityType="PenpusherDatabaseModel.NewsProvider" Width="1.5" PointX="0.75" PointY="3.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="PenpusherDatabaseModel.User" Width="1.5" PointX="0.75" PointY="7.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="PenpusherDatabaseModel.User" Width="1.5" PointX="7.625" PointY="1.375" IsExpanded="true" />
         <EntityTypeShape EntityType="PenpusherDatabaseModel.UsersArticle" Width="1.5" PointX="5.25" PointY="3.5" IsExpanded="true" />
         <EntityTypeShape EntityType="PenpusherDatabaseModel.UsersNewsProvider" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
         <AssociationConnector Association="PenpusherDatabaseModel.FK_Articles_IdProvider" ManuallyRouted="false" />

@@ -68,6 +68,10 @@
       </DesignerInfoPropertySet>
     </Options>
     <!-- Diagram content (shape and connector positions) -->
-    <Diagrams></Diagrams>
+    <Diagrams>
+      <Diagram DiagramId="46bccb6e982f4b2eb8acd83b90d41614" Name="Diagram1">
+        <EntityTypeShape EntityType="PenpusherModel.Article" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+      </Diagram>
+    </Diagrams>
   </Designer>
 </edmx:Edmx>
