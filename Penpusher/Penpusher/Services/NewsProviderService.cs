@@ -114,11 +114,17 @@ namespace Penpusher.Services
                 channel = AddNewsProvider(channel);
             }
 
-            return usersNewsProvider.Add(new UsersNewsProvider
+            var subscription = usersNewsProvider.GetAll().Count(rm => rm.IdNewsProvider == channel.Id);
+
+            if (subscription == 0)
             {
-                IdNewsProvider = channel.Id,
-                IdUser = 4
-            });
+                return usersNewsProvider.Add(new UsersNewsProvider
+                {
+                    IdNewsProvider = channel.Id,
+                    IdUser = 4
+                });
+          }
+            return new UsersNewsProvider();
         }
     }
 
