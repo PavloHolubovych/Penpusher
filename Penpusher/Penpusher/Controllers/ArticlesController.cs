@@ -18,5 +18,12 @@ namespace Penpusher.Controllers
         {
             return _articleService.GetArticlesFromProvider(newsProviderId);
         }
+
+        [HttpGet]
+        [ActionName("ArticlesFromSelectedProviders")]
+        public IEnumerable<Article> ViewAllArticlesFromSelectedProviders(IEnumerable<NewsProvider> newsProviders)
+        {
+            return _articleService.GetArticlesFromSelectedProviders(newsProviders);
+        }
     }
 }

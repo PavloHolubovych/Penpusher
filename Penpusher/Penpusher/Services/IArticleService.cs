@@ -8,5 +8,6 @@ namespace Penpusher.Services
         IEnumerable<Article> Find(string value);
         bool CheckDoesExists(string title);
         IEnumerable<Article> GetArticlesFromProvider(int newsProviderId);
+        IEnumerable<Article> GetArticlesFromSelectedProviders(IEnumerable<NewsProvider> newsProviders);
     }
 }
