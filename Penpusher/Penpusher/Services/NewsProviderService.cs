@@ -9,12 +9,12 @@
 
 using System;
 using System.Web;
-
-namespace Penpusher.Services
-{
     using System.Collections.Generic;
     using System.Linq;
     using Penpusher.Services.Base;
+namespace Penpusher.Services
+{
+
 
     /// <summary>
     /// The provider service.
@@ -34,8 +34,7 @@ namespace Penpusher.Services
         }
         public IEnumerable<NewsProvider> GetAll()
         {
-            IEnumerable<NewsProvider> newsprovider = from n in newsProviderRepository.GetAll()
-                                                     select new NewsProvider()
+            IEnumerable<NewsProvider> newsprovider = newsProviderRepository.GetAll().Select(n => new NewsProvider
                                                      {
                                                          Id = n.Id,
                                                          Name = n.Name,
@@ -43,16 +42,15 @@ namespace Penpusher.Services
                                                          Link = n.Link,
                                                          RssImage = n.RssImage,
                                                          SubscriptionDate = n.SubscriptionDate
-
-                                                     };
+            });
 
             return newsprovider;
         }
 
         public IEnumerable<NewsProvider> GetByUserId(int id)
         {
-            IEnumerable<NewsProvider> news = from un in usersNewsProvider.GetAll().Where(_ => _.IdUser == id).ToList()
-                select new NewsProvider()
+            IEnumerable<NewsProvider> news = usersNewsProvider.GetAll().Where(_ => _.IdUser == id)
+                .Select(un => new NewsProvider
                 {
                     Id = un.Id,
                     Name = un.NewsProvider.Name,
@@ -60,8 +58,7 @@ namespace Penpusher.Services
                     Link = un.NewsProvider.Link,
                     RssImage = un.NewsProvider.RssImage,
                     SubscriptionDate = un.NewsProvider.SubscriptionDate
-
-                };
+                });
             return news;
         }
 
@@ -77,7 +74,7 @@ namespace Penpusher.Services
         public NewsProvider AddNewsProvider(NewsProvider provider)
         {
 
-            return newsProviderRepository.Add(provider);
+            return newsProviderRepository.Add(provider); 
         }
 
         /// <summary>
@@ -107,19 +104,25 @@ namespace Penpusher.Services
             if (channel == null)
             {
                 channel = new NewsProvider
-                {
+            {
                     Link = link, Name = "test", Description = "test", SubscriptionDate = DateTime.Today
                 };
 
                 channel = AddNewsProvider(channel);
             }
 
-            return usersNewsProvider.Add(new UsersNewsProvider
+            var subscription = usersNewsProvider.GetAll().Count(rm => rm.IdNewsProvider == channel.Id);
+
+            if (subscription == 0)
             {
-                IdNewsProvider = channel.Id,
-                IdUser = 4
-            });
+                return usersNewsProvider.Add(new UsersNewsProvider
+            {
+                    IdNewsProvider = channel.Id,
+                    IdUser = 4
+                });
+            }
+                return new UsersNewsProvider();
+            }
         }
-    }
 
 }

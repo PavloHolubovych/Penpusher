@@ -1,0 +1,40 @@
+﻿<link rel="stylesheet" href="~/Content/Site.css"/>
+<div id="articleContent">
+    <div id="titleDiv"  >
+        <label data-bind='text: title' id="articleTitleDiv" />
+    </div>
+    <div id="contentDiv" id="articleContentDiv">
+        <label data-bind='text: content'/>
+    </div>
+    <div id="linkDiv" id="articleLinkDiv">
+        <label> You can view original article content here:  </label><a data-bind='text: link'> </a>
+    </div>
+</div>
+<script>
+
+    $(document)
+          .ready(function () {
+              var ArticleModel = function (contentData, link, title) {
+                  this.content = contentData;
+                  this.link=link;
+                  this.title=title;
+              }  
+              var article;
+              $.ajax({
+                  type: "GET",
+                  url: "/api/Articles/GetArticleDetail?articleId=25",
+                  contentType: "application/json; charset=utf8",
+                  accept: "application/json",
+                  success: function (data) { 
+                      article = new ArticleModel(data.Description, data.Link, data.Title);
+
+                      ko.applyBindings(article);
+                  },
+                  error: function (request, textStatus) {
+                      alert("Error: " + textStatus);
+                  }
+              });
+          });
+</script>
+
+

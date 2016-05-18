@@ -1,18 +1,16 @@
-﻿<script>
-    $(document).ready(function () {
-        var APIController = window.location.origin + "/api/Articles/ArticlesFromProvider?newsProviderId=";
-        var SubscriptionID = 1;
-        $.ajax({
-            url: APIController + SubscriptionID,
-            method: "GET",
-            success: function (result) {
-                console.log(result);
-            },
-            error: function(request, textStatus) {
-                alert("Error: " + textStatus);
-            }
-        });
-        
-    })
-</script>
+﻿<script src="~/Scripts/GetAllArticlesByProvider.js"></script>
+<div class="container">
+    <table class="table">
 
+        <thead>
+        <tr><th>Title</th><th>Link</th><th>Description</th></tr>
+        </thead>
+        <tbody data-bind="foreach: Articles">
+        <tr>
+            <td data-bind="text: Title"></td>
+            <td data-bind="text: Link"></td>
+            <td data-bind="text: Description"></td>
+        </tr>
+        </tbody>    
+    </table>
+</div>

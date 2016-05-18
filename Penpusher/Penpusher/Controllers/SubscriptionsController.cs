@@ -50,17 +50,7 @@ namespace Penpusher.Controllers
         }
 
         // GET api/<controller>/5
-
-        /// <summary>
-        /// The get by user.
-        /// </summary>
-        /// <param name="id">
-        /// The id.
-        /// </param>
-        /// <returns>
-        /// The <see cref="NewsProvider[]"/>.
-        /// </returns>
-        [System.Web.Http.Route("getall2/{id}")]
+        [System.Web.Http.Route("getallsubscription/{id}")]
         public NewsProvider[] GetByUser(int id)
         {
             return _newsProviderService.GetByUserId(id).ToArray();

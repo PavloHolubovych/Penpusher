@@ -7,10 +7,29 @@
 
         });
     });
-    $("#sideBarSelect").change(function () {
+    
+    //var DrawSubscriptions = function (result) {
+    //    var viewModel = {
+    //        SubscriptionsSelect: ko.observableArray(result),
+    //        selectedSubscription: ko.observable()
+    //};
 
+    //    ko.applyBindings(viewModel);
+    //};
+
+    //$.ajax({
+    //    url: window.location.origin + "/api/getall2/4",
+    //    method: "GET",
+    //    success: function (result) {
+    //        DrawSubscriptions(result);
+    //    },
+    //    error: function (request, textStatus) {
+    //        alert("Error: " + textStatus);
+    //    }
+    //});
+
+    $("#sideBarSelect").change(function () {
+        
     });
 
 });
-
-
