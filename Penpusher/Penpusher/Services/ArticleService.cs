@@ -32,5 +32,10 @@ namespace Penpusher.Services
         {
             return _repository.GetAll().Where(_ => _.IdNewsProvider == newsProviderId).ToList();
         }
+
+        public IEnumerable<Article> GetAllArticleses()
+        {
+            return _repository.GetAll();
+        }
     }
 }
