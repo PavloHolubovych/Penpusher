@@ -108,5 +108,24 @@ namespace Penpusher.Test.Services
             var expected = result.Count();
             Assert.AreEqual(expected, expectedCount);
         }
+
+        [Category("ArticleService")]
+        [TestCase(1, TestName = "Should find articles by providerId = 1")]
+        [TestCase(4, TestName = "Shouldn't find any articles by providerId = 4")]
+        public void GetArticlesFromProviderTest(int providerId)
+        {
+
+            var testArticles = new List<Article>
+            {
+                new Article { Id = 1, Title = "article2" , IdNewsProvider = 1},
+                new Article { Id = 2, Title = "article 1",IdNewsProvider = 2 },
+                new Article { Id = 3, Title = "article1",IdNewsProvider = 3 },
+                new Article { Id = 3, Title = "article1",IdNewsProvider = 0 },
+            };
+            MockKernel.GetMock<IRepository<Article>>().Setup(_ => _.GetAll()).Returns(testArticles);
+            var result = MockKernel.Get<ArticleService>().GetArticlesFromProvider(providerId);
+            var enumerable = result as Article[] ?? result.ToArray();
+            if (providerId == 4) { Assert.IsEmpty(enumerable); } else { Assert.IsNotEmpty(enumerable); }
+        }
     }
 }

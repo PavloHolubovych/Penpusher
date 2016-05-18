@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Linq;
 using Ninject.Infrastructure.Language;
 
 namespace Penpusher.DAL
@@ -9,22 +8,22 @@ namespace Penpusher.DAL
     class Repository<T> : IRepository<T> where T : class
     {
         private PenpusherDatabaseEntities EntitiesContext = new PenpusherDatabaseEntities();
-        internal DbSet<T> dbSet;
+        internal DbSet<T> DbSet;
 
         public Repository()
         {
-            this.dbSet = EntitiesContext.Set<T>();
+            DbSet = EntitiesContext.Set<T>();
         }
 
         public IEnumerable<T> GetAll()
         {
 
-            return dbSet.ToEnumerable();
+            return DbSet.ToEnumerable();
         }
 
         public T Add(T entity)
         {
-            dbSet.Add(entity);
+            DbSet.Add(entity);
             EntitiesContext.SaveChanges();
             return entity;
         }
@@ -36,8 +35,8 @@ namespace Penpusher.DAL
 
         public void Delete(int id)
         {
-            var item = dbSet.Find(id);
-            dbSet.Remove(item);
+            var item = DbSet.Find(id);
+            DbSet.Remove(item);
             EntitiesContext.SaveChanges();
         }
 

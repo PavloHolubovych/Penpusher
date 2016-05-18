@@ -1,7 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
-using Penpusher.DAL;
-using Penpusher.Services.Base;
 
 namespace Penpusher.Services
 {
@@ -10,6 +7,6 @@ namespace Penpusher.Services
         Article AddArticle(Article article);
         IEnumerable<Article> Find(string value);
         bool CheckDoesExists(string title);
-        IEnumerable<Article> GetArticlesFromProvider(int id);
+        IEnumerable<Article> GetArticlesFromProvider(int providerId);
     }
 }
