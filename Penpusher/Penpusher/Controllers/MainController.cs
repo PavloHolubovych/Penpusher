@@ -23,6 +23,9 @@ namespace Penpusher.Controllers
 
         public ActionResult ArticlesBySubscription()
         {
+            // for this moment we using Mark's method of getting providers :) 
+            ViewBag.UserName = "UserNAme1";
+            ViewBag.ProvidersList = new List<string> { "sdfs", "sdfsdf", "sdfsdf" };
             return View();
         }
         public ActionResult Subscriptions()
