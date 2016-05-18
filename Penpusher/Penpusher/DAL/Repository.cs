@@ -17,7 +17,6 @@ namespace Penpusher.DAL
 
         public IEnumerable<T> GetAll()
         {
-
             return DbSet.ToEnumerable();
         }
 

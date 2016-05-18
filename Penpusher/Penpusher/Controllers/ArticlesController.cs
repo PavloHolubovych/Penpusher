@@ -14,10 +14,9 @@ namespace Penpusher.Controllers
         }
         [HttpGet]
         [ActionName("ArticlesFromProvider")]
-        public IEnumerable<Article> ArticlesFromProvider(int providerId)
+        public IEnumerable<Article> ArticlesFromProvider(int newsProviderId)
         {
-            var articles = _articleService.GetArticlesFromProvider(providerId);
-            return articles;
+            return _articleService.GetArticlesFromProvider(newsProviderId);
         }
     }
 }
