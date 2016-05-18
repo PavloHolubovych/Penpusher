@@ -30,7 +30,7 @@ namespace Penpusher.Services
 
 
         NewsProvider AddNewsProvider(NewsProvider newsProvider);
-        public UsersNewsProvider AddSubscription(string link);
+        UsersNewsProvider AddSubscription(string link);
 
         /// <summary>
         /// The delete news provider.
