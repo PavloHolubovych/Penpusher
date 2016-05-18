@@ -24,7 +24,6 @@ namespace Penpusher.Controllers
         }
 
         [HttpGet]
-        [ActionName("GetReadArticles")]
         public IEnumerable<Article> UserReadArticles(int userId)
         {
             var readArticles = from article in _articleService.GetAllArticleses()

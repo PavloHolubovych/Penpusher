@@ -11,32 +11,39 @@
 .dl-horizontal dt {
     white-space: normal;
 }
- .main {
-        width: 100%;
-        display: flex;
-        flex-wrap: wrap;
-        padding: 1%;
-       
+
+.readArticles {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 1%;
+}
+
+    .readArticles img {
+        width: 40%;
+        height: 20%;
+        max-width: 200px;
+        float: none;
+        vertical-align: middle;
+        padding-bottom: 1%;
     }
 
-        .main img {
-            width: 40%;
-            height: 20%;
-            max-width: 200px;
-            float: none;
-            vertical-align: middle;
-            padding-bottom: 1%;
-        }
+.textContent {
+    width: 60%;
+    padding-left: 2%;
+    max-height: 10%; 
+    overflow: hidden;
+    text-overflow: ellipsis;
+    height: 100px;
+}
 
-    .content {
-        width: 60%;
-        padding-left: 2%;
-        max-height: 10%; 
-        overflow: hidden;
-        text-overflow: ellipsis;
-        height: 100px;
-    }
- input,
+.between {
+    border: 1px solid gray;
+    margin-left:10px;
+    margin-right:10px;
+    width: 100%;
+} 
+    input,
 select,
 textarea {
     max-width: 280px;
@@ -46,8 +53,11 @@ ul {
     list-style: none;
     
 }
-.container { position:relative;
-              padding:0 0 0 255px; }
+.container {
+    position: relative;
+    padding: 0 0 0 255px;
+}
+
 #sidebar {
     position:absolute;
     top:0; 

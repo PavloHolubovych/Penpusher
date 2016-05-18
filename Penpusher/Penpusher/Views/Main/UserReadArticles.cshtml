@@ -2,80 +2,13 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<script src="~/Scripts/UserReadArticleScript.js"></script>
 
-<style type="text/css">
-    .main {
-        width: 100%;
-        display: flex;
-        flex-wrap: wrap;
-        padding: 1%;
-       
-    }
-
-        .main img {
-            width: 40%;
-            height: 20%;
-            max-width: 200px;
-            float: none;
-            vertical-align: middle;
-            padding-bottom: 1%;
-        }
-
-    .content {
-        width: 60%;
-        padding-left: 2%;
-        max-height: 10%; 
-        overflow: hidden;
-        text-overflow: ellipsis;
-        height: 100px;
-    }
-</style>
-
-<script>
-    var articleInfo = function (title, articleText, image) {
-        this.title = title;
-        this.articleText = articleText;
-        this.image = image;
-    }
-
-    var articlesList;
-    var userId = 4;
-
-    $(document)
-        .ready(function () {
-            articlesList = new ko.observableArray();
-
-            $.ajax({
-                type: "GET",
-                url: "/api/Articles/GetReadArticles?userId=" + userId,
-                data: JSON.stringify(articleInfo),
-                contentType: "application/json; charset=utf8",
-                accept: "application/json",
-                success: function (data) {
-                    $.each(data,
-                        function (key, item) {
-                            var article = new articleInfo(item.Title, item.Description, null);
-                            articlesList.push(article);
-                        });
-                },
-                error: function (request, textStatus) {
-                    alert("Error: " + textStatus);
-                }
-            });
-            ko.applyBindings(articlesList);
-        });
-</script>
-
-
-<div class="main" data-bind="foreach: $data">
-    <img src="http://hi-news.ru/wp-content/uploads/2015/10/community_image_1403628549-650x370.jpg" />
-    <div class="content">
+<div class="readArticles" data-bind="foreach: $data">
+    <img data-bind="attr: { 'src': image }" />
+    <div class="textContent">
         <h3><span data-bind="text: title"></span></h3>
         <p><span data-bind="text: articleText"></span></p>
     </div>
+    <hr class="between" />
 </div>
-
-
-
-
-
