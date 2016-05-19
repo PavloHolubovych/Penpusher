@@ -9,6 +9,7 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/knockout")
     <script type="text/javascript" src="~/Scripts/_LayoutScript.js"></script>
+ 
     <link type="text/css" href="~/Content/Site.css"/>
 </head>
 <body>
@@ -27,19 +28,21 @@
         <ul>
             <li><button class="btn btn-primary myButton">Favorite</button></li>
             <li><button class="btn btn-primary myButton">Saved for later</button></li>
+            <li><button class="btn btn-primary myButton">Read</button></li>
             <li>
+                <div class="selectDiv">
+                <label>Article for one provider: </label>
                 <select data-bind='options: providers' id="sideBarSelect" class="styledselect">
-                    <option>  </option>
+                    <option> </option>
                 </select>
+                </div>
             </li>
 
             <li><button class="btn btn-primary myButton" data-bind='click: loadSubscriptions'>Manage content</button></li>
         </ul>
     </div>
     <div id="content">
-
-        <div id="myPartialContainer">
-        </div>
+ 
         @RenderBody()
 
     </div>
@@ -55,28 +58,4 @@
 </body>
 </html>
 
-<script>
-    $(document)
-    .ready(function () {
-        var ProvidersModel = function (providers) {
-            var self = this;
-
-            self.providers = ko.observableArray(providers);
-
-            $.get("/api/getallsubscription/4",
-                function (data, status) {
-                    for (var i = 0; i < data.length; i++) {
-                        self.providers.push(
-                            data[i].Name
-                        );
-                    }
-                });
-            self.loadSubscriptions = function () {
-                location.href = "/Main/Subscriptions";
-            };
-        };
-        var viewModel = new ProvidersModel();
-        ko.applyBindings(viewModel);
-    });
-
-</script>
+ 

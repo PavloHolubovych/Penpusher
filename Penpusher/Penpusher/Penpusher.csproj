@@ -351,6 +351,7 @@
     </Content>
     <Content Include="Scripts\ai.0.15.0-build58334.js" />
     <Content Include="Scripts\ai.0.15.0-build58334.min.js" />
+    <Content Include="Scripts\ArticleDetailsScript.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
@@ -377,6 +378,7 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\UserReadArticleScript.js" />
     <Content Include="Scripts\_LayoutScript.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config" />
@@ -416,7 +418,7 @@
     <Content Include="Views\Main\Index.cshtml" />
     <Content Include="Views\Main\Subscriptions.cshtml" />
     <Content Include="Views\Main\ArticlesBySubscription.cshtml" />
-    <Content Include="Views\Main\ArticleDescriptionView.cshtml" />
+    <Content Include="Views\Main\ArticleContentDetails.cshtml" />
     <Content Include="Views\Main\UserReadArticles.cshtml" />
   </ItemGroup>
   <ItemGroup>

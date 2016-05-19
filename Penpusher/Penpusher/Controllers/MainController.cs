@@ -43,5 +43,10 @@ namespace Penpusher.Controllers
             return View();
         }
 
+        public ActionResult ArticleContentDetails()
+        {
+            return View();
+        }
+
     }
 }
