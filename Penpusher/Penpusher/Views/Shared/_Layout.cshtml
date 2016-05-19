@@ -9,38 +9,41 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/knockout")
     <script type="text/javascript" src="~/Scripts/_LayoutScript.js"></script>
-    <link type="text/css" href="~/Content/Site.css" />
+ 
+    <link type="text/css" href="~/Content/Site.css"/>
 </head>
 <body>
-    <div class="container">
-        <div id="sidebar">
-            <div class="side-bar-content">
-                <div>
-                    <img src="https://cdn4.iconfinder.com/data/icons/small-n-flat/24/user-alt-128.png"
-                         width="40"
-                         height="40" />
-                    <label>@ViewBag.UserName</label>
-                    <button id="logOutBtn" class="btn btn-primary" onclick="location.href = '@Url.Action("LogOff", "Account")'">Log out</button>
-                </div>
+<div class="container">
+    <div id="sidebar">
+        <div class="side-bar-content">
+            <div>
+                <img src="https://cdn4.iconfinder.com/data/icons/small-n-flat/24/user-alt-128.png"
+                     width="40"
+                     height="40"/>
+                <label>@ViewBag.UserName</label>
+                <button id="logOutBtn" class="btn btn-primary" onclick="location.href = '@Url.Action("LogOff", "Account")'">Log out</button>
             </div>
-            <hr />
-            <ul>
-                <li><button class="btn btn-primary myButton">Favorite</button></li>
-                <li><button class="btn btn-primary myButton">Saved for later</button></li>
-                <li>
-                    <select data-bind="options: providers,optionsText: 'Name', optionsValue: 'Id',value: selectedProvider, optionsCaption: 'Choose...'" id="sideBarSelect" onchange = "myFunction()" class="styledselect">
-                        <option>  </option>
-                    </select>
-                </li>
-
-                <li><button class="btn btn-primary myButton" data-bind='click: loadSubscriptions'>Manage content</button></li>
-            </ul>
         </div>
-        <div id="content">
+        <hr/>
+        <ul>
+            <li><button class="btn btn-primary myButton">Favorite</button></li>
+            <li><button class="btn btn-primary myButton">Saved for later</button></li>
+            <li><button class="btn btn-primary myButton">Read</button></li>
+            <li>
+                <div class="selectDiv">
+                <label>Article for one provider: </label>
+                    <select data-bind="options: providers,optionsText: 'Name', optionsValue: 'Id',value: selectedProvider, optionsCaption: 'Choose...'" id="sideBarSelect" class="styledselect">
+                        <option> </option>
+                    </select>
+                </div>
+            </li>
 
-            <div id="myPartialContainer">
-            </div>
-            @RenderBody()
+            <li><button class="btn btn-primary myButton" data-bind='click: loadSubscriptions'>Manage content</button></li>
+        </ul>
+    </div>
+    <div id="content">
+ 
+        @RenderBody()
 
         </div>
         <div id="footer">
@@ -55,37 +58,4 @@
 </body>
 </html>
 
-<script>
-    //$(document)
-    //.ready(function () {
-    //    var ProvidersModel = function (providers) {
-    //        var self = this;
-    //        var dataArticles;
-    //        var SubscriptionID = 1;
-    //        self.providers = ko.observableArray(providers);
-    //        self.articles = ko.observableArray(dataArticles);
-    //        $.get(APIController + SubscriptionID,
-    //            function (data) {
-    //                for (var i = 0; i < data.length; i++) {
-    //                    self.articles.push(
-    //                        data[i]
-    //                    );
-    //                }
-    //            });
-    //        $.get("/api/getallsubscription/4",
-    //            function (data, status) {
-    //                for (var i = 0; i < data.length; i++) {
-    //                    self.providers.push(
-    //                        data[i].Name
-    //                    );
-    //                }
-    //            });
-    //        self.loadSubscriptions = function () {
-    //            location.href = "/Main/Subscriptions";
-    //        };
-    //    };
-    //    var viewModel = new ProvidersModel();
-    //    ko.applyBindings(viewModel);
-    //});
-
-</script>
+ 
