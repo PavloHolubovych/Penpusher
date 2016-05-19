@@ -9,11 +9,14 @@ namespace Penpusher.Controllers
     {
         private readonly IArticleService _articleService;
         private readonly IUsersArticlesService _userArticlesService;
+        private readonly INewsProviderService _newsProviderService;
 
-        public ArticlesController(IArticleService articleService, IUsersArticlesService userArticlesService)
+        public ArticlesController(IArticleService articleService, IUsersArticlesService userArticlesService,
+            INewsProviderService newsProviderService)
         {
             _articleService = articleService;
             _userArticlesService = userArticlesService;
+            _newsProviderService = newsProviderService;
         }
 
         [HttpGet]
@@ -43,8 +46,9 @@ namespace Penpusher.Controllers
 
         [HttpGet]
         [ActionName("ArticlesFromSelectedProviders")]
-        public IEnumerable<Article> ViewAllArticlesFromSelectedProviders(IEnumerable<NewsProvider> newsProviders)
+        public IEnumerable<Article> ArticlesFromSelectedProviders(int someUserId)
         {
+            var newsProviders = _newsProviderService.GetByUserId(someUserId);
             return _articleService.GetArticlesFromSelectedProviders(newsProviders);
         }
     }

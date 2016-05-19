@@ -1,33 +1,17 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright company="Sigma" file="NewsProviderServiceTest.cs">
-//   
-// </copyright>
-// <summary>
-//   The NewsProvider service test class.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
-using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Moq;
 using Ninject;
 using NUnit.Framework;
+using Penpusher.Models;
 using Penpusher.Services;
 namespace Penpusher.Test.Services
 {
 
-
-    /// <summary>
-    /// The NewsProvider service test class.
-    /// </summary>
     [TestFixture]
     public class NewsProviderTest : TestBase
     {
-        /// <summary>
-        /// The initialize.
-        /// </summary>
+
         [SetUp]
         public override void Initialize()
         {
@@ -57,19 +41,43 @@ namespace Penpusher.Test.Services
             // arrange
             var usernewsprovider = new List<UsersNewsProvider>()
             {
-                new UsersNewsProvider {Id = 1,IdNewsProvider = 1,IdUser = 1,NewsProvider = new NewsProvider(){Id = 1,Description = "firstfirstfirstfirstfirst",Name = "first"}},
-                new UsersNewsProvider{Id = 2,IdNewsProvider = 1,IdUser = 2,NewsProvider = new NewsProvider(){Id = 2,Description = "secondsecondsecondsecondsecond",Name = "second"}},
+                new UsersNewsProvider {Id = 1,IdNewsProvider = 1,IdUser = 1,NewsProvider = new NewsProvider(){Id = 1,Description = "firstfirstfirstfirstfirst",Name = "first"}}, 
+                new UsersNewsProvider{Id = 2,IdNewsProvider = 1,IdUser = 2,NewsProvider = new NewsProvider(){Id = 2,Description = "secondsecondsecondsecondsecond",Name = "second"}}, 
                 new UsersNewsProvider{Id = 3,IdNewsProvider = 3,IdUser = 1,NewsProvider = new NewsProvider(){Id = 3,Description = "thirdthirdthirdthirdthird",Name = "third"}}
             };
 
             MockKernel.GetMock<IRepository<UsersNewsProvider>>().Setup(rm => rm.GetAll()).Returns(usernewsprovider);
 
             // act
-            var result = MockKernel.Get<INewsProviderService>().GetByUserId(userid);
+            IEnumerable<UserNewsProviderModels> result = MockKernel.Get<INewsProviderService>().GetByUserId(userid);
 
             // assert
-            var expected = result.Count();
-            Assert.AreEqual(expected, expectedCount);
+            int expected = result.Count(); 
+            Assert.AreEqual(expected, expectedCount); 
+        }
+
+        [Category("NewsProviderService")]
+        [TestCase(1, TestName = "Delete subscription with id 0")]
+        public void DeleteTest(int id)
+        {
+            // arrange
+            var usernewsprovider = new List<UsersNewsProvider>()
+            {
+                new UsersNewsProvider {Id = 1, IdNewsProvider = 1, IdUser = 1},
+                new UsersNewsProvider {Id = 2, IdNewsProvider = 1, IdUser = 2},
+                new UsersNewsProvider {Id = 3, IdNewsProvider = 3, IdUser = 1}
+            };
+
+            MockKernel.GetMock<IRepository<UsersNewsProvider>>().Setup(rm => rm.GetAll()).Returns(usernewsprovider);
+
+            //act
+            MockKernel.Get<INewsProviderService>().DeleteNewsProvider(id);
+
+            IEnumerable<UserNewsProviderModels> result = MockKernel.Get<INewsProviderService>().GetByUserId(0);
+
+            // arrange
+            Assert.IsEmpty(result);
+
         }
     }
 }

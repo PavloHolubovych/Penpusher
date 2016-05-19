@@ -7,6 +7,8 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using Penpusher.Models;
+
 namespace Penpusher.Controllers
 {
     using System;
@@ -51,7 +53,7 @@ namespace Penpusher.Controllers
 
         // GET api/<controller>/5
         [System.Web.Http.Route("getallsubscription/{id}")]
-        public NewsProvider[] GetByUser(int id)
+        public UserNewsProviderModels[] GetByUser(int id)
         {
             return _newsProviderService.GetByUserId(id).ToArray();
         }
