@@ -5,13 +5,12 @@ using Ninject;
 using NUnit.Framework;
 using Penpusher.Models;
 using Penpusher.Services;
+
 namespace Penpusher.Test.Services
 {
-
     [TestFixture]
     public class NewsProviderTest : TestBase
     {
-
         [SetUp]
         public override void Initialize()
         {
@@ -20,17 +19,6 @@ namespace Penpusher.Test.Services
             MockKernel.GetMock<IRepository<UsersNewsProvider>>().Reset();
         }
 
-
-
-        /// <summary>
-        /// The get subscription user test.
-        /// </summary>
-        /// <param name="userid">
-        /// The title.
-        /// </param>
-        /// <param name="expectedCount">
-        /// The expected Count.
-        /// </param>
         [Category("NewsProviderService")]
         [TestCase(1, 2, TestName = "Get subscription for user 1")]
         [TestCase(2, 1, TestName = "Get subscription for user 2")]
@@ -41,9 +29,39 @@ namespace Penpusher.Test.Services
             // arrange
             var usernewsprovider = new List<UsersNewsProvider>()
             {
-                new UsersNewsProvider {Id = 1,IdNewsProvider = 1,IdUser = 1,NewsProvider = new NewsProvider(){Id = 1,Description = "firstfirstfirstfirstfirst",Name = "first"}}, 
-                new UsersNewsProvider{Id = 2,IdNewsProvider = 1,IdUser = 2,NewsProvider = new NewsProvider(){Id = 2,Description = "secondsecondsecondsecondsecond",Name = "second"}}, 
-                new UsersNewsProvider{Id = 3,IdNewsProvider = 3,IdUser = 1,NewsProvider = new NewsProvider(){Id = 3,Description = "thirdthirdthirdthirdthird",Name = "third"}}
+                new UsersNewsProvider
+                {
+                    Id = 1,
+                    IdNewsProvider = 1,
+                    IdUser = 1,
+                    NewsProvider =
+                        new NewsProvider()
+                        {
+                            Id = 1, Description = "firstfirstfirstfirstfirst", Name = "first"
+                        }
+                },
+                new UsersNewsProvider
+                {
+                    Id = 2,
+                    IdNewsProvider = 1,
+                    IdUser = 2,
+                    NewsProvider =
+                        new NewsProvider()
+                        {
+                            Id = 2, Description = "secondsecondsecondsecondsecond", Name = "second"
+                        }
+                },
+                new UsersNewsProvider
+                {
+                    Id = 3,
+                    IdNewsProvider = 3,
+                    IdUser = 1,
+                    NewsProvider =
+                        new NewsProvider()
+                        {
+                            Id = 3, Description = "thirdthirdthirdthirdthird", Name = "third"
+                        }
+                }
             };
 
             MockKernel.GetMock<IRepository<UsersNewsProvider>>().Setup(rm => rm.GetAll()).Returns(usernewsprovider);
@@ -52,8 +70,8 @@ namespace Penpusher.Test.Services
             IEnumerable<UserNewsProviderModels> result = MockKernel.Get<INewsProviderService>().GetByUserId(userid);
 
             // assert
-            int expected = result.Count(); 
-            Assert.AreEqual(expected, expectedCount); 
+            int expected = result.Count();
+            Assert.AreEqual(expected, expectedCount);
         }
 
         [Category("NewsProviderService")]
@@ -63,21 +81,29 @@ namespace Penpusher.Test.Services
             // arrange
             var usernewsprovider = new List<UsersNewsProvider>()
             {
-                new UsersNewsProvider {Id = 1, IdNewsProvider = 1, IdUser = 1},
-                new UsersNewsProvider {Id = 2, IdNewsProvider = 1, IdUser = 2},
-                new UsersNewsProvider {Id = 3, IdNewsProvider = 3, IdUser = 1}
+                new UsersNewsProvider
+                {
+                    Id = 1, IdNewsProvider = 1, IdUser = 1
+                },
+                new UsersNewsProvider
+                {
+                    Id = 2, IdNewsProvider = 1, IdUser = 2
+                },
+                new UsersNewsProvider
+                {
+                    Id = 3, IdNewsProvider = 3, IdUser = 1
+                }
             };
 
             MockKernel.GetMock<IRepository<UsersNewsProvider>>().Setup(rm => rm.GetAll()).Returns(usernewsprovider);
 
-            //act
+            // act
             MockKernel.Get<INewsProviderService>().DeleteNewsProvider(id);
 
             IEnumerable<UserNewsProviderModels> result = MockKernel.Get<INewsProviderService>().GetByUserId(0);
 
             // arrange
             Assert.IsEmpty(result);
-
         }
     }
 }
