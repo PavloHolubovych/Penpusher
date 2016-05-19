@@ -52,7 +52,7 @@ namespace Penpusher.Services
             IEnumerable<NewsProvider> news = usersNewsProvider.GetAll().Where(_ => _.IdUser == id)
                 .Select(un => new NewsProvider
                 {
-                    Id = un.Id,
+                    Id = un.IdNewsProvider,
                     Name = un.NewsProvider.Name,
                     Description = un.NewsProvider.Description,
                     Link = un.NewsProvider.Link,
