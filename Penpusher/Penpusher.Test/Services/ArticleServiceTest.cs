@@ -7,6 +7,8 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+
+
 namespace Penpusher.Test.Services
 {
     using System.Collections.Generic;
@@ -15,6 +17,7 @@ namespace Penpusher.Test.Services
     using Ninject;
     using NUnit.Framework;
     using Penpusher.Services;
+    using Penpusher.Models;
 
     /// <summary>
     /// The article service test class.
@@ -126,6 +129,58 @@ namespace Penpusher.Test.Services
             var result = MockKernel.Get<ArticleService>().GetArticlesFromProvider(providerId);
             var enumerable = result as Article[] ?? result.ToArray();
             if (providerId == 4) { Assert.IsEmpty(enumerable); } else { Assert.IsNotEmpty(enumerable); }
+        }
+
+        [Category("ArticleService")]
+        [TestCase(0, TestName = "Should find all articles by selection of 0 providers")]
+        [TestCase(1, TestName = "Should find all articles by selection of 2 providers")]
+        [TestCase(2, TestName = "Should find all articles by selection of 4 providers")]
+        [TestCase(3, TestName = "Should find all articles by selection of 1 provider")]
+        [TestCase(4, TestName = "Should find 0 articles")]
+        public void GetArticlesFromSelectedProvidersTest(int testcase)
+        {
+            int expected = 0;
+
+            var testUserProviders = new List<UserNewsProviderModels>();
+            var model1 = new UserNewsProviderModels { Name = "provider1", IdNewsProvider = 1 };
+            var model2 = new UserNewsProviderModels { Name = "provider2", IdNewsProvider = 2 };
+            var model3 = new UserNewsProviderModels { Name = "provider3", IdNewsProvider = 3 };
+            var model4 = new UserNewsProviderModels { Name = "provider3", IdNewsProvider = 4 };
+
+            var testArticles = new List<Article>
+            {
+                new Article { Id = 1, Title = "article2", IdNewsProvider = 1 },
+                new Article { Id = 2, Title = "article1", IdNewsProvider = 2 },
+                new Article { Id = 3, Title = "article1", IdNewsProvider = 4 },
+                new Article { Id = 4, Title = "article2", IdNewsProvider = 4 }
+            };
+
+            switch (testcase)
+            {
+                case 0:
+                    break;
+                case 1:
+                    testUserProviders.AddRange(new List<UserNewsProviderModels>{ model1, model2});
+                    expected = 2;
+                    break;
+                case 2:
+                    testUserProviders.AddRange(new List<UserNewsProviderModels> { model1, model2, model3, model4});
+                    expected = 4;
+                    break;
+                case 3:
+                    testUserProviders.Add(model4);
+                    expected = 2;
+                    break;
+                case 4:
+                    testUserProviders.Add(model3);
+                    break;
+            }
+
+            MockKernel.GetMock<IRepository<Article>>().Setup(_ => _.GetAll()).Returns(testArticles);
+            var result = MockKernel.Get<ArticleService>().GetArticlesFromSelectedProviders(testUserProviders);
+
+            var enumerable = result as Article[] ?? result.ToArray();
+            Assert.AreEqual(expected, enumerable.Length);
         }
     }
 }
