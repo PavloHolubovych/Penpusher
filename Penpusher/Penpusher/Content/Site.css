@@ -123,8 +123,10 @@ text-align:center;
 
 #articleContentDiv {
     margin: 30px;
-    border-radius: 6px;
-    background:
+    padding: 30px;
+   background-color:#eee;
+   border: 1px solid #888;
+   border-radius:3px;
 }
 
 #articleLinkDiv{}

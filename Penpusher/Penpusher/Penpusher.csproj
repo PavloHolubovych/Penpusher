@@ -351,6 +351,7 @@
     </Content>
     <Content Include="Scripts\ai.0.15.0-build58334.js" />
     <Content Include="Scripts\ai.0.15.0-build58334.min.js" />
+    <Content Include="Scripts\GetArticlesBySelectedProviders.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
@@ -374,11 +375,10 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\knockout-3.4.0.js" />
     <Content Include="Scripts\Main\subscriptions.js" />
-    <Content Include="Scripts\MasterPageScript.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
-    <Content Include="Scripts\UserReadArticleScript.js" />
+    <Content Include="Scripts\_LayoutScript.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -419,7 +419,7 @@
     <Content Include="Views\Main\ArticlesBySubscription.cshtml" />
     <Content Include="Views\Main\ArticleDescriptionView.cshtml" />
     <Content Include="Views\Main\UserReadArticles.cshtml" />
-	<Content Include="Views\Main\ArticlesBySelectedSubscriptions.cshtml" />
+    <Content Include="Views\Main\ArticlesBySelectedSubscriptions.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

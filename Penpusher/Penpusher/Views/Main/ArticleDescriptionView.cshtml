@@ -1,17 +1,16 @@
-﻿<link rel="stylesheet" href="~/Content/Site.css"/>
+﻿<link rel="stylesheet" type="text/css" href="~/Content/Site.css"/>
 <div id="articleContent">
-    <div id="titleDiv"  >
-        <label data-bind='text: title' id="articleTitleDiv" />
-    </div>
-    <div id="contentDiv" id="articleContentDiv">
+    <div id="articleTitleDiv">
+        <label data-bind='text: title' />
+    </div >
+    <div id="articleContentDiv" >
         <label data-bind='text: content'/>
     </div>
-    <div id="linkDiv" id="articleLinkDiv">
+    <div  id="articleLinkDiv">
         <label> You can view original article content here:  </label><a data-bind='text: link'> </a>
     </div>
 </div>
 <script>
-
     $(document)
           .ready(function () {
               var ArticleModel = function (contentData, link, title) {
