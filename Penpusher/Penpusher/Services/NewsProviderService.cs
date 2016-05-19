@@ -68,7 +68,7 @@ namespace Penpusher.Services
         public UsersNewsProvider AddSubscription(string link)
         {
             NewsProvider channel = newsProviderRepository.GetAll().FirstOrDefault(rm => rm.Link == link);
-
+ 
             if (channel == null)
             {
                 channel = new NewsProvider
