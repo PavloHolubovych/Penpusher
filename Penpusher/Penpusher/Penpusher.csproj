@@ -282,6 +282,7 @@
     <Compile Include="Controllers\ArticlesController.cs" />
     <Compile Include="Controllers\MainController.cs" />
     <Compile Include="Controllers\SubscriptionsController.cs" />
+    <Compile Include="Models\UserNewsProviderModels.cs" />
     <Compile Include="NewsProvider.cs">
       <DependentUpon>PenpusherEntityDatabase.tt</DependentUpon>
     </Compile>
