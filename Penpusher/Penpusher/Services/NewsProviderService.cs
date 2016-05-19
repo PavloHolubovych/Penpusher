@@ -11,7 +11,8 @@ using System;
 using System.Web;
     using System.Collections.Generic;
     using System.Linq;
-    using Penpusher.Services.Base;
+using Penpusher.Models;
+using Penpusher.Services.Base;
 namespace Penpusher.Services
 {
 
@@ -47,12 +48,13 @@ namespace Penpusher.Services
             return newsprovider;
         }
 
-        public IEnumerable<NewsProvider> GetByUserId(int id)
+        public IEnumerable<UserNewsProviderModels> GetByUserId(int id)
         {
-            IEnumerable<NewsProvider> news = usersNewsProvider.GetAll().Where(_ => _.IdUser == id)
-                .Select(un => new NewsProvider
+            IEnumerable<UserNewsProviderModels> news = usersNewsProvider.GetAll().Where(_ => _.IdUser == id)
+                .Select(un => new UserNewsProviderModels
                 {
                     Id = un.Id,
+                    IdNewsProvider=un.NewsProvider.Id,
                     Name = un.NewsProvider.Name,
                     Description = un.NewsProvider.Description,
                     Link = un.NewsProvider.Link,

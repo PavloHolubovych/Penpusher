@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Penpusher.Models;
 using Penpusher.Services.Base;
 
 namespace Penpusher.Services
@@ -42,15 +43,22 @@ namespace Penpusher.Services
             return _repository.GetAll();
         }
 
-        public IEnumerable<Article> GetArticlesFromSelectedProviders(IEnumerable<NewsProvider> newsProviders)
+        public IEnumerable<Article> GetArticlesFromSelectedProviders(IEnumerable<UserNewsProviderModels> newsProviders)
         {
             var articles = new List<Article>();
 
             if (newsProviders.ToList().Count > 0)
             {
-                foreach (NewsProvider provider in newsProviders)
+                foreach (UserNewsProviderModels provider in newsProviders)
                 {
-                    var nextProviderArticles = GetArticlesFromProvider(provider.Id).ToList();
+                    var nextProviderArticles = GetArticlesFromProvider(provider.IdNewsProvider).Select(n => new Article()
+                    {
+                        Id = n.Id,
+                        Title = n.Title,
+                        Description = n.Description,
+                        Link = n.Link,
+                        Date = n.Date,
+                    }).ToList();
                     articles.AddRange(nextProviderArticles);
                 }
             }

@@ -51,7 +51,7 @@
     };
 
 
-ko.applyBindings(new NewsProviderModel);
+    ko.applyBindings(new NewsProviderModel, document.getElementById('subscription'));
 
 // Activate jQuery Validation
 //$("form").validate({

@@ -7,6 +7,8 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using Penpusher.Models;
+
 namespace Penpusher.Services
 {
     using System.Collections.Generic;
@@ -19,14 +21,11 @@ namespace Penpusher.Services
         /// <summary>
         /// The add news provider. 
         /// </summary>
-        /// <param name="newsProvider">
-        /// The news provider.
-        /// </param>
         /// <returns>
         /// The <see cref="NewsProvider"/>.
         /// </returns>
         IEnumerable<NewsProvider> GetAll();
-        IEnumerable<NewsProvider> GetByUserId(int id);
+        IEnumerable<UserNewsProviderModels> GetByUserId(int id);
 
 
         NewsProvider AddNewsProvider(NewsProvider newsProvider);

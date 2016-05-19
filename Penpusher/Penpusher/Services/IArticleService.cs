@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Penpusher.Models;
 
 namespace Penpusher.Services
 {
@@ -14,7 +15,7 @@ namespace Penpusher.Services
 
         IEnumerable<Article> GetAllArticleses();
 
-        IEnumerable<Article> GetArticlesFromSelectedProviders(IEnumerable<NewsProvider> newsProviders);
+        IEnumerable<Article> GetArticlesFromSelectedProviders(IEnumerable<UserNewsProviderModels> newsProviders);
 
         Article GetById(int id);
     }
