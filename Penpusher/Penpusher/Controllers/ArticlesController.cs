@@ -19,11 +19,20 @@ namespace Penpusher.Controllers
             _newsProviderService = newsProviderService;
         }
 
+        /// <summary>
+        /// Get all articles by provider ID.
+        /// </summary>
+        /// <param name="newsProviderId">
+        /// Provider ID
+        /// </param>
+        /// <returns>
+        /// The <see cref="IEnumerable"/>.
+        /// </returns>
         [HttpGet]
         [ActionName("ArticlesFromProvider")]
         public IEnumerable<Article> ArticlesFromProvider(int newsProviderId)
         {
-            return _articleService.GetArticlesFromProvider(newsProviderId);
+            return this._articleService.GetArticlesFromProvider(newsProviderId);
         }
 
         [HttpGet]

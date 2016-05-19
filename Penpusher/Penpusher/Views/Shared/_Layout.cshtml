@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8"/>
+    <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Penpusher</title>
     @Styles.Render("~/Content/css")
@@ -32,9 +32,9 @@
             <li>
                 <div class="selectDiv">
                 <label>Article for one provider: </label>
-                <select data-bind='options: providers' id="sideBarSelect" class="styledselect">
-                    <option> </option>
-                </select>
+                    <select data-bind="options: providers,optionsText: 'Name', optionsValue: 'Id',value: selectedProvider, optionsCaption: 'Choose...'" id="sideBarSelect" class="styledselect">
+                        <option> </option>
+                    </select>
                 </div>
             </li>
 
@@ -45,16 +45,16 @@
  
         @RenderBody()
 
-    </div>
-    <div id="footer">
-        <div id="copyrightLabel">
-            <label>Penpusher 2016</label>
+        </div>
+        <div id="footer">
+            <div id="copyrightLabel">
+                <label>Penpusher 2016</label>
+            </div>
         </div>
     </div>
-</div>
 
-@Scripts.Render("~/bundles/bootstrap")
-@RenderSection("scripts", required: false)
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
 </body>
 </html>
 
