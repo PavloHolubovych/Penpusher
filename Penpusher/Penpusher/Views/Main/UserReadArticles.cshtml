@@ -4,7 +4,7 @@
 
 <script src="~/Scripts/UserReadArticleScript.js"></script>
 
-<div class="readArticles" data-bind="foreach: $data">
+<div class="readArticles" id="readArticlesContainer" data-bind="foreach: articlesList">
     <img data-bind="attr: { 'src': image }" />
     <div class="textContent">
         <h3><span data-bind="text: title"></span></h3>
