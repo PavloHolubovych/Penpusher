@@ -3,6 +3,7 @@ using System.Linq;
 using Moq;
 using Ninject;
 using NUnit.Framework;
+using Penpusher.Models;
 using Penpusher.Services;
 namespace Penpusher.Test.Services
 {
@@ -48,7 +49,7 @@ namespace Penpusher.Test.Services
             MockKernel.GetMock<IRepository<UsersNewsProvider>>().Setup(rm => rm.GetAll()).Returns(usernewsprovider);
 
             // act
-            IEnumerable<NewsProvider> result = MockKernel.Get<INewsProviderService>().GetByUserId(userid);
+            IEnumerable<UserNewsProviderModels> result = MockKernel.Get<INewsProviderService>().GetByUserId(userid);
 
             // assert
             int expected = result.Count(); 
@@ -72,7 +73,7 @@ namespace Penpusher.Test.Services
             //act
             MockKernel.Get<INewsProviderService>().DeleteNewsProvider(id);
 
-            IEnumerable<NewsProvider> result = MockKernel.Get<INewsProviderService>().GetByUserId(0);
+            IEnumerable<UserNewsProviderModels> result = MockKernel.Get<INewsProviderService>().GetByUserId(0);
 
             // arrange
             Assert.IsEmpty(result);
