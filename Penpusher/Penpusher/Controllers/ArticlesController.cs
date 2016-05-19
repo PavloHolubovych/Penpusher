@@ -26,10 +26,12 @@ namespace Penpusher.Controllers
         [HttpGet]
         public IEnumerable<Article> UserReadArticles(int userId)
         {
-            var readArticles = from article in _articleService.GetAllArticleses()
-                               join userReadArticle in _userArticlesService.GetUsersReadArticles(userId) on article.Id equals
-                                    userReadArticle.ArticleId
-                               select article;
+            var readArticles = _articleService.GetAllArticleses()
+                .Join(
+                    _userArticlesService.GetUsersReadArticles(userId),
+                    article => article.Id,
+                    readArticle => readArticle.ArticleId,
+                    (article, readArticle) => article);
 
             return readArticles;
         }

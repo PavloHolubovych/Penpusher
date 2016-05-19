@@ -16,7 +16,7 @@ namespace Penpusher.Services
 
         public IEnumerable<UsersArticle> GetUsersReadArticles(int userId)
         {
-            return repository.GetAll().Where(art => art.IsRead.Value == true && art.UserId == userId).ToList();
+            return repository.GetAll().Where(art => art.IsRead == true && art.UserId == userId).ToList();
         }
     }
 }
