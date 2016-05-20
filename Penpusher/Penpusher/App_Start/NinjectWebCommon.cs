@@ -1,18 +1,14 @@
 using System;
 using System.Web;
 using System.Web.Http;
-
+using Microsoft.Web.Infrastructure.DynamicModuleHelper;
 using Ninject;
 using Ninject.Web.Common;
-using Ninject.Web.WebApi;
 using Penpusher;
-using Microsoft.Web.Infrastructure.DynamicModuleHelper;
 using Penpusher.DAL;
 using Penpusher.Services;
 using Penpusher.Services.ContentService;
 using static Penpusher.Controllers.HomeController;
-using static Penpusher.Controllers.TestController;
-using WebApiContrib.IoC.Ninject;
 
 [assembly: WebActivatorEx.PreApplicationStartMethod(typeof(NinjectWebCommon), "Start")]
 [assembly: WebActivatorEx.ApplicationShutdownMethodAttribute(typeof(NinjectWebCommon), "Stop")]
@@ -21,7 +17,7 @@ namespace Penpusher
 {
     public static class NinjectWebCommon
     {
-        private static readonly Bootstrapper bootstrapper = new Bootstrapper();
+        private static readonly Bootstrapper Bootstrapper = new Bootstrapper();
 
         /// <summary>
         /// Starts the application
@@ -30,7 +26,7 @@ namespace Penpusher
         {
             DynamicModuleUtility.RegisterModule(typeof(OnePerRequestHttpModule));
             DynamicModuleUtility.RegisterModule(typeof(NinjectHttpModule));
-            bootstrapper.Initialize(CreateKernel);
+            Bootstrapper.Initialize(CreateKernel);
         }
 
         /// <summary>
@@ -38,7 +34,7 @@ namespace Penpusher
         /// </summary>
         public static void Stop()
         {
-            bootstrapper.ShutDown();
+            Bootstrapper.ShutDown();
         }
 
         /// <summary>
@@ -71,7 +67,6 @@ namespace Penpusher
         /// <param name="kernel">The kernel.</param>
         private static void RegisterServices(IKernel kernel)
         {
-
             kernel.Bind<IDbProvider>().To<SqlServerDbProvider>();
             kernel.Bind<IArticleService>().To<ArticleService>();
             kernel.Bind<IRepository<Article>>().To<Repository<Article>>();
@@ -81,6 +76,7 @@ namespace Penpusher
             kernel.Bind<IUsersArticlesService>().To<UsersArticlesService>();
             kernel.Bind<IRepository<UsersArticle>>().To<Repository<UsersArticle>>();
             kernel.Bind<IParser>().To<RSSParser>();
-        }        
+            kernel.Bind<IProviderTrackingService>().To<ProviderTrackingService>();
+        }
     }
 }
