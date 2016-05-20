@@ -1,29 +1,25 @@
 ﻿using System;
-using System.Web;
 using System.Collections.Generic;
 using System.Linq;
 using Penpusher.Models;
-using Penpusher.Services.Base;
+
 namespace Penpusher.Services
 {
-
     public class NewsProviderService : INewsProviderService
     {
+        private readonly IRepository<NewsProvider> _newsProviderRepository;
 
-        private readonly IRepository<NewsProvider> newsProviderRepository;
-
-        private readonly IRepository<UsersNewsProvider> usersNewsProviderRepository;
+        private readonly IRepository<UsersNewsProvider> _usersNewsProviderRepository;
 
         public NewsProviderService(IRepository<NewsProvider> repository, IRepository<UsersNewsProvider> usersNewsProviderRepository)
         {
-            newsProviderRepository = repository;
-            this.usersNewsProviderRepository = usersNewsProviderRepository;
+            _newsProviderRepository = repository;
+            _usersNewsProviderRepository = usersNewsProviderRepository;
         }
-
 
         public IEnumerable<NewsProvider> GetAll()
         {
-            IEnumerable<NewsProvider> newsprovider = newsProviderRepository.GetAll().Select(n => new NewsProvider
+            IEnumerable<NewsProvider> newsprovider = _newsProviderRepository.GetAll().Select(n => new NewsProvider
             {
                 Id = n.Id,
                 Name = n.Name,
@@ -38,7 +34,7 @@ namespace Penpusher.Services
 
         public IEnumerable<UserNewsProviderModels> GetByUserId(int id)
         {
-            IEnumerable<UserNewsProviderModels> news = usersNewsProviderRepository.GetAll().Where(_ => _.IdUser == id)
+            IEnumerable<UserNewsProviderModels> news = _usersNewsProviderRepository.GetAll().Where(_ => _.IdUser == id)
                 .Select(un => new UserNewsProviderModels
                 {
                     Id = un.Id,
@@ -54,13 +50,12 @@ namespace Penpusher.Services
 
         public void DeleteNewsProvider(int id)
         {
-            usersNewsProviderRepository.Delete(id);
+            _usersNewsProviderRepository.Delete(id);
         }
-
 
         public UsersNewsProvider AddSubscription(string link)
         {
-            NewsProvider channel = newsProviderRepository.GetAll().FirstOrDefault(rm => rm.Link == link);
+            NewsProvider channel = _newsProviderRepository.GetAll().FirstOrDefault(rm => rm.Link == link);
 
             if (channel == null)
             {
@@ -72,11 +67,11 @@ namespace Penpusher.Services
                     SubscriptionDate = DateTime.Today
                 };
 
-                channel = newsProviderRepository.Add(channel);
+                channel = _newsProviderRepository.Add(channel);
             }
 
-            UsersNewsProvider subscription = usersNewsProviderRepository.GetAll().FirstOrDefault(rm => rm.IdNewsProvider == channel.Id);
-            return subscription ?? usersNewsProviderRepository.Add(new UsersNewsProvider
+            UsersNewsProvider subscription = _usersNewsProviderRepository.GetAll().FirstOrDefault(rm => rm.IdNewsProvider == channel.Id);
+            return subscription ?? _usersNewsProviderRepository.Add(new UsersNewsProvider
             {
                 IdNewsProvider = channel.Id,
                 IdUser = 4
