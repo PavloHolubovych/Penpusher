@@ -33,3 +33,7 @@ $(document)
 function ManageContentPage() {
     location.href = "/Main/Subscriptions";
 }
+
+function LoadReadPage() {
+    location.href = "/Main/UserReadArticles";
+}

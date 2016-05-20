@@ -72,7 +72,6 @@ namespace Penpusher
         private static void RegisterServices(IKernel kernel)
         {
 
-            kernel.Bind<IDbProvider>().To<SqlServerDbProvider>();
             kernel.Bind<IArticleService>().To<ArticleService>();
             kernel.Bind<IRepository<Article>>().To<Repository<Article>>();
             kernel.Bind<INewsProviderService>().To<NewsProviderService>();

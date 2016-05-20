@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Migrations;
 using Ninject.Infrastructure.Language;
 
 namespace Penpusher.DAL
@@ -29,9 +30,11 @@ namespace Penpusher.DAL
             return entity;
         }
 
-        public T Edit(T entity)
+        public void Edit(T entity)
         {
-            throw new NotImplementedException();
+            DbSet.AddOrUpdate(entity);
+            EntitiesContext.SaveChanges();
+
         }
 
         public void Delete(int id)

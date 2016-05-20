@@ -6,7 +6,7 @@ namespace Penpusher
     {
         IEnumerable<T> GetAll();
         T Add(T entity);
-        T Edit(T entity);
+        void Edit(T entity);
         void Delete(int id);
         T GetById(int id);
     }

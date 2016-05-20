@@ -1,49 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using Ninject;
+﻿using System.Collections.Generic; 
+using System.Web.Mvc; 
 using Penpusher.Services;
 
 namespace Penpusher.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IDbProvider dbProvider;
         private readonly IArticleService articleService;
         private readonly INewsProviderService newsProviderService;
+        private readonly IUsersArticlesService usersArticlesService;
 
 
-        public HomeController(IDbProvider dbProvider, IArticleService articleService, INewsProviderService newsProviderService)
+        public HomeController(IUsersArticlesService usersArticlesService, IArticleService articleService,
+            INewsProviderService newsProviderService)
         {
-            this.dbProvider = dbProvider;
             this.articleService = articleService;
             this.newsProviderService = newsProviderService;
-        }
-
-        public void addNewsProvider()
-        {
-            //newsProviderService.AddNewsProvider(new NewsProvider
-            //{
-            //    Name = "etr",
-            //    Description = "ert",
-            //    Link = "ghgjg",
-            //    RssImage = "image",
-            //    SubscriptionDate = DateTime.Today
-            //});
-        }
-
-        public void delNewsProvider()
-        {
-           // newsProviderService.DeleteNewsProvider(15);
+            this.usersArticlesService = usersArticlesService; 
         }
 
         public ActionResult Index()
         {
-            //delNewsProvider();
             ViewBag.UserName = "UserNAme1";
-            ViewBag.ProvidersList = new List<string> { "sdfs", "sdfsdf", "sdfsdf" };
+            ViewBag.ProvidersList = new List<string> {"sdfs", "sdfsdf", "sdfsdf"};
             return View();
         }
 
@@ -59,38 +38,6 @@ namespace Penpusher.Controllers
             ViewBag.Message = "Your contact page.";
 
             return View();
-        }
-
-        class ItemRepository
-        {
-            private readonly IDbProvider dbProvider;
-            //private IDbProvider dbProvider;
-            public ItemRepository(IDbProvider dbProvider)
-            {
-                this.dbProvider = dbProvider;
-            }
-
-            public void Add(Item item)
-            {
-                dbProvider.Add(item);
-            }
-        }
-
-        public interface IDbProvider
-        {
-            void Add(Item item);
-        }
-        public class SqlServerDbProvider : IDbProvider
-        {
-
-            public void Add(Item item)
-            {
-
-
-            }
-        }
-        public class Item
-        {
         }
     }
 }
