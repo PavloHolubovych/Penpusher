@@ -31,7 +31,14 @@ namespace Penpusher.Services
 
         public override IEnumerable<Article> Find(string title)
         {
-            return this.repository.GetAll().Where(x => x.Title == title);
+            return this.repository.GetAll().Where(x => x.Title == title).Select(n => new Article()
+            {
+                Id = n.Id,
+                Title = n.Title,
+                Description = n.Description,
+                Link = n.Link,
+                Date = n.Date,
+            });
         }
 
         /// <summary>
@@ -54,8 +61,17 @@ namespace Penpusher.Services
 
         public IEnumerable<Article> GetAllArticleses()
         {
-            return this.repository.GetAll();
+            return this.repository.GetAll().Select(n => new Article()
+            {
+                Id = n.Id,
+                Title = n.Title,
+                Description = n.Description,
+                Link = n.Link,
+                Date = n.Date,
+            });
         }
+
+      
 
         public IEnumerable<Article> GetArticlesFromSelectedProviders(IEnumerable<UserNewsProviderModels> newsProviders)
         {

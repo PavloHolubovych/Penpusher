@@ -9,6 +9,7 @@ using Penpusher;
 using Microsoft.Web.Infrastructure.DynamicModuleHelper;
 using Penpusher.DAL;
 using Penpusher.Services;
+using Penpusher.Services.ContentService;
 using static Penpusher.Controllers.HomeController;
 using static Penpusher.Controllers.TestController;
 using WebApiContrib.IoC.Ninject;
@@ -71,7 +72,6 @@ namespace Penpusher
         private static void RegisterServices(IKernel kernel)
         {
 
-            kernel.Bind<IDbProvider>().To<SqlServerDbProvider>();
             kernel.Bind<IArticleService>().To<ArticleService>();
             kernel.Bind<IRepository<Article>>().To<Repository<Article>>();
             kernel.Bind<INewsProviderService>().To<NewsProviderService>();
@@ -79,6 +79,7 @@ namespace Penpusher
             kernel.Bind<IRepository<UsersNewsProvider>>().To<Repository<UsersNewsProvider>>();
             kernel.Bind<IUsersArticlesService>().To<UsersArticlesService>();
             kernel.Bind<IRepository<UsersArticle>>().To<Repository<UsersArticle>>();
+            kernel.Bind<IParser>().To<RSSParser>();
         }        
     }
 }
