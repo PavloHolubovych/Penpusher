@@ -1,8 +1,8 @@
 ﻿<div id="subscription">
 <form>
-    <h1><p>You have subscribe for <span data-bind='text: newsproviders().length'>&nbsp;</span> newsprovider(s)
+    <h1><p>You have subscribe for <span data-bind="text: newsproviders().length">&nbsp;</span> newsprovider(s)
     </p></h1>
-    <table class="table" data-bind='visible: newsproviders().length > 0'>
+    <table class="table" data-bind="visible: newsproviders().length > 0">
         <thead>
         <tr>
             <th>Name</th>
@@ -13,22 +13,22 @@
             <th/>
         </tr>
         </thead>
-        <tbody data-bind='foreach: newsproviders'>
+        <tbody data-bind="foreach: newsproviders">
         <tr>
-            <td><span class='required number' data-bind='text: Name, uniqueName: true' /></td>
+            <td><span class="required number" data-bind="text: Name, uniqueName: true"></span></td>
             <td>
-                <span class='required number' data-bind='text: Link, uniqueName: true' />
+                <span class="required number" data-bind="text: Link, uniqueName: true"></span>
             </td>
             <td>
-                <span class='required number' data-bind='text: Description, uniqueName: true' />
+                <span class="required number" data-bind="text: Description, uniqueName: true"></span>
             </td>
             <td>
-                <span class='required number' data-bind='text: RssImage, uniqueName: true' />
+                <span class="required number" data-bind="text: RssImage, uniqueName: true"></span>
             </td>
             <td>
-                <span class='required number' data-bind='text: SubscriptionDate, uniqueName: true' />
+                <span class="required number" data-bind="text: SubscriptionDate, uniqueName: true"></span>
             </td>
-            <td><a href='#' data-bind='click: $root.removeNewsProvider'>Unsubscribe</a></td>
+            <td><a href="#" data-bind="click: $root.removeNewsProvider">Unsubscribe</a></td>
         </tr>
         </tbody>
     </table>
@@ -37,10 +37,10 @@
 <form class="form-inline">
     <div class="form-group">
         <div class="input-group">
-            <input class="form-control" placeholder="wwww.liga.net" data-bind='value: AddLink'/>
+            <input class="form-control" placeholder="wwww.liga.net" data-bind="value: AddLink"/>
         </div>
     </div>
-    <button class="btn btn-primary" data-bind='click: $root.addNewsProvider'>Add newsprovider</button>
+    <button class="btn btn-primary" data-bind="click: $root.addNewsProvider">Add newsprovider</button>
 </form>
 </div>
 @Scripts.Render("~/bundles/subscriptions")

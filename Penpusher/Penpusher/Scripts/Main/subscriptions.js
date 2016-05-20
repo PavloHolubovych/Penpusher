@@ -8,20 +8,17 @@
 
         });
 
-
-
-
         self.addNewsProvider = function (newsprovider) {
-            var Link = newsprovider.AddLink;
-            console.log({ Link });
+            var link = newsprovider.AddLink;
+            console.log({ link });
             var newsProvider = {};
-            newsProvider.Link = Link;
+            newsProvider.Link = link;
             $.ajax({
                 url: '/api/add',
                 type: "POST",
                 //contentType: 'application/json; charset=utf-8',
                 data: newsProvider,
-                success: function (data) {
+                success: function () {
                     //self.newsproviders(data);
                     //console.log(data);
                     //alert('data.result');
@@ -39,7 +36,7 @@
                 /*contentType: "application/json; charset=utf-8",*/
                 data:{},
                 dataType: 'json',
-                success: function (data) {
+                success: function () {
                     //console.log(data);
                     //alert('data.result');
                     //console.log(data.result);

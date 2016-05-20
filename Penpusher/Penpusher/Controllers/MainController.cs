@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic; 
 using System.Web.Mvc;
 
 namespace Penpusher.Controllers
@@ -21,6 +18,12 @@ namespace Penpusher.Controllers
             return View();
         }
 
+        /// <summary>
+        /// The articles by subscription.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="ActionResult"/>.
+        /// </returns>
         public ActionResult ArticlesBySubscription()
         {
             return View();

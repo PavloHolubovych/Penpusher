@@ -1,23 +1,33 @@
 ﻿$(document)
     .ready(function () {
-            var apiController = window.location.origin + "/api/Articles/ArticlesFromProvider?newsProviderId=";
-            var providerId = parseInt(QueryString.providerID);
-            if (providerId === NaN) return;
-
+        var ArticlesModel = function (providerId) {
+            self = this;
+            self.articles = ko.observableArray([]);
             $.ajax({
                 url: apiController + providerId,
                 method: "GET",
+                beforeSend: function () {
+                    $('.articlesbySubscription').hide();
+                },
                 success: function (data) {
+                    $('.articlesbySubscription').show();
+                    $('.loadimage').hide();
                     for (var i = 0; i < data.length; i++) {
-                        viewModel.articles.push(
+                        self.articles.push(
                             data[i]
                         );
                     }
                 },
-                error: function (request, textStatus) {
+                error: function(request, textStatus) {
                     alert("Error: " + textStatus);
                 }
             });
+        }
+        var apiController = window.location.origin + "/api/Articles/ArticlesFromProvider?newsProviderId=";
+        var providerId = parseInt(QueryString.providerID);
+        if (providerId === NaN) return;
+        var viewModel = new ArticlesModel(providerId);
+        ko.applyBindings(viewModel, document.getElementById("articlesSubscription"));
     });
 
 // For getting all params from url

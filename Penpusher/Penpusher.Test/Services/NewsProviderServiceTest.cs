@@ -6,13 +6,12 @@ using Ninject;
 using NUnit.Framework;
 using Penpusher.Models;
 using Penpusher.Services;
+
 namespace Penpusher.Test.Services
 {
-
     [TestFixture]
     public class NewsProviderTest : TestBase
     {
-
         [SetUp]
         public override void Initialize()
         {
@@ -62,14 +61,23 @@ namespace Penpusher.Test.Services
             // arrange
             var usernewsprovider = new List<UsersNewsProvider>()
             {
-                new UsersNewsProvider {Id = 1, IdNewsProvider = 1, IdUser = 1},
-                new UsersNewsProvider {Id = 2, IdNewsProvider = 1, IdUser = 2},
-                new UsersNewsProvider {Id = 3, IdNewsProvider = 3, IdUser = 1}
+                new UsersNewsProvider
+                {
+                    Id = 1, IdNewsProvider = 1, IdUser = 1
+                },
+                new UsersNewsProvider
+                {
+                    Id = 2, IdNewsProvider = 1, IdUser = 2
+                },
+                new UsersNewsProvider
+                {
+                    Id = 3, IdNewsProvider = 3, IdUser = 1
+                }
             };
 
             MockKernel.GetMock<IRepository<UsersNewsProvider>>().Setup(rm => rm.GetAll()).Returns(usernewsprovider);
 
-            //act
+            // act
             MockKernel.Get<INewsProviderService>().DeleteNewsProvider(id);
 
             IEnumerable<UserNewsProviderModels> result = MockKernel.Get<INewsProviderService>().GetByUserId(id);

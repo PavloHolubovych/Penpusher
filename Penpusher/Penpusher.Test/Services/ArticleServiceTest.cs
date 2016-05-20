@@ -6,9 +6,7 @@
 //   The article service test class.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-
-
+ 
 namespace Penpusher.Test.Services
 {
     using System.Collections.Generic;
@@ -17,7 +15,7 @@ namespace Penpusher.Test.Services
     using Ninject;
     using NUnit.Framework;
     using Penpusher.Services;
-    using Penpusher.Models;
+    using Models;
 
     /// <summary>
     /// The article service test class.
@@ -42,13 +40,14 @@ namespace Penpusher.Test.Services
         /// <param name="title">
         /// The title.
         /// </param>
+        /// <param name="expected"></param>
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
         [Category("ArticleService")]
-        [TestCase("my title", ExpectedResult = true, TestName = "CheckDoesExists title exists")]
-        [TestCase("my title123321", ExpectedResult = false, TestName = "CheckDoesExists title is missing ")]
-        public bool CheckDoesExistsTest(string title)
+        [TestCase("my title", true, TestName = "CheckDoesExists title exists")]
+        [TestCase("my title123321", false, TestName = "CheckDoesExists title is missing ")]
+        public void CheckDoesExistsTest(string title, bool expected)
         {
             var testArticles = new List<Article>()
             {
@@ -58,7 +57,7 @@ namespace Penpusher.Test.Services
             };
             MockKernel.GetMock<IRepository<Article>>().Setup(asrv => asrv.GetAll()).Returns(testArticles);
             bool actual = MockKernel.Get<IArticleService>().CheckDoesExists(title);
-            return actual;
+            Assert.AreEqual(actual, expected);
         }
 
         /// <summary>
@@ -105,29 +104,37 @@ namespace Penpusher.Test.Services
             MockKernel.GetMock<IRepository<Article>>().Setup(rm => rm.GetAll()).Returns(testArticles);
 
             // act
-            var result = MockKernel.Get<ArticleService>().Find(title);
+            IEnumerable<Article> result = MockKernel.Get<ArticleService>().Find(title);
 
             // assert
-            var expected = result.Count();
+            int expected = result.Count();
             Assert.AreEqual(expected, expectedCount);
         }
 
+        /// <summary>
+        /// Get articles from provider test.
+        /// </summary>
+        /// <param name="providerId">
+        /// The provider id.
+        /// </param>
+        /// <param name="expected">
+        /// The expected.
+        /// </param>
         [Category("ArticleService")]
-        [TestCase(1, TestName = "Should find articles by providerId = 1")]
-        [TestCase(4, TestName = "Shouldn't find any articles by providerId = 4")]
-        public void GetArticlesFromProviderTest(int providerId)
+        [TestCase(1, 1, TestName = "Should find articles by providerId = 1")]
+        [TestCase(4, 0, TestName = "Shouldn't find any articles by providerId = 4")]
+        public void GetArticlesFromProviderTest(int providerId, int expected)
         {
-
             var testArticles = new List<Article>
             {
-                new Article { Id = 1, Title = "article2" , IdNewsProvider = 1},
-                new Article { Id = 2, Title = "article 1",IdNewsProvider = 2 },
-                new Article { Id = 3, Title = "article1",IdNewsProvider = 3 },
-                new Article { Id = 3, Title = "article1",IdNewsProvider = 0 },
+                new Article { Id = 1, Title = "article2", IdNewsProvider = 1},
+                new Article { Id = 2, Title = "article 1", IdNewsProvider = 2 },
+                new Article { Id = 3, Title = "article1", IdNewsProvider = 3 },
+                new Article { Id = 3, Title = "article1", IdNewsProvider = 0 },
             };
             MockKernel.GetMock<IRepository<Article>>().Setup(_ => _.GetAll()).Returns(testArticles);
-            var result = MockKernel.Get<ArticleService>().GetArticlesFromProvider(providerId);
-            var enumerable = result as Article[] ?? result.ToArray();
+            IEnumerable<Article> result = MockKernel.Get<ArticleService>().GetArticlesFromProvider(providerId);
+            Article[] enumerable = result as Article[] ?? result.ToArray();
             if (providerId == 4) { Assert.IsEmpty(enumerable); } else { Assert.IsNotEmpty(enumerable); }
         }
 
@@ -139,7 +146,7 @@ namespace Penpusher.Test.Services
         [TestCase(4, TestName = "Should find 0 articles")]
         public void GetArticlesFromSelectedProvidersTest(int testcase)
         {
-            int expected = 0;
+            var expected = 0;
 
             var testUserProviders = new List<UserNewsProviderModels>();
             var model1 = new UserNewsProviderModels { Name = "provider1", IdNewsProvider = 1 };
@@ -160,11 +167,11 @@ namespace Penpusher.Test.Services
                 case 0:
                     break;
                 case 1:
-                    testUserProviders.AddRange(new List<UserNewsProviderModels>{ model1, model2});
+                    testUserProviders.AddRange(new List<UserNewsProviderModels> { model1, model2 });
                     expected = 2;
                     break;
                 case 2:
-                    testUserProviders.AddRange(new List<UserNewsProviderModels> { model1, model2, model3, model4});
+                    testUserProviders.AddRange(new List<UserNewsProviderModels> { model1, model2, model3, model4 });
                     expected = 4;
                     break;
                 case 3:
@@ -177,9 +184,9 @@ namespace Penpusher.Test.Services
             }
 
             MockKernel.GetMock<IRepository<Article>>().Setup(_ => _.GetAll()).Returns(testArticles);
-            var result = MockKernel.Get<ArticleService>().GetArticlesFromSelectedProviders(testUserProviders);
+            IEnumerable<Article> result = MockKernel.Get<ArticleService>().GetArticlesFromSelectedProviders(testUserProviders);
 
-            var enumerable = result as Article[] ?? result.ToArray();
+            Article[] enumerable = result as Article[] ?? result.ToArray();
             Assert.AreEqual(expected, enumerable.Length);
         }
     }

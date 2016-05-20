@@ -92,7 +92,7 @@ ul {
 }
 
 #content {
-    min-height: 400px;
+    min-height: 440px;
 }
  .side-bar-content {
      padding: 20px; 
@@ -149,6 +149,11 @@ text-align:center;
 
 }
 
+#articlesSubscription {
+    padding-left: 0 !important
+}
 
-
-
+.loadimage{
+    text-align: center;
+    padding-top: 50px;
+    }
