@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Moq;
 using Ninject;
@@ -39,9 +38,9 @@ namespace Penpusher.Test.Services
             // arrange
             var usernewsprovider = new List<UsersNewsProvider>()
             {
-                new UsersNewsProvider {Id = 1,IdNewsProvider = 1,IdUser = 1,NewsProvider = new NewsProvider(){Id = 1,Description = "firstfirstfirstfirstfirst",Name = "first"}},
-                new UsersNewsProvider{Id = 2,IdNewsProvider = 1,IdUser = 2,NewsProvider = new NewsProvider(){Id = 2,Description = "secondsecondsecondsecondsecond",Name = "second"}},
-                new UsersNewsProvider{Id = 3,IdNewsProvider = 3,IdUser = 1,NewsProvider = new NewsProvider(){Id = 3,Description = "thirdthirdthirdthirdthird",Name = "third"}}
+                new UsersNewsProvider { Id = 1, IdNewsProvider = 1, IdUser = 1, NewsProvider = new NewsProvider() { Id = 1, Description = "firstfirstfirstfirstfirst", Name = "first" } },
+                new UsersNewsProvider { Id = 2, IdNewsProvider = 1, IdUser = 2, NewsProvider = new NewsProvider() { Id = 2, Description = "secondsecondsecondsecond", Name = "second" } },
+                new UsersNewsProvider { Id = 3, IdNewsProvider = 3, IdUser = 1, NewsProvider = new NewsProvider() { Id = 3, Description = "thirdthirdthirdthirdthird", Name = "third" } }
             };
 
             MockKernel.GetMock<IRepository<UsersNewsProvider>>().Setup(rm => rm.GetAll()).Returns(usernewsprovider);
@@ -108,7 +107,7 @@ namespace Penpusher.Test.Services
                 .Setup(repo => repo.GetAll())
                 .Returns(new List<UsersNewsProvider>
                 {
-                    new UsersNewsProvider {Id = 1, IdNewsProvider = 2, IdUser = 1}
+                    new UsersNewsProvider { Id = 1, IdNewsProvider = 2, IdUser = 1 }
                 });
             MockKernel.GetMock<IRepository<UsersNewsProvider>>()
                 .Setup(repos => repos.Add(It.IsAny<UsersNewsProvider>()))
@@ -123,7 +122,6 @@ namespace Penpusher.Test.Services
 
         [Category("NewsProviderService")]
         [TestCase("link1", TestName = "Add new subscription and channel")]
-        //[TestCase("link3", TestName = "Add subscription that isn't in database")]
 
         public void AddSubscriptionAndChannelTest(string link)
         {
@@ -143,7 +141,7 @@ namespace Penpusher.Test.Services
                 .Setup(repo => repo.GetAll())
                 .Returns(new List<UsersNewsProvider>
                 {
-                    new UsersNewsProvider {Id = 1, IdNewsProvider = 2, IdUser = 1}
+                    new UsersNewsProvider { Id = 1, IdNewsProvider = 2, IdUser = 1 }
                 });
             MockKernel.GetMock<IRepository<UsersNewsProvider>>()
                 .Setup(repos => repos.Add(It.IsAny<UsersNewsProvider>()))
