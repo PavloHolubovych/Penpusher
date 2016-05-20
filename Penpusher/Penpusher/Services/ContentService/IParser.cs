@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace Penpusher.Services.ContentService
 {
     public interface IParser
     {
-        List<Article> Parse(string rss);
-
-        IEnumerable<string> GetFeed(string url);
+        List<Article> GetParsedArticles(XDocument rssDocument);
     }
 }

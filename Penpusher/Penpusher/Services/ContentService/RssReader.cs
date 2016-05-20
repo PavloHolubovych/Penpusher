@@ -9,12 +9,10 @@ namespace Penpusher.Services.ContentService
 {
     public class RssReader
     {
-        public IEnumerable<string> ReadFeed(string url)
+        public IEnumerable<XElement> ReadFeed(string url)
         {
             var rssFeed = XDocument.Load(url);
-            Console.Write(rssFeed);
-            var posts = from item in rssFeed.Descendants("item")
-                select item.Element("link").Value;
+            var posts = rssFeed.Descendants("item");
 
             return posts;
         }

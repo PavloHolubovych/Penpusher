@@ -6,24 +6,37 @@ using System.Xml.Linq;
 
 namespace Penpusher.Services.ContentService
 {
-    public class RSSParser: IParser
+    public class RSSParser : IParser
     {
-        public List<Article> Parse(string rss)
+        public List<Article> GetParsedArticles(XDocument rssDocument)
         {
-            var posts = GetFeed(rss);
-            foreach (var item in posts)
+            List<Article> parsedArticles = new List<Article>();
+            IEnumerable<XElement> rssArticles = rssDocument.Descendants("item");
+
+            foreach (XElement post in rssArticles)
+                parsedArticles.Add(ParseArticle(post));
+
+            return parsedArticles;
+        }
+
+        private Article ParseArticle(XElement post)
+        {
+            DateTime date;
+            if(!DateTime.TryParse((GetDescedantValue(post, "pubDate")), out date))
+                date = DateTime.Now;
+
+            return new Article()
             {
-                Console.WriteLine(item);
-            }
-
-            return new List<Article> {};
+                Description = GetDescedantValue(post, "description"),
+                Title = GetDescedantValue(post, "title"),
+                Date = date,
+                Link = GetDescedantValue(post, "link")
+            };
         }
 
-        public IEnumerable<string> GetFeed(string url)
+        private string GetDescedantValue(XElement post, string descedantName)
         {
-            return new RssReader().ReadFeed(@"http://feeds.feedburner.com/city-adm-lviv-ua?format=xml");
+            return post.Element(descedantName).Value;
         }
-
     }
 }
- 
