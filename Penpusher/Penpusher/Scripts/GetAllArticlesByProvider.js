@@ -6,7 +6,12 @@
             $.ajax({
                 url: apiController + providerId,
                 method: "GET",
-                success: function(data) {
+                beforeSend: function () {
+                    $('.articlesbySubscription').hide();
+                },
+                success: function (data) {
+                    $('.articlesbySubscription').show();
+                    $('.loadimage').hide();
                     for (var i = 0; i < data.length; i++) {
                         self.articles.push(
                             data[i]

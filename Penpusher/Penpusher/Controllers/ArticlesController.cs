@@ -14,9 +14,9 @@ namespace Penpusher.Controllers
         public ArticlesController(IArticleService articleService, IUsersArticlesService userArticlesService,
             INewsProviderService newsProviderService)
         {
-            _articleService = articleService;
-            _userArticlesService = userArticlesService;
-            _newsProviderService = newsProviderService;
+            this._articleService = articleService;
+            this._userArticlesService = userArticlesService;
+            this._newsProviderService = newsProviderService;
         }
 
         /// <summary>

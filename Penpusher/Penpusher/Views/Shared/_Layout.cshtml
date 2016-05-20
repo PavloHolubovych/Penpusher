@@ -31,14 +31,13 @@
             <li><button class="btn btn-primary myButton" data-bind='click: loadRead'>Read</button></li>
             <li>
                 <div class="selectDiv">
-                <label>Articles for one provider: </label>
-                <select data-bind='options: providers' id="sideBarSelect" class="styledselect">
-                    <option> </option>
-                </select>
+                    <label>Article for one provider: </label>
+                    <select data-bind="options: providers, optionsText: 'Name', optionsValue: 'Id',value: selectedProvider, optionsCaption: 'Choose...'" id="sideBarSelect" class="styledselect">
+                        <option> </option>
+                    </select>
                 </div>
             </li>
-
-            <li><button class="btn btn-primary myButton" data-bind='click: loadSubscriptions'>Manage content</button></li>
+            <li><button class="btn btn-primary myButton" onclick="ManageContentPage()">Manage content</button></li>
         </ul>
     </div>
     <div id="content">

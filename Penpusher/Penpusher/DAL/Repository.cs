@@ -8,11 +8,13 @@ namespace Penpusher.DAL
     class Repository<T> : IRepository<T> where T : class
     {
         private PenpusherDatabaseEntities EntitiesContext = new PenpusherDatabaseEntities();
+
         internal DbSet<T> DbSet;
 
         public Repository()
         {
             DbSet = EntitiesContext.Set<T>();
+            //EntitiesContext.Configuration.ProxyCreationEnabled = false;
         }
 
         public IEnumerable<T> GetAll()
