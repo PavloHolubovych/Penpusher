@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Web;
-    using System.Collections.Generic;
-    using System.Linq;
+using System.Collections.Generic;
+using System.Linq;
 using Penpusher.Models;
 using Penpusher.Services.Base;
 namespace Penpusher.Services
@@ -12,25 +12,25 @@ namespace Penpusher.Services
 
         private readonly IRepository<NewsProvider> newsProviderRepository;
 
-        private readonly IRepository<UsersNewsProvider> usersNewsProvider;
+        private readonly IRepository<UsersNewsProvider> usersNewsProviderRepository;
 
-        public NewsProviderService(IRepository<NewsProvider> repository, IRepository<UsersNewsProvider> usersNewsProvider)
+        public NewsProviderService(IRepository<NewsProvider> repository, IRepository<UsersNewsProvider> usersNewsProviderRepository)
         {
             newsProviderRepository = repository;
-            this.usersNewsProvider = usersNewsProvider;
+            this.usersNewsProviderRepository = usersNewsProviderRepository;
         }
 
 
         public IEnumerable<NewsProvider> GetAll()
         {
             IEnumerable<NewsProvider> newsprovider = newsProviderRepository.GetAll().Select(n => new NewsProvider
-                                                     {
-                                                         Id = n.Id, 
-                                                         Name = n.Name, 
-                                                         Description = n.Description, 
-                                                         Link = n.Link, 
-                                                         RssImage = n.RssImage, 
-                                                         SubscriptionDate = n.SubscriptionDate
+            {
+                Id = n.Id,
+                Name = n.Name,
+                Description = n.Description,
+                Link = n.Link,
+                RssImage = n.RssImage,
+                SubscriptionDate = n.SubscriptionDate
             });
 
             return newsprovider;
@@ -38,11 +38,11 @@ namespace Penpusher.Services
 
         public IEnumerable<UserNewsProviderModels> GetByUserId(int id)
         {
-            IEnumerable<UserNewsProviderModels> news = usersNewsProvider.GetAll().Where(_ => _.IdUser == id)
+            IEnumerable<UserNewsProviderModels> news = usersNewsProviderRepository.GetAll().Where(_ => _.IdUser == id)
                 .Select(un => new UserNewsProviderModels
                 {
                     Id = un.Id,
-                    IdNewsProvider=un.NewsProvider.Id,
+                    IdNewsProvider = un.NewsProvider.Id,
                     Name = un.NewsProvider.Name,
                     Description = un.NewsProvider.Description,
                     Link = un.NewsProvider.Link,
@@ -52,46 +52,35 @@ namespace Penpusher.Services
             return news;
         }
 
-        public NewsProvider AddNewsProvider(NewsProvider provider)
-        {
-
-            return newsProviderRepository.Add(provider); 
-        }
-
-
         public void DeleteNewsProvider(int id)
         {
-            usersNewsProvider.Delete(id);  
+            usersNewsProviderRepository.Delete(id);
         }
 
 
         public UsersNewsProvider AddSubscription(string link)
         {
             NewsProvider channel = newsProviderRepository.GetAll().FirstOrDefault(rm => rm.Link == link);
- 
+
             if (channel == null)
             {
                 channel = new NewsProvider
-            {
-                    Link = link, Name = "test", Description = "test", SubscriptionDate = DateTime.Today
+                {
+                    Link = link,
+                    Name = "test",
+                    Description = "test",
+                    SubscriptionDate = DateTime.Today
                 };
 
-                channel = AddNewsProvider(channel);
+                channel = newsProviderRepository.Add(channel);
             }
 
-            int subscription = usersNewsProvider.GetAll().Count(rm => rm.IdNewsProvider == channel.Id);
-
-            if (subscription == 0)
+            UsersNewsProvider subscription = usersNewsProviderRepository.GetAll().FirstOrDefault(rm => rm.IdNewsProvider == channel.Id);
+            return subscription ?? usersNewsProviderRepository.Add(new UsersNewsProvider
             {
-                return usersNewsProvider.Add(new UsersNewsProvider
-            {
-                    IdNewsProvider = channel.Id, 
-                    IdUser = 4
-                });
-            }
-
-                return new UsersNewsProvider();
-            }
+                IdNewsProvider = channel.Id,
+                IdUser = 4
+            });
         }
-
+    }
 }

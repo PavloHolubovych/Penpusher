@@ -42,17 +42,6 @@ namespace Penpusher.Services
         IEnumerable<UserNewsProviderModels> GetByUserId(int id);
 
         /// <summary>
-        /// The add news provider.
-        /// </summary>
-        /// <param name="newsProvider">
-        /// The news provider.
-        /// </param>
-        /// <returns>
-        /// The <see cref="NewsProvider"/>.
-        /// </returns>
-        NewsProvider AddNewsProvider(NewsProvider newsProvider);
-
-        /// <summary>
         /// The add subscription.
         /// </summary>
         /// <param name="link">
