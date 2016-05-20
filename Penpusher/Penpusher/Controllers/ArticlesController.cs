@@ -36,6 +36,12 @@ namespace Penpusher.Controllers
         }
 
         [HttpGet]
+        public void MarkAsRead(int userId, int articleId)
+        {
+            _userArticlesService.MarkAsRead(userId, articleId);
+        }
+
+        [HttpGet]
         public IEnumerable<Article> UserReadArticles(int userId)
         {
             var readArticles = _articleService.GetAllArticleses()

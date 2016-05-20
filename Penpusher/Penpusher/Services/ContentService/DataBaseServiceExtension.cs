@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Linq; 
+using System.Linq;
+using System.Xml.Linq;
 
 namespace Penpusher.Services.ContentService
 {
@@ -7,18 +8,25 @@ namespace Penpusher.Services.ContentService
     {
         private readonly IArticleService articleService;
         private readonly INewsProviderService newsProviderService;
+        private RSSParser rssParser;
         public DataBaseServiceExtension(IArticleService articleService, INewsProviderService newsProviderService)
         {
             this.articleService = articleService;
             this.newsProviderService = newsProviderService;
+            this.rssParser=new RSSParser();
         }
 
-        public void InserNewArticles(List<Article> articles)
+        public void InserNewArticles(List<XDocument> providers)
         {
-            foreach (Article article in articles)
+            foreach (var provider in providers)
             {
-                if (!articleService.CheckDoesExists(article.Link))
-                    articleService.AddArticle(article);
+                var parsedArticles = rssParser.GetParsedArticles(provider);
+                foreach (var article in parsedArticles)
+                {
+                    if (!articleService.CheckDoesExists(article.Link))
+                        articleService.AddArticle(article);
+                }
+               
             }
         }
 

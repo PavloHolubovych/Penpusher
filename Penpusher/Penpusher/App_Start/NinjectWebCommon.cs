@@ -41,7 +41,7 @@ namespace Penpusher
         /// Creates the kernel that will manage your application.
         /// </summary>
         /// <returns>The created kernel.</returns>
-        private static IKernel CreateKernel()
+        public static IKernel CreateKernel()
         {
             var kernel = new StandardKernel();
             try
@@ -67,7 +67,7 @@ namespace Penpusher
         /// <param name="kernel">The kernel.</param>
         private static void RegisterServices(IKernel kernel)
         {
-            kernel.Bind<IDbProvider>().To<SqlServerDbProvider>();
+
             kernel.Bind<IArticleService>().To<ArticleService>();
             kernel.Bind<IRepository<Article>>().To<Repository<Article>>();
             kernel.Bind<INewsProviderService>().To<NewsProviderService>();

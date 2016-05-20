@@ -31,20 +31,47 @@ namespace Penpusher.Services
 
         public override IEnumerable<Article> Find(string title)
         {
-            return this.repository.GetAll().Where(x => x.Title == title);
+            return this.repository.GetAll().Where(x => x.Title == title).Select(n => new Article()
+            {
+                Id = n.Id,
+                Title = n.Title,
+                Description = n.Description,
+                Link = n.Link,
+                Date = n.Date,
+            });
         }
 
+        /// <summary>
+        /// The get articles from provider.
+        /// </summary>
+        /// <param name="newsProviderId">
+        /// The news provider id.
+        /// </param>
+        /// <returns>
+        /// The <see>
+        ///         <cref>IEnumerable</cref>
+        ///     </see>
+        /// </returns>
         public IEnumerable<Article> GetArticlesFromProvider(int newsProviderId)
         {
-            //I changed this code for performance. Selected only necessary fields
-            //var vari = _repository.GetAll().Where(x => x.IdNewsProvider == newsProviderId).ToList();
+            // I changed this code for performance. Selected only necessary fields
+            // var vari = _repository.GetAll().Where(x => x.IdNewsProvider == newsProviderId).ToList();
             return this.repository.GetAll().Where(x => x.IdNewsProvider == newsProviderId).Select(o => new Article { Title = o.Title, Description = o.Description, Link = o.Link}).ToList();
         }
 
         public IEnumerable<Article> GetAllArticleses()
         {
-            return this.repository.GetAll();
+            return this.repository.GetAll().Select(n => new Article()
+            {
+                Id = n.Id,
+                Title = n.Title,
+                Description = n.Description,
+                Link = n.Link,
+                Date = n.Date,
+            });
         }
+
+      
 
         public IEnumerable<Article> GetArticlesFromSelectedProviders(IEnumerable<UserNewsProviderModels> newsProviders)
         {
