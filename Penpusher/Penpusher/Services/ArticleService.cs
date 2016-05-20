@@ -41,10 +41,21 @@ namespace Penpusher.Services
             });
         }
 
+        /// <summary>
+        /// The get articles from provider.
+        /// </summary>
+        /// <param name="newsProviderId">
+        /// The news provider id.
+        /// </param>
+        /// <returns>
+        /// The <see>
+        ///         <cref>IEnumerable</cref>
+        ///     </see>
+        /// </returns>
         public IEnumerable<Article> GetArticlesFromProvider(int newsProviderId)
         {
-            //I changed this code for performance. Selected only necessary fields
-            //var vari = _repository.GetAll().Where(x => x.IdNewsProvider == newsProviderId).ToList();
+            // I changed this code for performance. Selected only necessary fields
+            // var vari = _repository.GetAll().Where(x => x.IdNewsProvider == newsProviderId).ToList();
             return this.repository.GetAll().Where(x => x.IdNewsProvider == newsProviderId).Select(o => new Article { Title = o.Title, Description = o.Description, Link = o.Link}).ToList();
         }
 
