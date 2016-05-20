@@ -8,7 +8,6 @@ using Penpusher;
 using Penpusher.DAL;
 using Penpusher.Services;
 using Penpusher.Services.ContentService;
-using static Penpusher.Controllers.HomeController;
 
 [assembly: WebActivatorEx.PreApplicationStartMethod(typeof(NinjectWebCommon), "Start")]
 [assembly: WebActivatorEx.ApplicationShutdownMethodAttribute(typeof(NinjectWebCommon), "Stop")]
@@ -67,7 +66,6 @@ namespace Penpusher
         /// <param name="kernel">The kernel.</param>
         private static void RegisterServices(IKernel kernel)
         {
-
             kernel.Bind<IArticleService>().To<ArticleService>();
             kernel.Bind<IRepository<Article>>().To<Repository<Article>>();
             kernel.Bind<INewsProviderService>().To<NewsProviderService>();
