@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
-using System.Xml.Linq;
+using Penpusher.Models;
 
 namespace Penpusher.Services.ContentService
 {
     public interface IProviderTrackingService
     {
-        IEnumerable<XDocument> GetRssFromNewsProviders();
+        IEnumerable<RssChannelModel> GetUpdatedRssFilesFromNewsProviders();
     }
 }

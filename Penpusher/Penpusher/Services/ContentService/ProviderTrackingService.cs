@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Xml.Linq;
+using Penpusher.Models;
 
 namespace Penpusher.Services.ContentService
 {
@@ -15,19 +16,20 @@ namespace Penpusher.Services.ContentService
             this.newsProvidersService = newsProviderService;
         }
 
-        public IEnumerable<XDocument> GetRssFromNewsProviders()
+        public IEnumerable<RssChannelModel> GetUpdatedRssFilesFromNewsProviders()
         {
             IEnumerable<NewsProvider> providers = newsProvidersService.GetAll();
-            var rssCollection = new List<XDocument>();
+            var updatedRssChannells = new List<RssChannelModel>();
             foreach (NewsProvider provider in providers)
             {
-                XDocument rssFile = GetRssFile(provider.Link);
-                if (IsRssUpdated(provider.LastBuildDate, GetLastBuildDateForRss(rssFile)))
+                XDocument rssFile = GetRssFileByLink(provider.Link);
+                if (rssFile != null && IsRssUpdated(provider.LastBuildDate, GetLastBuildDateForRss(rssFile)))
                 {
-                    rssCollection.Add(rssFile);
+                    var updatedChannel = new RssChannelModel { ProviderId = provider.Id, RssFile = rssFile };
+                    updatedRssChannells.Add(updatedChannel);
                 }
             }
-            return rssCollection;
+            return updatedRssChannells;
         }
 
         // TODO: Vadym, +Testing
@@ -41,9 +43,17 @@ namespace Penpusher.Services.ContentService
         }
 
         // TODO: Testing?
-        private XDocument GetRssFile(string link)
+        private XDocument GetRssFileByLink(string link)
         {
-            XDocument rssFile = XDocument.Load(link);
+            XDocument rssFile = null;
+            try
+            {
+                rssFile = XDocument.Load(link);
+            }
+            catch
+            {
+                // ignored
+            }
             return rssFile;
         }
 
