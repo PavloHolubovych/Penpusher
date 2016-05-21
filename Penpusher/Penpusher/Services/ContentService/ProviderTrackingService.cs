@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Xml.Linq;
 
@@ -9,7 +10,7 @@ namespace Penpusher.Services.ContentService
     {
         private readonly INewsProviderService newsProvidersService;
 
-        private ProviderTrackingService(INewsProviderService newsProviderService)
+        public ProviderTrackingService(INewsProviderService newsProviderService)
         {
             this.newsProvidersService = newsProviderService;
         }
@@ -17,13 +18,11 @@ namespace Penpusher.Services.ContentService
         public IEnumerable<XDocument> GetRssFromNewsProviders()
         {
             IEnumerable<NewsProvider> providers = newsProvidersService.GetAll();
-            //return providers.Select(provider => GetRssFile(provider.Link)).Where(rssFile => IsRssUpdated(rssFile, provider)).ToList();
             var rssCollection = new List<XDocument>();
             foreach (NewsProvider provider in providers)
             {
                 XDocument rssFile = GetRssFile(provider.Link);
-                DateTime lastBuildDate = GetLastBuildDateForRss(rssFile);
-                if (IsRssUpdated(lastBuildDate, provider))
+                if (IsRssUpdated(provider.LastBuildDate, GetLastBuildDateForRss(rssFile)))
                 {
                     rssCollection.Add(rssFile);
                 }
@@ -31,10 +30,14 @@ namespace Penpusher.Services.ContentService
             return rssCollection;
         }
 
-        // TODO: Vadym, +add Field LastbuildDate for Entity NewsProvider in Db, Testing
-        private bool IsRssUpdated(DateTime lastBuildDate, NewsProvider provider) //params should be (lastBuildDate, provider.LastbuildDate)
+        // TODO: Vadym, +Testing
+        private bool IsRssUpdated(DateTime? previousLastBuilDate, DateTime? updatedLastBuildDate)
         {
-            return true;
+            if (updatedLastBuildDate == null || previousLastBuilDate == null)
+            {
+                return true;
+            }
+            return previousLastBuilDate < updatedLastBuildDate;
         }
 
         // TODO: Testing?
@@ -44,12 +47,18 @@ namespace Penpusher.Services.ContentService
             return rssFile;
         }
 
-        // TODO: Max
-        private DateTime GetLastBuildDateForRss(XDocument rssFile)
+        // TODO: Max, rss1.0 (rdf) - has no tag LastBuildDate, rss2.0 = ok: for rss1.0 use null
+        private DateTime? GetLastBuildDateForRss(XDocument rssFile)
         {
-            var someDate = "ufiou";
-            ParseDateTimeFormat(someDate);
-            return DateTime.Now;
+            var someDate = "date"; 
+            
+            //var someDate = rssParser.GetLastBuildDate(rssFile);
+            //if (someDate == null)
+            //{
+            //    return null;
+            //}
+
+            return ParseDateTimeFormat(someDate);
         }
 
         // TODO: Max

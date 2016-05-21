@@ -19,17 +19,18 @@ namespace Penpusher.Services
 
         public IEnumerable<NewsProvider> GetAll()
         {
-            IEnumerable<NewsProvider> newsprovider = _newsProviderRepository.GetAll().Select(n => new NewsProvider
+            IEnumerable<NewsProvider> newsproviders = _newsProviderRepository.GetAll().Select(n => new NewsProvider
             {
                 Id = n.Id,
                 Name = n.Name,
                 Description = n.Description,
                 Link = n.Link,
                 RssImage = n.RssImage,
-                SubscriptionDate = n.SubscriptionDate
+                SubscriptionDate = n.SubscriptionDate,
+                LastBuildDate = n.LastBuildDate
             });
 
-            return newsprovider;
+            return newsproviders;
         }
 
         public IEnumerable<UserNewsProviderModels> GetByUserId(int id)
