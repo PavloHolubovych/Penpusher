@@ -32,7 +32,7 @@ namespace Penpusher.Services.ContentService
             return updatedRssChannells;
         }
 
-        // TODO: Vadym, +Testing
+        // TODO: Vadym, Testing
         private bool IsRssUpdated(DateTime? previousLastBuilDate, DateTime? updatedLastBuildDate)
         {
             if (updatedLastBuildDate == null || previousLastBuilDate == null)
@@ -42,7 +42,7 @@ namespace Penpusher.Services.ContentService
             return previousLastBuilDate < updatedLastBuildDate;
         }
 
-        // TODO: Testing?
+        // TODO: Done
         private XDocument GetRssFileByLink(string link)
         {
             XDocument rssFile = null;
