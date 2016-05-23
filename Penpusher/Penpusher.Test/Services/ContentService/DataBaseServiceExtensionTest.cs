@@ -4,6 +4,7 @@ using System.Xml.Linq;
 using Moq;
 using Ninject;
 using NUnit.Framework;
+using Penpusher.Models;
 using Penpusher.Services;
 using Penpusher.Services.ContentService;
 
@@ -24,8 +25,9 @@ namespace Penpusher.Test.Services.ContentService
         [TestCase(TestName = "For existing user, that has read articles")]
         public void InsertNewArticle()
         {
-            var rssDocument = new List<XDocument>()
+            var rssDocument = new List<RssChannelModel>()
             {
+                new RssChannelModel() { RssFile = 
                 new  XDocument(
                     new XElement("rss", new XAttribute("version", "2.0"),
                     new XElement("chanel",
@@ -46,7 +48,8 @@ namespace Penpusher.Test.Services.ContentService
                         new XElement("link", "Test link3"),
                         new XElement("description", "Test Description"),
                         new XElement("pubDate", "Mon, 23 May 2016 00:00:00 -0500"))))
-                    };
+                    , ProviderId = 1}};
+                
 
             var expected = new List<Article>()
             {
@@ -59,7 +62,7 @@ namespace Penpusher.Test.Services.ContentService
                 new Article() { Title = "title1"}
             };
             MockKernel.GetMock<IParser>()
-                .Setup(parser => parser.GetParsedArticles(It.IsAny<XDocument>()))
+                .Setup(parser => parser.GetParsedArticles(It.IsAny<RssChannelModel>()))
                 .Returns((XDocument doc) =>
                 {
                    var testList= new List<Article>()
@@ -94,7 +97,7 @@ namespace Penpusher.Test.Services.ContentService
             MockKernel.GetMock<IArticleService>()
                 .Setup(artServ => artServ.AddArticle(It.IsAny<Article>()))
                 .Callback((Article article) => { repository.Add(article); });
-            MockKernel.Get<IDataBaseServiceExtension>().InserNewArticles(rssDocument, 1);
+            MockKernel.Get<IDataBaseServiceExtension>().InsertNewArticles(rssDocument);
             Assert.AreEqual(repository[repository.Count - 1].Title, expected[expected.Count - 1].Title);
         }
     }
