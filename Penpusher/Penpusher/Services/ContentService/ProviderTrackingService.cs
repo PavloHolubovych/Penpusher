@@ -9,16 +9,17 @@ namespace Penpusher.Services.ContentService
 {
     public class ProviderTrackingService : IProviderTrackingService
     {
-        private readonly INewsProviderService newsProvidersService;
+        private readonly IRepository<NewsProvider> newsProviderRepository;
 
-        public ProviderTrackingService(INewsProviderService newsProviderService)
+
+        public ProviderTrackingService(IRepository<NewsProvider> newsProviderRepository)
         {
-            this.newsProvidersService = newsProviderService;
+            this.newsProviderRepository = newsProviderRepository;
         }
 
         public IEnumerable<RssChannelModel> GetUpdatedRssFilesFromNewsProviders()
         {
-            IEnumerable<NewsProvider> providers = newsProvidersService.GetAll();
+            IEnumerable<NewsProvider> providers = newsProviderRepository.GetAll();
             var updatedRssChannells = new List<RssChannelModel>();
             foreach (NewsProvider provider in providers)
             {
