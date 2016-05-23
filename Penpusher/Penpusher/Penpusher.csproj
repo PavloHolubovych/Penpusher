@@ -331,6 +331,7 @@
     <Compile Include="Services\ContentService\DataBaseServiceExtension.cs" />
     <Compile Include="Services\ContentService\IParser.cs" />
     <Compile Include="Services\ContentService\IProviderTrackingService.cs" />
+    <Compile Include="Services\ContentService\IRssReader.cs" />
     <Compile Include="Services\ContentService\ProviderTrackingService.cs" />
     <Compile Include="Services\ContentService\RSSParser.cs" />
     <Compile Include="Services\ContentService\RssReader.cs" />

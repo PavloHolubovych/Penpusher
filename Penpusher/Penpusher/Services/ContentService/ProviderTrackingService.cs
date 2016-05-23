@@ -10,10 +10,12 @@ namespace Penpusher.Services.ContentService
     public class ProviderTrackingService : IProviderTrackingService
     {
         private readonly INewsProviderService newsProvidersService;
+        private readonly IRssReader rssReader;
 
-        public ProviderTrackingService(INewsProviderService newsProviderService)
+        public ProviderTrackingService(INewsProviderService newsProviderService, IRssReader rssReader)
         {
             this.newsProvidersService = newsProviderService;
+            this.rssReader = rssReader;
         }
 
         public IEnumerable<RssChannelModel> GetUpdatedRssFilesFromNewsProviders()
@@ -22,7 +24,7 @@ namespace Penpusher.Services.ContentService
             var updatedRssChannells = new List<RssChannelModel>();
             foreach (NewsProvider provider in providers)
             {
-                XDocument rssFile = GetRssFileByLink(provider.Link);
+                XDocument rssFile = rssReader.GetRssFileByLink(provider.Link);
                 if (rssFile != null && IsRssUpdated(provider.LastBuildDate, GetLastBuildDateForRss(rssFile)))
                 {
                     var updatedChannel = new RssChannelModel { ProviderId = provider.Id, RssFile = rssFile };
@@ -40,21 +42,6 @@ namespace Penpusher.Services.ContentService
                 return true;
             }
             return previousLastBuilDate < updatedLastBuildDate;
-        }
-
-        // TODO: Done
-        private XDocument GetRssFileByLink(string link)
-        {
-            XDocument rssFile = null;
-            try
-            {
-                rssFile = XDocument.Load(link);
-            }
-            catch
-            {
-                // ignored
-            }
-            return rssFile;
         }
 
         // TODO: Max, rss1.0 (rdf) - has no tag LastBuildDate, rss2.0 = ok: for rss1.0 use null

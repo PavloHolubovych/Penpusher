@@ -75,6 +75,7 @@ namespace Penpusher
             kernel.Bind<IRepository<UsersArticle>>().To<Repository<UsersArticle>>();
             kernel.Bind<IParser>().To<RSSParser>();
             kernel.Bind<IProviderTrackingService>().To<ProviderTrackingService>();
+            kernel.Bind<IRssReader>().To<RssReader>();
         }
     }
 }
