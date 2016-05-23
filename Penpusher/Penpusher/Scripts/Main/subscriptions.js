@@ -18,13 +18,15 @@
                 type: "POST",
                 //contentType: 'application/json; charset=utf-8',
                 data: newsProvider,
-                success: function () {
+                success: function() {
                     //self.newsproviders(data);
                     //console.log(data);
                     //alert('data.result');
                     //console.log(data.result);
                 }
+                
             });
+            window.location.reload(true);
         };
 
         self.removeNewsProvider = function (newsprovider) {
