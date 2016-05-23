@@ -6,5 +6,7 @@ namespace Penpusher.Services
     {
         IEnumerable<UsersArticle> GetUsersReadArticles(int userId);
         void MarkAsRead(int userId, int articleId);
+
+
     }
 }

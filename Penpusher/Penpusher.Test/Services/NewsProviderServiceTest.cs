@@ -17,6 +17,7 @@ namespace Penpusher.Test.Services
             base.Initialize();
             MockKernel.Bind<INewsProviderService>().To<NewsProviderService>();
             MockKernel.GetMock<IRepository<UsersNewsProvider>>().Reset();
+
         }
 
         /// <summary>

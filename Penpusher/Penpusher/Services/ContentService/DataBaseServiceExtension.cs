@@ -1,32 +1,34 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
+using Penpusher.Models;
 
 namespace Penpusher.Services.ContentService
 {
-    public class DataBaseServiceExtension
+    public class DataBaseServiceExtension : IDataBaseServiceExtension
     {
         private readonly IArticleService articleService;
         private readonly INewsProviderService newsProviderService;
-        private RSSParser rssParser;
+        private RssParser rssParser;
         public DataBaseServiceExtension(IArticleService articleService, INewsProviderService newsProviderService)
         {
             this.articleService = articleService;
             this.newsProviderService = newsProviderService;
-            this.rssParser=new RSSParser();
+            this.rssParser=new RssParser();
         }
 
-        public void InserNewArticles(List<XDocument> providers)
+        public void InsertNewArticles(IEnumerable<RssChannelModel> rssChannels)
         {
-            foreach (var provider in providers)
+            foreach (RssChannelModel provider in rssChannels)
             {
                 var parsedArticles = rssParser.GetParsedArticles(provider);
-                foreach (var article in parsedArticles)
+                foreach (Article article in parsedArticles)
                 {
                     if (!articleService.CheckDoesExists(article.Link))
+                    {
                         articleService.AddArticle(article);
+                    }
                 }
-               
             }
         }
 
