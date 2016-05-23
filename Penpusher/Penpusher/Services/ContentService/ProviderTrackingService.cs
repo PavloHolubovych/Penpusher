@@ -42,7 +42,7 @@ namespace Penpusher.Services.ContentService
                 XDocument rssFile = rssReader.GetRssFileByLink(provider.Link);
                 if (rssFile != null && IsRssUpdated(provider.LastBuildDate, GetLastBuildDateForRss(rssFile)))
                 {
-                    var updatedChannel = new RssChannelModel { ProviderId = provider.Id, RssFile = rssFile };
+                    var updatedChannel = new RssChannelModel { ProviderId = provider.Id, RssFile = rssFile, LastBuildDate = provider.LastBuildDate };
                     updatedRssChannells.Add(updatedChannel);
                 }
             }
