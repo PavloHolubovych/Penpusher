@@ -20,7 +20,7 @@ namespace Penpusher.Test.Services.ContentService
         }
 
         [Category("RssParser")]
-        [TestCase()]
+        [TestCase(TestName = "Checks correct rss parsing")]
         public void GetParsedArticlesTest()
         {
             var rssModel = new RssChannelModel()

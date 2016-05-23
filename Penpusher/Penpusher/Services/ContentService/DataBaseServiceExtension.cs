@@ -5,7 +5,7 @@ using Penpusher.Models;
 
 namespace Penpusher.Services.ContentService
 {
-    public class DataBaseServiceExtension
+    public class DataBaseServiceExtension : IDataBaseServiceExtension
     {
         private readonly IArticleService articleService;
         private readonly INewsProviderService newsProviderService;
