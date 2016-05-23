@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using Penpusher.Models;
 
 namespace Penpusher.Services.ContentService
 {
     public interface IParser
     {
-        List<Article> GetParsedArticles(XDocument rssDocument);
+        IEnumerable<Article> GetParsedArticles(RssChannelModel rssModel);
     }
 }

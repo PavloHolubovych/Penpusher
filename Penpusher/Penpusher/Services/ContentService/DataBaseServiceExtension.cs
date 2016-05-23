@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
+using Penpusher.Models;
 
 namespace Penpusher.Services.ContentService
 {
@@ -16,17 +17,18 @@ namespace Penpusher.Services.ContentService
             this.rssParser=new RssParser();
         }
 
-        public void InserNewArticles(List<XDocument> providers)
+        public void InsertNewArticles(IEnumerable<RssChannelModel> rssChannels)
         {
-            foreach (var provider in providers)
+            foreach (RssChannelModel provider in rssChannels)
             {
                 var parsedArticles = rssParser.GetParsedArticles(provider);
-                foreach (var article in parsedArticles)
+                foreach (Article article in parsedArticles)
                 {
                     if (!articleService.CheckDoesExists(article.Link))
+                    {
                         articleService.AddArticle(article);
+                    }
                 }
-               
             }
         }
 
