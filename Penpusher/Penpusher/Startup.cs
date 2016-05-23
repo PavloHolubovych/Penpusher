@@ -39,7 +39,7 @@ namespace Penpusher
             app.UseHangfireDashboard("/jobsArticles", options);
             config.MapHttpAttributeRoutes();
             ConfigureAuth(app);
-            //StartJob.JobSyncArticles();
+            StartJob.JobSyncArticles();
         }
     }
 }

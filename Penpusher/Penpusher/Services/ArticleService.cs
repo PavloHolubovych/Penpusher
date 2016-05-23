@@ -19,6 +19,11 @@ namespace Penpusher.Services
             return this.repository.Add(article);
         }
 
+        //public Article AddArticle()
+        //{
+        //    return AddArticle(new Article({}));
+        //}
+
         public Article GetById(int id)
         {
             return this.repository.GetAll().FirstOrDefault(x => x.Id == id);

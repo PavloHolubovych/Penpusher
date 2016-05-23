@@ -7,8 +7,6 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using Penpusher.Services.ContentService;
-
 namespace Penpusher
 {
     using System;
@@ -37,11 +35,10 @@ namespace Penpusher
             NewsProvider provider = providerService.GetAll().ToArray()[0];
 
             RecurringJob.AddOrUpdate(
-                "test job service",
+                "test job service1",
                 () => artService.AddArticle(
-               new Article{
-                   Id = 177,
-                   NewsProvider = provider,
+               new Article
+               {
                    Date = DateTime.Now,
                    Description = "Ti mayesh vzletiti krihitko!",
                    IdNewsProvider = provider.Id,
