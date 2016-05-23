@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
+using System.Globalization;
 using System.Xml.Linq;
 using Penpusher.Models;
 
@@ -9,17 +8,16 @@ namespace Penpusher.Services.ContentService
 {
     public class ProviderTrackingService : IProviderTrackingService
     {
-        private readonly IRepository<NewsProvider> newsProviderRepository;
+        private readonly INewsProviderService newsProvidersService;
 
-
-        public ProviderTrackingService(IRepository<NewsProvider> newsProviderRepository)
+        public ProviderTrackingService(INewsProviderService newsProviderService)
         {
-            this.newsProviderRepository = newsProviderRepository;
+            newsProvidersService = newsProviderService;
         }
 
         public IEnumerable<RssChannelModel> GetUpdatedRssFilesFromNewsProviders()
         {
-            IEnumerable<NewsProvider> providers = newsProviderRepository.GetAll();
+            IEnumerable<NewsProvider> providers = newsProvidersService.GetAll();
             var updatedRssChannells = new List<RssChannelModel>();
             foreach (NewsProvider provider in providers)
             {
@@ -33,7 +31,6 @@ namespace Penpusher.Services.ContentService
             return updatedRssChannells;
         }
 
-        // TODO: Vadym, Testing
         private bool IsRssUpdated(DateTime? previousLastBuilDate, DateTime? updatedLastBuildDate)
         {
             if (updatedLastBuildDate == null || previousLastBuilDate == null)
@@ -43,7 +40,6 @@ namespace Penpusher.Services.ContentService
             return previousLastBuilDate < updatedLastBuildDate;
         }
 
-        // TODO: Done
         private XDocument GetRssFileByLink(string link)
         {
             XDocument rssFile = null;
@@ -58,24 +54,35 @@ namespace Penpusher.Services.ContentService
             return rssFile;
         }
 
-        // TODO: Max, rss1.0 (rdf) - has no tag LastBuildDate, rss2.0 = ok: for rss1.0 use null
         private DateTime? GetLastBuildDateForRss(XDocument rssFile)
         {
-            var someDate = "date"; 
-            
-            //var someDate = rssParser.GetLastBuildDate(rssFile);
-            //if (someDate == null)
-            //{
-            //    return null;
-            //}
+            string content = rssFile.ToString();
+            XElement rootElement = XDocument.Parse(content).Root;
+                if (rootElement != null)
+                {
+                    var lastBuild = (string)rootElement.Element("channel")
+                        .Element("lastBuildDate");
+                    if (lastBuild != null)
+                    {
+                        return ParseDateTimeFormat(lastBuild);
+                    }
 
-            return ParseDateTimeFormat(someDate);
+                var lastpubDate = (string)rootElement.Element("channel")
+                            .Element("pubDate");
+                if (lastpubDate != null)
+                {
+                    return ParseDateTimeFormat(lastpubDate);
+                }
+                    ////return null;
+                }
+            return null;
         }
 
-        // TODO: Max
         private DateTime ParseDateTimeFormat(string date)
         {
-            return DateTime.Now;
+            string dt = DateTime.ParseExact(date, @"ddd, dd MMM yyyy HH:mm:ss zzz", CultureInfo.InvariantCulture).ToString("MM/dd/yyyy HH:mm:ss");
+            DateTime newdate = Convert.ToDateTime(dt);
+            return newdate;
         }
     }
 }
