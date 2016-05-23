@@ -332,7 +332,7 @@
     <Compile Include="Services\ContentService\IParser.cs" />
     <Compile Include="Services\ContentService\IProviderTrackingService.cs" />
     <Compile Include="Services\ContentService\ProviderTrackingService.cs" />
-    <Compile Include="Services\ContentService\RSSParser.cs" />
+    <Compile Include="Services\ContentService\RssParser.cs" />
     <Compile Include="Services\ContentService\RssReader.cs" />
     <Compile Include="Services\IArticleService.cs" />
     <Compile Include="DAL\IRepository.cs" />

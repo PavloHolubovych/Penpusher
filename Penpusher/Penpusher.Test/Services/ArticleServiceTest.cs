@@ -41,9 +41,6 @@ namespace Penpusher.Test.Services
         /// The title.
         /// </param>
         /// <param name="expected"></param>
-        /// <returns>
-        /// The <see cref="bool"/>.
-        /// </returns>
         [Category("ArticleService")]
         [TestCase("my title", true, TestName = "CheckDoesExists title exists")]
         [TestCase("my title123321", false, TestName = "CheckDoesExists title is missing ")]

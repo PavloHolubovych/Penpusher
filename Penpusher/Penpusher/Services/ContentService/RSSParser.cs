@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Xml.Linq;
 
 namespace Penpusher.Services.ContentService
 {
-    public class RSSParser : IParser
+    public class RssParser : IParser
     {
         public List<Article> GetParsedArticles(XDocument rssDocument)
         {
@@ -30,13 +28,17 @@ namespace Penpusher.Services.ContentService
                 Description = GetDescedantValue(post, "description"),
                 Title = GetDescedantValue(post, "title"),
                 Date = date,
-                Link = GetDescedantValue(post, "link")
+                Link = GetDescedantValue(post, "link"),
+                Id = 0,
+                IdNewsProvider = 0,
+                UsersArticles = null,
+                NewsProvider = null
             };
         }
 
         private string GetDescedantValue(XElement post, string descedantName)
         {
-            return post.Element(descedantName).Value;
+            return post.Element(descedantName)?.Value;
         }
     }
 }

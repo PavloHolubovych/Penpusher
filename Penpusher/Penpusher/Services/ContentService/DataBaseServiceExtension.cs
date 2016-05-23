@@ -8,12 +8,12 @@ namespace Penpusher.Services.ContentService
     {
         private readonly IArticleService articleService;
         private readonly INewsProviderService newsProviderService;
-        private RSSParser rssParser;
+        private RssParser rssParser;
         public DataBaseServiceExtension(IArticleService articleService, INewsProviderService newsProviderService)
         {
             this.articleService = articleService;
             this.newsProviderService = newsProviderService;
-            this.rssParser=new RSSParser();
+            this.rssParser=new RssParser();
         }
 
         public void InserNewArticles(List<XDocument> providers)
