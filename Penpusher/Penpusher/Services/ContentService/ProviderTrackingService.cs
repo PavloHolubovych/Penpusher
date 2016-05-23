@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Xml.Linq;
 using Penpusher.Models;
 
@@ -8,13 +10,27 @@ namespace Penpusher.Services.ContentService
 {
     public class ProviderTrackingService : IProviderTrackingService
     {
+        private readonly IDataBaseServiceExtension dbServiceExtension;
         private readonly INewsProviderService newsProvidersService;
         private readonly IRssReader rssReader;
 
-        public ProviderTrackingService(INewsProviderService newsProviderService, IRssReader rssReader)
+        public ProviderTrackingService(
+            IDataBaseServiceExtension dbServiceExtension,
+            INewsProviderService newsProviderService,
+            IRssReader rssReader)
         {
+            this.dbServiceExtension = dbServiceExtension;
             this.newsProvidersService = newsProviderService;
             this.rssReader = rssReader;
+        }
+
+        public void UpdateArticlesFromNewsProviders()
+        {
+            List<RssChannelModel> updatedRssChannells = GetUpdatedRssFilesFromNewsProviders().ToList();
+            if (updatedRssChannells.Count > 0)
+            {
+                dbServiceExtension.InsertNewArticles(updatedRssChannells);
+            }
         }
 
         public IEnumerable<RssChannelModel> GetUpdatedRssFilesFromNewsProviders()
@@ -42,7 +58,7 @@ namespace Penpusher.Services.ContentService
             return previousLastBuilDate < updatedLastBuildDate;
         }
 
-        // TODO: Max, rss1.0 (rdf) - has no tag LastBuildDate, rss2.0 = ok: for rss1.0 use null
+        // TODO: try/catch
         private DateTime? GetLastBuildDateForRss(XDocument rssFile)
         {
             string content = rssFile.ToString();
@@ -51,7 +67,7 @@ namespace Penpusher.Services.ContentService
                 {
                     var lastBuild = (string)rootElement.Element("channel")
                         .Element("lastBuildDate");
-                    if (lastBuild != null)
+                if (lastBuild != null)
                     {
                         return ParseDateTimeFormat(lastBuild);
                     }
@@ -67,6 +83,7 @@ namespace Penpusher.Services.ContentService
             return null;
         }
 
+        // TODO: try/catch
         private DateTime ParseDateTimeFormat(string date)
         {
             string dt = DateTime.ParseExact(date, @"ddd, dd MMM yyyy HH:mm:ss zzz", CultureInfo.InvariantCulture).ToString("MM/dd/yyyy HH:mm:ss");
