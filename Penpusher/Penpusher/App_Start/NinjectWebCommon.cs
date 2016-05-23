@@ -25,7 +25,7 @@ namespace Penpusher
         {
             DynamicModuleUtility.RegisterModule(typeof(OnePerRequestHttpModule));
             DynamicModuleUtility.RegisterModule(typeof(NinjectHttpModule));
-            Bootstrapper.Initialize(CreateKernel);
+            Bootstrapper.Initialize(() => GetKernel);
         }
 
         /// <summary>
@@ -35,12 +35,15 @@ namespace Penpusher
         {
             Bootstrapper.ShutDown();
         }
+        private static Lazy<IKernel> kernelFactoryLazy = new Lazy<IKernel>(CreateKernel);
+
+        public static IKernel GetKernel => kernelFactoryLazy.Value;
 
         /// <summary>
         /// Creates the kernel that will manage your application.
         /// </summary>
         /// <returns>The created kernel.</returns>
-        public static IKernel CreateKernel()
+        private static IKernel CreateKernel()
         {
             var kernel = new StandardKernel();
             try

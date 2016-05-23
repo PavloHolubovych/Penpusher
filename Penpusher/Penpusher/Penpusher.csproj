@@ -340,6 +340,7 @@
     <Compile Include="Services\IUsersArticlesService.cs" />
     <Compile Include="Services\NewsProviderService.cs" />
     <Compile Include="Services\UsersArticlesService.cs" />
+    <Compile Include="StartJob.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="User.cs">
       <DependentUpon>PenpusherEntityDatabase.tt</DependentUpon>
