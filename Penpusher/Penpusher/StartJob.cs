@@ -7,6 +7,9 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System.Web;
+using Owin;
+using Penpusher.DAL;
 using Penpusher.Services.ContentService;
 
 namespace Penpusher
@@ -30,24 +33,20 @@ namespace Penpusher
         /// The job for syncronize articles.
         /// </summary>
         [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "Reviewed. Suppression is OK here.")]
-        public static void JobSyncArticles()
+        public static void InitHangfire(this IAppBuilder app)
         {
-            var artService = NinjectWebCommon.GetKernel.Get<IArticleService>();
-            var providerService = NinjectWebCommon.GetKernel.Get<INewsProviderService>();
-            NewsProvider provider = providerService.GetAll().ToArray()[0];
+            var options = new DashboardOptions { AppPath = VirtualPathUtility.ToAbsolute("~") };
+            app.UseHangfireDashboard("/jobsArticles", options);
+            app.UseHangfireServer(new BackgroundJobServerOptions
+            {
+                Activator = new NinjectJobActivator(NinjectWebCommon.Kernel),
+                ServerName = "Kvach server"
 
+            });
+            var artService = new ArticleService(new Repository<Article>());
             RecurringJob.AddOrUpdate(
-                "test job service",
-                () => artService.AddArticle(
-               new Article{
-                   Id = 177,
-                   NewsProvider = provider,
-                   Date = DateTime.Now,
-                   Description = "Ti mayesh vzletiti krihitko!",
-                   IdNewsProvider = provider.Id,
-                   Link = "Link to sky",
-                   Title = "From job"
-               }),
+                "test add new article",
+                () => artService.AddArticle(),
                 Cron.Daily);
         }
     }
