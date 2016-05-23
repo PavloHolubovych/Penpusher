@@ -318,7 +318,6 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
-    <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -332,7 +331,7 @@
     <Compile Include="Services\ContentService\IParser.cs" />
     <Compile Include="Services\ContentService\IProviderTrackingService.cs" />
     <Compile Include="Services\ContentService\ProviderTrackingService.cs" />
-    <Compile Include="Services\ContentService\RSSParser.cs" />
+    <Compile Include="Services\ContentService\RssParser.cs" />
     <Compile Include="Services\ContentService\RssReader.cs" />
     <Compile Include="Services\IArticleService.cs" />
     <Compile Include="DAL\IRepository.cs" />
@@ -340,6 +339,7 @@
     <Compile Include="Services\IUsersArticlesService.cs" />
     <Compile Include="Services\NewsProviderService.cs" />
     <Compile Include="Services\UsersArticlesService.cs" />
+    <Compile Include="StartJob.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="User.cs">
       <DependentUpon>PenpusherEntityDatabase.tt</DependentUpon>
@@ -403,6 +403,7 @@
     <Content Include="Scripts\UserReadArticleScript.js" />
     <Content Include="Scripts\_LayoutScript.js" />
     <Content Include="Scripts\_references.js" />
+    <Compile Include="Services\ContentService\IDataBaseServiceExtension.cs" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

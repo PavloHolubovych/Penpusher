@@ -25,7 +25,7 @@ namespace Penpusher
         {
             DynamicModuleUtility.RegisterModule(typeof(OnePerRequestHttpModule));
             DynamicModuleUtility.RegisterModule(typeof(NinjectHttpModule));
-            Bootstrapper.Initialize(CreateKernel);
+            Bootstrapper.Initialize(() => GetKernel);
         }
 
         /// <summary>
@@ -35,12 +35,15 @@ namespace Penpusher
         {
             Bootstrapper.ShutDown();
         }
+        private static Lazy<IKernel> kernelFactoryLazy = new Lazy<IKernel>(CreateKernel);
+
+        public static IKernel GetKernel => kernelFactoryLazy.Value;
 
         /// <summary>
         /// Creates the kernel that will manage your application.
         /// </summary>
         /// <returns>The created kernel.</returns>
-        public static IKernel CreateKernel()
+        private static IKernel CreateKernel()
         {
             var kernel = new StandardKernel();
             try
@@ -48,7 +51,8 @@ namespace Penpusher
                 kernel.Bind<Func<IKernel>>().ToMethod(ctx => () => new Bootstrapper().Kernel);
                 kernel.Bind<IHttpModule>().To<HttpApplicationInitializationHttpModule>();
 
-                GlobalConfiguration.Configuration.DependencyResolver = kernel.Get<System.Web.Http.Dependencies.IDependencyResolver>();
+                GlobalConfiguration.Configuration.DependencyResolver =
+                    kernel.Get<System.Web.Http.Dependencies.IDependencyResolver>();
                 RegisterServices(kernel);
 
                 return kernel;
@@ -73,8 +77,9 @@ namespace Penpusher
             kernel.Bind<IRepository<UsersNewsProvider>>().To<Repository<UsersNewsProvider>>();
             kernel.Bind<IUsersArticlesService>().To<UsersArticlesService>();
             kernel.Bind<IRepository<UsersArticle>>().To<Repository<UsersArticle>>();
-            kernel.Bind<IParser>().To<RSSParser>();
+            kernel.Bind<IParser>().To<RssParser>();
             kernel.Bind<IProviderTrackingService>().To<ProviderTrackingService>();
+            kernel.Bind<IDataBaseServiceExtension>().To<DataBaseServiceExtension>();
         }
     }
 }
