@@ -35,11 +35,10 @@ namespace Penpusher
         public void Configuration(IAppBuilder app)
         {
             var config = new HttpConfiguration();
-            var options = new DashboardOptions { AppPath = VirtualPathUtility.ToAbsolute("~") };
-            app.UseHangfireDashboard("/jobsArticles", options);
+            
             config.MapHttpAttributeRoutes();
             ConfigureAuth(app);
-            //StartJob.JobSyncArticles();
+            app.InitHangfire();
         }
     }
 }

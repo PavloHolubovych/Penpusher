@@ -25,7 +25,7 @@ namespace Penpusher
         {
             DynamicModuleUtility.RegisterModule(typeof(OnePerRequestHttpModule));
             DynamicModuleUtility.RegisterModule(typeof(NinjectHttpModule));
-            Bootstrapper.Initialize(() => GetKernel);
+            Bootstrapper.Initialize(() => Kernel);
         }
 
         /// <summary>
@@ -37,7 +37,7 @@ namespace Penpusher
         }
         private static Lazy<IKernel> kernelFactoryLazy = new Lazy<IKernel>(CreateKernel);
 
-        public static IKernel GetKernel => kernelFactoryLazy.Value;
+        public static IKernel Kernel => kernelFactoryLazy.Value;
 
         /// <summary>
         /// Creates the kernel that will manage your application.
@@ -51,7 +51,8 @@ namespace Penpusher
                 kernel.Bind<Func<IKernel>>().ToMethod(ctx => () => new Bootstrapper().Kernel);
                 kernel.Bind<IHttpModule>().To<HttpApplicationInitializationHttpModule>();
 
-                GlobalConfiguration.Configuration.DependencyResolver = kernel.Get<System.Web.Http.Dependencies.IDependencyResolver>();
+                GlobalConfiguration.Configuration.DependencyResolver =
+                    kernel.Get<System.Web.Http.Dependencies.IDependencyResolver>();
                 RegisterServices(kernel);
 
                 return kernel;
@@ -78,6 +79,7 @@ namespace Penpusher
             kernel.Bind<IRepository<UsersArticle>>().To<Repository<UsersArticle>>();
             kernel.Bind<IParser>().To<RssParser>();
             kernel.Bind<IProviderTrackingService>().To<ProviderTrackingService>();
+            kernel.Bind<IDataBaseServiceExtension>().To<DataBaseServiceExtension>();
         }
     }
 }
