@@ -48,7 +48,8 @@ namespace Penpusher
                 kernel.Bind<Func<IKernel>>().ToMethod(ctx => () => new Bootstrapper().Kernel);
                 kernel.Bind<IHttpModule>().To<HttpApplicationInitializationHttpModule>();
 
-                GlobalConfiguration.Configuration.DependencyResolver = kernel.Get<System.Web.Http.Dependencies.IDependencyResolver>();
+                GlobalConfiguration.Configuration.DependencyResolver =
+                    kernel.Get<System.Web.Http.Dependencies.IDependencyResolver>();
                 RegisterServices(kernel);
 
                 return kernel;
@@ -75,6 +76,7 @@ namespace Penpusher
             kernel.Bind<IRepository<UsersArticle>>().To<Repository<UsersArticle>>();
             kernel.Bind<IParser>().To<RSSParser>();
             kernel.Bind<IProviderTrackingService>().To<ProviderTrackingService>();
+            kernel.Bind<IDataBaseServiceExtension>().To<DataBaseServiceExtension>();
         }
     }
 }

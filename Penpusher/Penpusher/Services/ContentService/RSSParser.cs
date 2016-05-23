@@ -12,10 +12,8 @@ namespace Penpusher.Services.ContentService
         {
             List<Article> parsedArticles = new List<Article>();
             IEnumerable<XElement> rssArticles = rssDocument.Descendants("item");
-
             foreach (XElement post in rssArticles)
                 parsedArticles.Add(ParseArticle(post));
-
             return parsedArticles;
         }
 
