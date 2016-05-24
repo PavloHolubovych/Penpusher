@@ -24,6 +24,7 @@ namespace Penpusher.Services.ContentService
             this.rssReader = rssReader;
         }
 
+        // TODO: test
         public void UpdateArticlesFromNewsProviders()
         {
             List<RssChannelModel> updatedRssChannells = GetUpdatedRssFilesFromNewsProviders().ToList();
@@ -33,6 +34,7 @@ namespace Penpusher.Services.ContentService
             }
         }
 
+        // TODO: test with null date
         public IEnumerable<RssChannelModel> GetUpdatedRssFilesFromNewsProviders()
         {
             IEnumerable<NewsProvider> providers = newsProvidersService.GetAll();
@@ -40,9 +42,10 @@ namespace Penpusher.Services.ContentService
             foreach (NewsProvider provider in providers)
             {
                 XDocument rssFile = rssReader.GetRssFileByLink(provider.Link);
-                if (rssFile != null && IsRssUpdated(provider.LastBuildDate, GetLastBuildDateForRss(rssFile)))
+                DateTime? lastBuildDateFromRss = GetLastBuildDateForRss(rssFile);
+                if (rssFile != null && IsRssUpdated(provider.LastBuildDate, lastBuildDateFromRss))
                 {
-                    var updatedChannel = new RssChannelModel { ProviderId = provider.Id, RssFile = rssFile, LastBuildDate = provider.LastBuildDate };
+                    var updatedChannel = new RssChannelModel { ProviderId = provider.Id, RssFile = rssFile, LastBuildDate = lastBuildDateFromRss };
                     updatedRssChannells.Add(updatedChannel);
                 }
             }
