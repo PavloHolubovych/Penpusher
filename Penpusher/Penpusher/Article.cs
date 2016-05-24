@@ -26,6 +26,7 @@ namespace Penpusher
         public string Description { get; set; }
         public System.DateTime Date { get; set; }
         public int IdNewsProvider { get; set; }
+        public string Image { get; set; }
     
         public virtual NewsProvider NewsProvider { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
