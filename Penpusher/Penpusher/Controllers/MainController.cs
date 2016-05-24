@@ -7,18 +7,33 @@ using Penpusher.Services.ContentService;
 
 namespace Penpusher.Controllers
 {
+    using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Web.Mvc;
+
+    /// <summary>
+    /// The main controller.
+    /// </summary>
     public class MainController : Controller
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MainController"/> class.
+        /// </summary>
         public MainController()
         {
             ViewBag.UserName = "UserNAme1";
             ViewBag.ProvidersList = new List<string> { "sdfs", "sdfsdf", "sdfsdf" };
         }
 
-        // GET: Main
+        /// <summary>
+        /// The index.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="ActionResult"/>.
+        /// </returns>
+        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Reviewed. Suppression is OK here.")]
         public ActionResult Index()
         {
-
             return View();
         }
 
@@ -28,20 +43,49 @@ namespace Penpusher.Controllers
         /// <returns>
         /// The <see cref="ActionResult"/>.
         /// </returns>
+        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Reviewed. Suppression is OK here.")]
         public ActionResult ArticlesBySubscription()
         {
             return View();
         }
 
+        /// <summary>
+        /// The subscriptions.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="ActionResult"/>.
+        /// </returns>
+        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Reviewed. Suppression is OK here.")]
         public ActionResult Subscriptions()
         {
             return View();
         }
 
+        /// <summary>
+        /// The user read articles.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="ActionResult"/>.
+        /// </returns>
+        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Reviewed. Suppression is OK here.")]
         public ActionResult UserReadArticles()
         {
             return View();
         }
+
+        public ActionResult UserToReadLaterArticles()
+        {
+            return View();
+        }
+
+
+        /// <summary>
+        /// The articles by selected subscriptions.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="ActionResult"/>.
+        /// </returns>
+        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Reviewed. Suppression is OK here.")]
         public ActionResult ArticlesBySelectedSubscriptions()
         {
 
@@ -51,8 +95,8 @@ namespace Penpusher.Controllers
         public ActionResult ArticleContentDetails(int articleId)
         {
             ViewBag.articleId = articleId;
+            ViewBag.userId = 5;
             return View(articleId);
         }
-
     }
 }

@@ -11,7 +11,7 @@ namespace Penpusher
 {
     using System;
     using System.Collections.Generic;
-    
+
     public partial class NewsProvider
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -20,7 +20,7 @@ namespace Penpusher
             this.Articles = new HashSet<Article>();
             this.UsersNewsProviders = new HashSet<UsersNewsProvider>();
         }
-    
+
         public int Id { get; set; }
         public string Name { get; set; }
         public string Link { get; set; }
