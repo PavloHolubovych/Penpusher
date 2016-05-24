@@ -1,9 +1,22 @@
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="NinjectWebCommon.cs" company="Sigma software">
+//   NinjectWebCommon
+// </copyright>
+// <summary>
+//   The ninject web common.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Web;
 using System.Web.Http;
+using System.Web.Mvc;
+
 using Microsoft.Web.Infrastructure.DynamicModuleHelper;
 using Ninject;
 using Ninject.Web.Common;
+
 using Penpusher;
 using Penpusher.DAL;
 using Penpusher.Services;
@@ -14,8 +27,15 @@ using Penpusher.Services.ContentService;
 
 namespace Penpusher
 {
+    /// <summary>
+    /// The ninject web common.
+    /// </summary>
+    [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "Reviewed. Suppression is OK here.")]
     public static class NinjectWebCommon
     {
+        /// <summary>
+        /// The bootstrapper.
+        /// </summary>
         private static readonly Bootstrapper Bootstrapper = new Bootstrapper();
 
         /// <summary>
@@ -35,8 +55,16 @@ namespace Penpusher
         {
             Bootstrapper.ShutDown();
         }
-        private static Lazy<IKernel> kernelFactoryLazy = new Lazy<IKernel>(CreateKernel);
 
+        /// <summary>
+        /// The kernel factory lazy.
+        /// </summary>
+        [SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1201:ElementsMustAppearInTheCorrectOrder", Justification = "Reviewed. Suppression is OK here.")]
+        private static readonly Lazy<IKernel> kernelFactoryLazy = new Lazy<IKernel>(CreateKernel);
+
+        /// <summary>
+        /// The kernel.
+        /// </summary>
         public static IKernel Kernel => kernelFactoryLazy.Value;
 
         /// <summary>
@@ -51,8 +79,9 @@ namespace Penpusher
                 kernel.Bind<Func<IKernel>>().ToMethod(ctx => () => new Bootstrapper().Kernel);
                 kernel.Bind<IHttpModule>().To<HttpApplicationInitializationHttpModule>();
 
-                GlobalConfiguration.Configuration.DependencyResolver =
-                    kernel.Get<System.Web.Http.Dependencies.IDependencyResolver>();
+                var ninjectResolver = new NinjectDependencyResolver(kernel);
+                DependencyResolver.SetResolver(ninjectResolver); // MVC
+                GlobalConfiguration.Configuration.DependencyResolver = ninjectResolver; // web api
                 RegisterServices(kernel);
 
                 return kernel;

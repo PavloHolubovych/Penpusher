@@ -1,7 +1,8 @@
-﻿var articleInfo = function (title, articleText, image) {
+﻿var articleInfo = function (title, articleText, image, id) {
     this.title = title;
     this.articleText = articleText;
     this.image = image;
+    this.articleDetailLink = "/Main/ArticleContentDetails?articleId=" + id;
 }
 
 var articlesList = new ko.observableArray();
@@ -17,7 +18,7 @@ var ReadArticlesViewModel = function () {
         success: function (data) {
             $.each(data,
                 function (key, item) {
-                    var article = new articleInfo(item.Title, item.Description, "http://hi-news.ru/wp-content/uploads/2015/10/community_image_1403628549-650x370.jpg");
+                    var article = new articleInfo(item.Title, item.Description, "http://hi-news.ru/wp-content/uploads/2015/10/community_image_1403628549-650x370.jpg", item.Id);
                     articlesList.push(article);
                 });
         },

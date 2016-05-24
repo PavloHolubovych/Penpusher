@@ -35,7 +35,7 @@ namespace Penpusher
         public void Configuration(IAppBuilder app)
         {
             var config = new HttpConfiguration();
-            
+
             config.MapHttpAttributeRoutes();
             ConfigureAuth(app);
             app.InitHangfire();

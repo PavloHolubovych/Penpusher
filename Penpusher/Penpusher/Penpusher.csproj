@@ -288,6 +288,8 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
+    <Compile Include="App_Start\NinjectDependencyResolver.cs" />
+    <Compile Include="App_Start\NinjectDependencyScope.cs" />
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
@@ -344,7 +346,7 @@
     <Compile Include="Services\IUsersArticlesService.cs" />
     <Compile Include="Services\NewsProviderService.cs" />
     <Compile Include="Services\UsersArticlesService.cs" />
-    <Compile Include="StartJob.cs" />
+    <Compile Include="HangfireStartup.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="User.cs">
       <DependentUpon>PenpusherEntityDatabase.tt</DependentUpon>
