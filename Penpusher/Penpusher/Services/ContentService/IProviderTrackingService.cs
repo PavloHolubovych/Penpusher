@@ -7,13 +7,13 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-
-using Penpusher.Models;
-
 namespace Penpusher.Services.ContentService
 {
+    using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
+
+    using Penpusher.Models;
+
     /// <summary>
     /// The ProviderTrackingService interface.
     /// </summary>

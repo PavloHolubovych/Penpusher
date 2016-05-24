@@ -18,8 +18,8 @@ namespace Penpusher.Services
         /// <returns>
         /// The <see cref="UsersNewsProvider"/>.
         /// </returns>
-        UsersNewsProvider AddSubscription(string link);
+        UsersNewsProvider Subscription(string link);
 
-        void DeleteNewsProvider(int id);
+        void Unsubscription(int id);
     }
 }

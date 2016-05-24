@@ -49,12 +49,12 @@ namespace Penpusher.Services
             return news;
         }
 
-        public void DeleteNewsProvider(int id)
+        public void Unsubscription(int id)
         {
             _usersNewsProviderRepository.Delete(id);
         }
 
-        public UsersNewsProvider AddSubscription(string link)
+        public UsersNewsProvider Subscription(string link)
         {
             NewsProvider channel = _newsProviderRepository.GetAll().FirstOrDefault(rm => rm.Link == link);
 

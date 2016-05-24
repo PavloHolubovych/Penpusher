@@ -7,6 +7,8 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using Penpusher.Services;
+
 namespace Penpusher
 {
     using System.Diagnostics.CodeAnalysis;
@@ -41,9 +43,9 @@ namespace Penpusher
 
             var artService = NinjectWebCommon.Kernel.Get<IProviderTrackingService>();
             RecurringJob.AddOrUpdate(
-                "test add new article",
-                () => artService.UpdateArticlesFromNewsProviders(),
-                Cron.Daily);
+            "Update articles from providers",
+            () => artService.GetUpdatedRssFilesFromNewsProviders(),
+            Cron.Daily);
         }
     }
 }
