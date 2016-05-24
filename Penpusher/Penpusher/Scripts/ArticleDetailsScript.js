@@ -15,4 +15,15 @@
        $.get("/api/Articles/MarkAsRead?userId=5&articleId=29",
         function (data) { 
         });
+
+       function AddToFavorites(userId, articleId) {
+           $.post("/api/Articles/AddToFavorites?userId=" + userId + "&articleId=" + articleId)
+               .success(function () {
+                   alert("Article added to your favorites");
+               })
+               .error(function (request, textStatus) {
+                   alert("Error: " + textStatus);
+               });
+       }
    });
+
