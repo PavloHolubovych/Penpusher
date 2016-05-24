@@ -30,10 +30,12 @@ namespace Penpusher.Controllers
         /// </summary>
         private readonly INewsProviderService _newsProviderService;
 
+        private IUsersArticlesService iu;
 
-        public SubscriptionsController(INewsProviderService newsProviderService)
+        public SubscriptionsController(INewsProviderService newsProviderService, IUsersArticlesService iu)
         {
             _newsProviderService = newsProviderService;
+            this.iu = iu;
         }
 
         // GET api/<controller>
@@ -72,8 +74,6 @@ namespace Penpusher.Controllers
             var link = newsProvider.Link;
             _newsProviderService.Subscription(link);
         }
-
-        // PUT api/<controller>/5
 
         /// <summary>
         /// The put.

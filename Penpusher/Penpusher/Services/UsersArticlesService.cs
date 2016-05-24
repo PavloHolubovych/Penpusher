@@ -21,7 +21,7 @@ namespace Penpusher.Services
 
         public void MarkAsRead(int userId, int articleId)
         {
-            var userArticle = repository.GetAll().FirstOrDefault(x => x.ArticleId == articleId && x.UserId == userId);
+            var userArticle = repository.GetAll().FirstOrDefault(ua => ua.ArticleId == articleId && ua.UserId == userId);
 
             if(userArticle==null)
             userArticle = new UsersArticle
@@ -41,7 +41,27 @@ namespace Penpusher.Services
 
         public void AddToFavorites(int userId, int articleId)
         {
-            var userArticle = repository.GetAll().FirstOrDefault(x => x.ArticleId == articleId && x.UserId == userId);
+            var userArticle = repository.GetAll().FirstOrDefault(ua => ua.ArticleId == articleId && ua.UserId == userId);
+
+            if (userArticle == null)
+                userArticle = new UsersArticle
+                {
+                    ArticleId = articleId,
+                    UserId = userId,
+                    IsToReadLater = false,
+                    IsFavorite = true,
+                    IsRead = true
+                };
+            else
+            {
+                userArticle.IsFavorite = true;
+            }
+            repository.Edit(userArticle);
+        }
+
+        public void RemoveFromFavorites(int userId, int articleId)
+        {
+            var userArticle = repository.GetAll().FirstOrDefault(ua => ua.ArticleId == articleId && ua.UserId == userId);
 
             if (userArticle == null)
                 userArticle = new UsersArticle
@@ -54,10 +74,16 @@ namespace Penpusher.Services
                 };
             else
             {
-                userArticle.IsFavorite = true;
+                userArticle.IsFavorite = false;
             }
             repository.Edit(userArticle);
         }
 
+        public bool CheckIsFavorite(int userId, int articleId)
+        {
+            var userArticle = repository.GetAll().FirstOrDefault(ua => ua.ArticleId == articleId && ua.UserId == userId);
+
+            return userArticle != null && (bool)userArticle.IsFavorite;
+        }
     }
 }
