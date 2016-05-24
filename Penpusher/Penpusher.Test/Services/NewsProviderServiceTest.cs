@@ -17,7 +17,6 @@ namespace Penpusher.Test.Services
             base.Initialize();
             MockKernel.Bind<INewsProviderService>().To<NewsProviderService>();
             MockKernel.GetMock<IRepository<UsersNewsProvider>>().Reset();
-
         }
 
         /// <summary>
@@ -78,7 +77,7 @@ namespace Penpusher.Test.Services
             MockKernel.GetMock<IRepository<UsersNewsProvider>>().Setup(rm => rm.GetAll()).Returns(usernewsprovider);
 
             // act
-            MockKernel.Get<INewsProviderService>().DeleteNewsProvider(id);
+            MockKernel.Get<INewsProviderService>().Unsubscription(id);
 
             IEnumerable<UserNewsProviderModels> result = MockKernel.Get<INewsProviderService>().GetByUserId(id);
 
@@ -114,7 +113,7 @@ namespace Penpusher.Test.Services
                 .Setup(repos => repos.Add(It.IsAny<UsersNewsProvider>()))
                 .Returns(subscription);
             //// act
-            UsersNewsProvider actual = MockKernel.Get<INewsProviderService>().AddSubscription(link);
+            UsersNewsProvider actual = MockKernel.Get<INewsProviderService>().Subscription(link);
 
             ////assert
             Assert.AreEqual(actual.Id, subscription.Id);
@@ -148,7 +147,7 @@ namespace Penpusher.Test.Services
                 .Setup(repos => repos.Add(It.IsAny<UsersNewsProvider>()))
                 .Returns(subscription);
             //// act
-            UsersNewsProvider actual = MockKernel.Get<INewsProviderService>().AddSubscription(link);
+            UsersNewsProvider actual = MockKernel.Get<INewsProviderService>().Subscription(link);
 
             ////assert
             Assert.AreEqual(actual.Id, subscription.Id);
@@ -181,7 +180,7 @@ namespace Penpusher.Test.Services
                     subscription
                 });
             //// act
-            UsersNewsProvider actual = MockKernel.Get<INewsProviderService>().AddSubscription(link);
+            UsersNewsProvider actual = MockKernel.Get<INewsProviderService>().Subscription(link);
 
             ////assert
             Assert.AreEqual(actual.Id, subscription.Id);

@@ -10,18 +10,11 @@
 using System.Web;
 using Owin;
 using Penpusher.DAL;
-using Penpusher.Services.ContentService;
 
 namespace Penpusher
 {
-    using System;
     using System.Diagnostics.CodeAnalysis;
-    using System.Linq;
-
     using Hangfire;
-
-    using Ninject;
-
     using Services;
 
     /// <summary>
@@ -32,6 +25,9 @@ namespace Penpusher
         /// <summary>
         /// The job for syncronize articles.
         /// </summary>
+        /// <param name="app">
+        /// The app.
+        /// </param>
         [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "Reviewed. Suppression is OK here.")]
         public static void InitHangfire(this IAppBuilder app)
         {
@@ -39,9 +35,7 @@ namespace Penpusher
             app.UseHangfireDashboard("/jobsArticles", options);
             app.UseHangfireServer(new BackgroundJobServerOptions
             {
-                Activator = new NinjectJobActivator(NinjectWebCommon.Kernel),
-                ServerName = "Kvach server"
-
+                Activator = new NinjectJobActivator(NinjectWebCommon.Kernel)
             });
             var artService = new ArticleService(new Repository<Article>());
             RecurringJob.AddOrUpdate(

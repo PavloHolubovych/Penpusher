@@ -18,15 +18,17 @@
                 type: "POST",
                 //contentType: 'application/json; charset=utf-8',
                 data: newsProvider,
-                success: function() {
+                success: function () {
                     //self.newsproviders(data);
                     //console.log(data);
                     //alert('data.result');
                     //console.log(data.result);
+                    $.getJSON('/api/getallsubscription/4', function (data) {
+
+                        self.newsproviders(data);
+                    });
                 }
-                
             });
-            window.location.reload(true);
         };
 
         self.removeNewsProvider = function (newsprovider) {
