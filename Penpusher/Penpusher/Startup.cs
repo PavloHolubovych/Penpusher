@@ -38,7 +38,8 @@ namespace Penpusher
 
             config.MapHttpAttributeRoutes();
             ConfigureAuth(app);
-            app.InitHangfire();
+
+            // app.InitHangfire();
         }
     }
 }

@@ -70,7 +70,7 @@ namespace Penpusher.Controllers
         public void Post(NewsProvider newsProvider)
         {
             var link = newsProvider.Link;
-            _newsProviderService.AddSubscription(link);
+            _newsProviderService.Subscription(link);
         }
 
         // PUT api/<controller>/5
@@ -99,7 +99,7 @@ namespace Penpusher.Controllers
 
         public void Delete(int id)
         {
-            _newsProviderService.DeleteNewsProvider(id);
+            _newsProviderService.Unsubscription(id);
         }
     }
 }
