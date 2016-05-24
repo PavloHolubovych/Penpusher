@@ -12,11 +12,11 @@
         <label data-bind='text: title'/>
     </div >
     <div class="fluidMedia" >
-        <iframe data-bind ="attr: { src: link}" sandbox="allow-same-origin" seamless></iframe>
+        <iframe data-bind ="attr: { src: link }" sandbox="allow-same-origin" seamless></iframe>
     </div>
     <div  id="articleLinkDiv">
         <label> You can view original article content here: </label><a data-bind='text: link'> </a><br/>
-        <button class="btn btn-primary myButton" onclick="AddToFavorites(5, 29)">Add to <b>favorites</b></button>
+        <button class="btn btn-primary myButton" data-bind="click: function(){ addToFavorites(@ViewBag.userId, @ViewBag.articleId)}">Add to <b>favorites</b></button>
         <button class="btn btn-primary myButton">Remove from <b>favorites</b></button>
         <button class="btn btn-primary myButton">Add to <b>read later</b></button>
     </div>
