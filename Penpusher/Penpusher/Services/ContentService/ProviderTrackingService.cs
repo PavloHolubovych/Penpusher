@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Xml.Linq;
 using Penpusher.Models;
 
@@ -24,7 +23,6 @@ namespace Penpusher.Services.ContentService
             this.rssReader = rssReader;
         }
 
-        // TODO: test
         public void UpdateArticlesFromNewsProviders()
         {
             List<RssChannelModel> updatedRssChannells = GetUpdatedRssFilesFromNewsProviders().ToList();
@@ -34,7 +32,6 @@ namespace Penpusher.Services.ContentService
             }
         }
 
-        // TODO: test with null date
         public IEnumerable<RssChannelModel> GetUpdatedRssFilesFromNewsProviders()
         {
             IEnumerable<NewsProvider> providers = newsProvidersService.GetAll();
@@ -65,7 +62,6 @@ namespace Penpusher.Services.ContentService
             return previousLastBuilDate < updatedLastBuildDate;
         }
 
-        // TODO: try/catch
         private DateTime? GetLastBuildDateForRss(XDocument rssFile)
         {
             string content = rssFile.ToString();
@@ -105,7 +101,6 @@ namespace Penpusher.Services.ContentService
             return null;
         }
 
-        // TODO: try/catch
         private DateTime? ParseDateTimeFormat(string date)
         {
             DateTime? newdate = null;
