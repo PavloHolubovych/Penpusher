@@ -37,7 +37,14 @@ namespace Penpusher.Services
 
         public Article GetById(int id)
         {
-            return this.repository.GetAll().FirstOrDefault(x => x.Id == id);
+            return this.repository.GetAll().Where(article => article.Id == id).Select(n => new Article()
+            {
+                Id = n.Id,
+                Title = n.Title,
+                Description = n.Description,
+                Link = n.Link,
+                Date = n.Date,
+            }).ToList()[0];
         }
 
         public bool CheckDoesExists(string title)
