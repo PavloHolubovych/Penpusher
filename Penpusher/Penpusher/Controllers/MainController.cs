@@ -46,6 +46,7 @@ namespace Penpusher.Controllers
         public ActionResult ArticleContentDetails(int articleId)
         {
             ViewBag.articleId = articleId;
+            ViewBag.userId = 5;
             return View(articleId);
         }
 
