@@ -407,6 +407,7 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\UserToReadLaterArticleScript.js" />
     <Content Include="Scripts\UserReadArticleScript.js" />
     <Content Include="Scripts\_LayoutScript.js" />
     <Content Include="Scripts\_references.js" />
@@ -451,6 +452,7 @@
     <Content Include="Views\Main\UserReadArticles.cshtml" />
     <Content Include="Views\Main\ArticlesBySelectedSubscriptions.cshtml" />
     <Content Include="Views\Main\ArticleContentDetails.cshtml" />
+    <Content Include="Views\Main\UserToReadLaterArticles.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
