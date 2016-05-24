@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Xml.Linq;
 using Penpusher.Models;
 
@@ -21,12 +22,12 @@ namespace Penpusher.Services.ContentService
         private Article ParseArticle(XElement post, int idNewsProvider)
         {
             DateTime date;
-            if(!DateTime.TryParse((GetDescedantValue(post, "pubDate")), out date))
+            if (!DateTime.TryParse((GetDescedantValue(post, "pubDate")), out date))
                 date = DateTime.Now;
 
             return new Article()
             {
-                Description = GetDescedantValue(post, "description"),
+                Description = WebUtility.HtmlEncode(GetDescedantValue(post, "description")),
                 Title = GetDescedantValue(post, "title"),
                 Date = date,
                 Link = GetDescedantValue(post, "link"),
