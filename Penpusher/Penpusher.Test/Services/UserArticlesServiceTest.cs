@@ -1,4 +1,4 @@
-﻿ using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Moq;
 using Ninject;
@@ -47,7 +47,7 @@ namespace Penpusher.Test.Services
 
             MockKernel.GetMock<IRepository<UsersArticle>>().Setup(usrv => usrv.GetAll()).Returns(testArticles);
             IEnumerable<UsersArticle> actual = MockKernel.Get<IUsersArticlesService>().GetUsersReadArticles(userId);
-            IEnumerable<UsersArticle> expected = testArticles.Where(x => x.IsRead.Value == true && x.UserId == userId);
+            IEnumerable<UsersArticle> expected = testArticles.Where(ua => ua.IsRead == true && ua.UserId == userId);
             Assert.AreEqual(expected, actual);
         }
 
@@ -68,10 +68,35 @@ namespace Penpusher.Test.Services
             MockKernel.GetMock<IRepository<UsersArticle>>().Setup(usrv => usrv.GetAll()).Returns(testArticles);
             MockKernel.GetMock<IRepository<UsersArticle>>()
                 .Setup(edit => edit.Edit(It.IsAny<UsersArticle>()))
-                .Callback((UsersArticle  article) => { testArticles.Add(article); });
+                .Callback((UsersArticle article) => { testArticles.Add(article); });
             MockKernel.Get<IUsersArticlesService>().MarkAsRead(userId, articleId);
-            var actual=MockKernel.Get<IUsersArticlesService>().GetUsersReadArticles(userId).First(x=>x.ArticleId==articleId);
+            UsersArticle actual = MockKernel.Get<IUsersArticlesService>().GetUsersReadArticles(userId).First(ua => ua.ArticleId == articleId && ua.ArticleId == articleId);
             Assert.AreEqual(actual.IsRead, true);
+        }
+
+        [TestCase(2, 6, TestName = "For existing UserArticle item with IsFavorite==false")]
+        [TestCase(1, 5, TestName = "For existing UserArticle item with IsFavorite==true")]
+        [TestCase(2, 5, TestName = "For not existing UserArticle")]
+        public void AddToFavoriteTest(int userId, int articleId)
+        {
+            var testArticles = new List<UsersArticle>()
+            {
+                new UsersArticle() { Id = 1, UserId = 1, ArticleId = 5, IsRead = false, IsFavorite = true},
+                new UsersArticle() { Id = 2, UserId = 1, ArticleId = 15, IsRead = true, IsFavorite = true },
+                new UsersArticle() { Id = 3, UserId = 2, ArticleId = 15, IsRead = true, IsFavorite = false },
+                new UsersArticle() { Id = 4, UserId = 2, ArticleId = 6, IsRead = false, IsFavorite = false },
+                new UsersArticle() { Id = 4, UserId = 3, ArticleId = 6, IsRead = false, IsFavorite = false }
+            };
+
+            MockKernel.GetMock<IRepository<UsersArticle>>().Setup(usrv => usrv.GetAll()).Returns(testArticles);
+            MockKernel.GetMock<IRepository<UsersArticle>>()
+                .Setup(edit => edit.Edit(It.IsAny<UsersArticle>()))
+
+                .Callback((UsersArticle article) => { testArticles.Add(article); });
+
+            MockKernel.Get<IUsersArticlesService>().AddToFavorites(userId, articleId);
+            UsersArticle actual = testArticles.First(ua => ua.ArticleId == articleId && ua.ArticleId==articleId);
+            Assert.AreEqual(actual.IsFavorite, true);
         }
     }
 }
