@@ -8,6 +8,7 @@ namespace Penpusher.Services
 
         void MarkAsRead(int userId, int articleId);
 
+        void AddToReadLater(int userId, int articleId);
         void AddToFavorites(int userId, int articleId);
 
         void RemoveFromFavorites(int userId, int articleId);
