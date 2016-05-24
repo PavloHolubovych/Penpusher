@@ -28,7 +28,7 @@ namespace Penpusher.Services.ContentService
         public void UpdateArticlesFromNewsProviders()
         {
             List<RssChannelModel> updatedRssChannells = GetUpdatedRssFilesFromNewsProviders().ToList();
-            if (updatedRssChannells.Count > 0)
+            if (updatedRssChannells.Any())
             {
                 dbServiceExtension.InsertNewArticles(updatedRssChannells);
             }
