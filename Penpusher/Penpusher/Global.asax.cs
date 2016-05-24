@@ -1,9 +1,15 @@
-﻿using System;
-using System.Diagnostics.CodeAnalysis;
-using System.Web.Hosting;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="Global.asax.cs" company="Sigma software">
+//   Global configuration
+// </copyright>
+// <summary>
+//   The mvc application.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace Penpusher
 {
+    using System.Diagnostics.CodeAnalysis;
     using System.Web.Http;
     using System.Web.Mvc;
     using System.Web.Optimization;
@@ -19,54 +25,6 @@ namespace Penpusher
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "Reviewed. Suppression is OK here.")]
     public class MvcApplication : System.Web.HttpApplication
     {
-        public class HangfireBootstrapper : IRegisteredObject
-        {
-            public static readonly HangfireBootstrapper Instance = new HangfireBootstrapper();
-
-            private readonly object _lockObject = new object();
-            private bool _started;
-
-            private BackgroundJobServer _backgroundJobServer;
-
-            private HangfireBootstrapper()
-            {
-            }
-
-            public void Start()
-            {
-                lock (_lockObject)
-                {
-                    if (_started) return;
-                    _started = true;
-
-                    HostingEnvironment.RegisterObject(this);
-
-                    Hangfire.GlobalConfiguration.Configuration
-            .UseSqlServerStorage("Server=10.40.236.195;Database=PenpusherDatabase;User Id=sa;Password = 1qaz@WSX;");
-                    // Specify other options here
-
-                    _backgroundJobServer = new BackgroundJobServer();
-                }
-            }
-
-            public void Stop()
-            {
-                lock (_lockObject)
-                {
-                    if (_backgroundJobServer != null)
-                    {
-                        _backgroundJobServer.Dispose();
-                    }
-
-                    HostingEnvironment.UnregisterObject(this);
-                }
-            }
-
-            void IRegisteredObject.Stop(bool immediate)
-            {
-                Stop();
-            }
-        }
         /// <summary>
         /// The application_ start.
         /// </summary>
@@ -77,17 +35,14 @@ namespace Penpusher
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            //Hangfire.GlobalConfiguration.Configuration
-            //.UseSqlServerStorage("Server=10.40.236.195;Database=PenpusherDatabase;User Id=sa;Password = 1qaz@WSX;");
-            HangfireBootstrapper.Instance.Start();
+
+            Hangfire.GlobalConfiguration.Configuration
+            .UseSqlServerStorage("Server=10.40.236.195;Database=PenpusherDatabase;User Id=sa;Password = 1qaz@WSX;");
+
             HttpConfiguration config = GlobalConfiguration.Configuration;
             config.Formatters.JsonFormatter
             .SerializerSettings
             .ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
-        }
-        protected void Application_End(object sender, EventArgs e)
-        {
-            HangfireBootstrapper.Instance.Stop();
         }
     }
 }

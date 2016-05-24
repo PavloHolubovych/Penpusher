@@ -25,6 +25,7 @@ namespace Penpusher.Services
             var userArticle = repository.GetAll().FirstOrDefault(x => x.ArticleId == articleId && x.UserId == userId);
 
             if (userArticle == null)
+            {
                 userArticle = new UsersArticle
                 {
                     ArticleId = articleId,
@@ -33,6 +34,7 @@ namespace Penpusher.Services
                     IsFavorite = false,
                     IsRead = true
                 };
+            }
             else
             {
                 userArticle.IsRead = true;
@@ -40,11 +42,35 @@ namespace Penpusher.Services
             repository.Edit(userArticle);
         }
 
-        public void AddToFavorites(int userId, int articleId)
+        public void AddToReadLater(int userId, int articleId)
         {
-            var userArticle = repository.GetAll().FirstOrDefault(x => x.ArticleId == articleId && x.UserId == userId);
+            var userArticle = repository.GetAll().FirstOrDefault(ua => ua.ArticleId == articleId && ua.UserId == userId);
 
             if (userArticle == null)
+            {
+                userArticle = new UsersArticle
+                {
+                    ArticleId = articleId,
+                    UserId = userId,
+                    IsToReadLater = true,
+                    IsFavorite = false,
+                    IsRead = false
+                };
+            }
+            else
+            {
+                userArticle.IsFavorite = true;
+                userArticle.IsRead = false;
+            }
+            repository.Edit(userArticle);
+        }
+
+        public void AddToFavorites(int userId, int articleId)
+        {
+            var userArticle = repository.GetAll().FirstOrDefault(ua => ua.ArticleId == articleId && ua.UserId == userId);
+
+            if (userArticle == null)
+            {
                 userArticle = new UsersArticle
                 {
                     ArticleId = articleId,
@@ -53,6 +79,7 @@ namespace Penpusher.Services
                     IsFavorite = false,
                     IsRead = true
                 };
+            }
             else
             {
                 userArticle.IsFavorite = true;

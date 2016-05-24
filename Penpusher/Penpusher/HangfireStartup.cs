@@ -41,10 +41,16 @@ namespace Penpusher
             app.UseHangfireServer(
                 new BackgroundJobServerOptions { Activator = new NinjectJobActivator(NinjectWebCommon.Kernel) });
 
-            var artService = NinjectWebCommon.Kernel.Get<IProviderTrackingService>();
+            //var artService = NinjectWebCommon.Kernel.Get<IProviderTrackingService>();
+            //RecurringJob.AddOrUpdate(
+            //"Update articles from news providers",
+            //() => artService.UpdateArticlesFromNewsProviders(),
+            //Cron.Daily);
+
+            var artService = NinjectWebCommon.Kernel.Get<IArticleService>();
             RecurringJob.AddOrUpdate(
-            "Update articles from providers",
-            () => artService.GetUpdatedRssFilesFromNewsProviders(),
+            "Add article to DB",
+            () => artService.AddArticle(),
             Cron.Daily);
         }
     }

@@ -1,4 +1,7 @@
 ﻿$(document)
+   .ready(function () { 
+       var ArticleModel = function (title, link)
+       {
    .ready(function () {
        $('#addToReadLater').show();
        $('#removeFromReadLater').hide();
@@ -6,7 +9,18 @@
            self = this;
            self.title = ko.observable(title);
            self.link = ko.observable(link);
+           addToFavorites = function (userId, articleId) {
+               $.post("/api/Articles/AddToFavorites?userId=" + userId + "&articleId=" + articleId)
+                   .success(function () {
+                       alert("Article added to your favorites");
+                       console.log(userId + " " + articleId);
+                   })
+                   .error(function (request, textStatus) {
+                       alert("Error: " + textStatus);
+                   });
+           };
        };
+
        $.get("/api/Articles/GetArticleDetail?articleId=" + localStorage.id,
         function (data) {
             var article = new ArticleModel(data.Title, data.Link);

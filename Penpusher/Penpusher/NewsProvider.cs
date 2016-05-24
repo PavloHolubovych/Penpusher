@@ -11,7 +11,7 @@ namespace Penpusher
 {
     using System;
     using System.Collections.Generic;
-    
+
     public partial class NewsProvider
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -20,15 +20,15 @@ namespace Penpusher
             this.Articles = new HashSet<Article>();
             this.UsersNewsProviders = new HashSet<UsersNewsProvider>();
         }
-    
+
         public int Id { get; set; }
         public string Name { get; set; }
         public string Link { get; set; }
         public string Description { get; set; }
         public string RssImage { get; set; }
-        public DateTime SubscriptionDate { get; set; }
-        public DateTime? LastBuildDate { get; set; }
-
+        public System.DateTime SubscriptionDate { get; set; }
+        public Nullable<System.DateTime> LastBuildDate { get; set; }
+    
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Article> Articles { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
