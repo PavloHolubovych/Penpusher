@@ -37,6 +37,7 @@ namespace Penpusher.Services
             }
             else
             {
+                if(!(bool)userArticle.IsToReadLater)
                 userArticle.IsRead = true;
             }
             repository.Edit(userArticle);
@@ -107,9 +108,6 @@ namespace Penpusher.Services
             repository.Edit(userArticle);
         }
 
-
-
-
         [SuppressMessage("StyleCop.CSharp.LayoutRules", "SA1503:CurlyBracketsMustNotBeOmitted", Justification = "Reviewed. Suppression is OK here.")]
         public UsersArticle ReadLaterInfo(int userId, int articleId)
         {
@@ -130,7 +128,6 @@ namespace Penpusher.Services
             return userArticleClient;
         }
 
-
         [SuppressMessage("StyleCop.CSharp.LayoutRules", "SA1503:CurlyBracketsMustNotBeOmitted", Justification = "Reviewed. Suppression is OK here.")]
         public UsersArticle ToReadLater(int userId, int articleId, bool add)
         {
@@ -148,7 +145,7 @@ namespace Penpusher.Services
             else
             {
                 userArticle.IsToReadLater = add;
-                userArticle.IsRead = false;
+                userArticle.IsRead = !add;
             }
             repository.Edit(userArticle);
 

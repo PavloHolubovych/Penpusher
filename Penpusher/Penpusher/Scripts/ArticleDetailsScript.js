@@ -8,7 +8,6 @@
     self.addToFavorites = function (userId, articleId) {
         $.post("/api/Articles/AddToFavorites?userId=" + userId + "&articleId=" + articleId)
             .success(function () {
-                alert("Article added to your favorites");
                 self.addToFavoritesVisibility(false);
                 self.removeFromFavoritesVisibility(true);
             })
@@ -20,7 +19,6 @@
     self.removeFromFavorites = function (userId, articleId) {
         $.post("/api/Articles/RemoveFromFavorites?userId=" + userId + "&articleId=" + articleId)
             .success(function () {
-                alert("Article added to your favorites");
                 self.addToFavoritesVisibility(true);
                 self.removeFromFavoritesVisibility(false);
             })
@@ -33,6 +31,8 @@
 
 $(document)
    .ready(function () { 
+       $('#addToReadLater').show();
+       $('#removeFromReadLater').hide();
 
        var addVisibility, removeVisibility;
 
@@ -53,8 +53,9 @@ $(document)
             ko.applyBindings(article, document.getElementById("articleContent"));
         });
 
-       $.get("/api/Articles/MarkAsRead?userId=5&articleId=" + localStorage.articleId,
-        function (data) { 
+       $.get("/api/Articles/MarkAsRead?userId=" + localStorage.userId + "&articleId=" + localStorage.articleId,
+            function(data) {});
+
        var userId = 4;
 
        $.get("/api/Articles/ReadLaterInfo?userId=" + userId + "&articleIdInfo=" + QueryString.articleId).
@@ -70,18 +71,9 @@ $(document)
            }).error(function (request, textStatus) {
                alert("Error: " + textStatus);
            });
-
-
-
-
-
-
-
-       $.get("/api/Articles/MarkAsRead?userId=5&articleId=" + localStorage.id,
-        function (data) {
-        });
        
-   });
+        });
+
 function AddtoReadLater(userId) {
     $.post("/api/Articles/ToReadLater?userId=" + userId + "&articleIdRL=" + QueryString.articleId + "&add=true")
         .success(function (data) {
@@ -98,6 +90,7 @@ function AddtoReadLater(userId) {
             alert("Error: " + textStatus);
         });
 }
+
 function DeleteFromReadLater(userId) {
     $.post("/api/Articles/ToReadLater?userId=" + userId + "&articleIdRL=" + QueryString.articleId + "&add=false")
         .success(function (data) {
