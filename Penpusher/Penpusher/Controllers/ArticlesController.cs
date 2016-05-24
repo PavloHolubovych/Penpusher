@@ -69,7 +69,7 @@ namespace Penpusher.Controllers
             return _articleService.GetArticlesFromSelectedProviders(newsProviders);
         }
 
-        [HttpPost]
+        [HttpPost] 
         public void AddToFavorites(int userId, int articleId)
         {
             _userArticlesService.AddToFavorites(userId, articleId);
@@ -88,5 +88,16 @@ namespace Penpusher.Controllers
             return _userArticlesService.ToReadLater(userId, articleIdRL, add);
         }
 
+        [HttpPost]
+        public void RemoveFromFavorites(int userId, int articleId)
+        {
+            _userArticlesService.RemoveFromFavorites(userId, articleId);
+        }
+        
+        [HttpGet]
+        public bool CheckIsFavorite(int userId, int articleId)
+        {
+            return _userArticlesService.CheckIsFavorite(userId, articleId);
+        }
     }
 }

@@ -22,7 +22,7 @@ namespace Penpusher.Services
 
         public void MarkAsRead(int userId, int articleId)
         {
-            var userArticle = repository.GetAll().FirstOrDefault(x => x.ArticleId == articleId && x.UserId == userId);
+            var userArticle = repository.GetAll().FirstOrDefault(ua => ua.ArticleId == articleId && ua.UserId == userId);
 
             if (userArticle == null)
             {
@@ -37,6 +37,7 @@ namespace Penpusher.Services
             }
             else
             {
+                if(!(bool)userArticle.IsToReadLater)
                 userArticle.IsRead = true;
             }
             repository.Edit(userArticle);
@@ -70,6 +71,26 @@ namespace Penpusher.Services
             var userArticle = repository.GetAll().FirstOrDefault(ua => ua.ArticleId == articleId && ua.UserId == userId);
 
             if (userArticle == null)
+                userArticle = new UsersArticle
+                {
+                    ArticleId = articleId,
+                    UserId = userId,
+                    IsToReadLater = false,
+                    IsFavorite = true,
+                    IsRead = true
+                };
+            else
+            {
+                userArticle.IsFavorite = true;
+            }
+            repository.Edit(userArticle);
+        }
+
+        public void RemoveFromFavorites(int userId, int articleId)
+        {
+            var userArticle = repository.GetAll().FirstOrDefault(ua => ua.ArticleId == articleId && ua.UserId == userId);
+
+            if (userArticle == null)
             {
                 userArticle = new UsersArticle
                 {
@@ -82,13 +103,10 @@ namespace Penpusher.Services
             }
             else
             {
-                userArticle.IsFavorite = true;
+                userArticle.IsFavorite = false;
             }
             repository.Edit(userArticle);
         }
-
-
-
 
         [SuppressMessage("StyleCop.CSharp.LayoutRules", "SA1503:CurlyBracketsMustNotBeOmitted", Justification = "Reviewed. Suppression is OK here.")]
         public UsersArticle ReadLaterInfo(int userId, int articleId)
@@ -110,7 +128,6 @@ namespace Penpusher.Services
             return userArticleClient;
         }
 
-
         [SuppressMessage("StyleCop.CSharp.LayoutRules", "SA1503:CurlyBracketsMustNotBeOmitted", Justification = "Reviewed. Suppression is OK here.")]
         public UsersArticle ToReadLater(int userId, int articleId, bool add)
         {
@@ -128,7 +145,7 @@ namespace Penpusher.Services
             else
             {
                 userArticle.IsToReadLater = add;
-                userArticle.IsRead = false;
+                userArticle.IsRead = !add;
             }
             repository.Edit(userArticle);
 
@@ -146,5 +163,11 @@ namespace Penpusher.Services
             return userArticleClient;
         }
 
+        public bool CheckIsFavorite(int userId, int articleId)
+        {
+            var userArticle = repository.GetAll().FirstOrDefault(ua => ua.ArticleId == articleId && ua.UserId == userId);
+
+            return userArticle != null && (bool)userArticle.IsFavorite;
+        }
     }
 }

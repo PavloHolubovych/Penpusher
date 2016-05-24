@@ -1,31 +1,60 @@
-﻿$(document)
+﻿var ArticleModel = function (title, link, addVisibility, removeVisibility) {
+    self = this;
+    self.title = ko.observable(title);
+    self.link = ko.observable(link);
+    self.addToFavoritesVisibility = ko.observable(addVisibility);
+    self.removeFromFavoritesVisibility = ko.observable(removeVisibility);
+
+    self.addToFavorites = function (userId, articleId) {
+        $.post("/api/Articles/AddToFavorites?userId=" + userId + "&articleId=" + articleId)
+            .success(function () {
+                self.addToFavoritesVisibility(false);
+                self.removeFromFavoritesVisibility(true);
+            })
+            .error(function (request, textStatus) {
+                alert("Error: " + textStatus);
+            });
+    };
+
+    self.removeFromFavorites = function (userId, articleId) {
+        $.post("/api/Articles/RemoveFromFavorites?userId=" + userId + "&articleId=" + articleId)
+            .success(function () {
+                self.addToFavoritesVisibility(true);
+                self.removeFromFavoritesVisibility(false);
+            })
+            .error(function (request, textStatus) {
+                alert("Error: " + textStatus);
+            });
+    };
+
+};
+
+$(document)
    .ready(function () { 
-       var ArticleModel = function (title, link)
-       {
-   .ready(function () {
        $('#addToReadLater').show();
        $('#removeFromReadLater').hide();
-       var ArticleModel = function (title, link) {
-           self = this;
-           self.title = ko.observable(title);
-           self.link = ko.observable(link);
-           addToFavorites = function (userId, articleId) {
-               $.post("/api/Articles/AddToFavorites?userId=" + userId + "&articleId=" + articleId)
-                   .success(function () {
-                       alert("Article added to your favorites");
-                       console.log(userId + " " + articleId);
-                   })
-                   .error(function (request, textStatus) {
-                       alert("Error: " + textStatus);
-                   });
-           };
-       };
 
-       $.get("/api/Articles/GetArticleDetail?articleId=" + localStorage.id,
+       var addVisibility, removeVisibility;
+
+        $.get("/api/Articles/CheckIsFavorite?userId=" + localStorage.userId + "&articleId=" + localStorage.articleId,
+            function(result) {
+                if (result === true) {
+                    addVisibility = false;
+                    removeVisibility = true;
+                } else {
+                    addVisibility = true;
+                    removeVisibility = false;
+                }
+            });
+
+       $.get("/api/Articles/GetArticleDetail?articleId=" + localStorage.articleId,
         function (data) {
-            var article = new ArticleModel(data.Title, data.Link);
+            var article = new ArticleModel(data.Title, data.Link, addVisibility, removeVisibility);
             ko.applyBindings(article, document.getElementById("articleContent"));
         });
+
+       $.get("/api/Articles/MarkAsRead?userId=" + localStorage.userId + "&articleId=" + localStorage.articleId,
+            function(data) {});
 
        var userId = 4;
 
@@ -42,18 +71,9 @@
            }).error(function (request, textStatus) {
                alert("Error: " + textStatus);
            });
-
-
-
-
-
-
-
-       $.get("/api/Articles/MarkAsRead?userId=5&articleId=" + localStorage.id,
-        function (data) {
-        });
        
-   });
+        });
+
 function AddtoReadLater(userId) {
     $.post("/api/Articles/ToReadLater?userId=" + userId + "&articleIdRL=" + QueryString.articleId + "&add=true")
         .success(function (data) {
@@ -70,6 +90,7 @@ function AddtoReadLater(userId) {
             alert("Error: " + textStatus);
         });
 }
+
 function DeleteFromReadLater(userId) {
     $.post("/api/Articles/ToReadLater?userId=" + userId + "&articleIdRL=" + QueryString.articleId + "&add=false")
         .success(function (data) {
