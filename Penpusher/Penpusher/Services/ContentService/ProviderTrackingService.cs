@@ -27,7 +27,7 @@ namespace Penpusher.Services.ContentService
         public void UpdateArticlesFromNewsProviders()
         {
             List<RssChannelModel> updatedRssChannells = GetUpdatedRssFilesFromNewsProviders().ToList();
-            if (updatedRssChannells.Count > 0)
+            if (updatedRssChannells.Any())
             {
                 dbServiceExtension.InsertNewArticles(updatedRssChannells);
             }
@@ -86,9 +86,9 @@ namespace Penpusher.Services.ContentService
         // TODO: try/catch
         private DateTime ParseDateTimeFormat(string date)
         {
-            string dt = DateTime.ParseExact(date, @"ddd, dd MMM yyyy HH:mm:ss zzz", CultureInfo.InvariantCulture).ToString("MM/dd/yyyy HH:mm:ss");
-            DateTime newdate = Convert.ToDateTime(dt);
-            return newdate;
+            DateTime dateTime;
+            DateTime.TryParse(date, out dateTime);
+            return dateTime;
         }
     }
 }

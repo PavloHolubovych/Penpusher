@@ -7,6 +7,8 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using Penpusher.Services.ContentService;
+
 namespace Penpusher.Test
 {
     using System;
@@ -36,7 +38,7 @@ namespace Penpusher.Test
             get
             {
                 return typeof(Startup).Assembly.GetTypes()
-                    .Where(t => typeof(ApiController).IsAssignableFrom(t) || typeof(Controller).IsAssignableFrom(t))
+                    .Where(t => typeof(ApiController).IsAssignableFrom(t) || typeof(Controller).IsAssignableFrom(t) || typeof(ProviderTrackingService).IsAssignableFrom(t))
                     .Select(t => new[] { t });
             }
         }
