@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace Penpusher.Services
@@ -6,12 +7,12 @@ namespace Penpusher.Services
     public class UsersArticlesService : IUsersArticlesService
     {
         private readonly IRepository<UsersArticle> repository;
-        private readonly IRepository< Article> articleRepository;
+        private readonly IRepository<Article> articleRepository;
 
         public UsersArticlesService(IRepository<UsersArticle> repository, IRepository<Article> articleRepository)
         {
             this.repository = repository;
-            this.articleRepository= articleRepository;
+            this.articleRepository = articleRepository;
         }
 
         public IEnumerable<UsersArticle> GetUsersReadArticles(int userId)
@@ -23,15 +24,15 @@ namespace Penpusher.Services
         {
             var userArticle = repository.GetAll().FirstOrDefault(x => x.ArticleId == articleId && x.UserId == userId);
 
-            if(userArticle==null)
-            userArticle = new UsersArticle
-            {
-                ArticleId = articleId,
-                UserId    = userId,
-                IsToReadLater = false,
-                IsFavorite = false,
-                IsRead = true
-            };
+            if (userArticle == null)
+                userArticle = new UsersArticle
+                {
+                    ArticleId = articleId,
+                    UserId = userId,
+                    IsToReadLater = false,
+                    IsFavorite = false,
+                    IsRead = true
+                };
             else
             {
                 userArticle.IsRead = true;
@@ -57,6 +58,65 @@ namespace Penpusher.Services
                 userArticle.IsFavorite = true;
             }
             repository.Edit(userArticle);
+        }
+
+
+
+
+        [SuppressMessage("StyleCop.CSharp.LayoutRules", "SA1503:CurlyBracketsMustNotBeOmitted", Justification = "Reviewed. Suppression is OK here.")]
+        public UsersArticle ReadLaterInfo(int userId, int articleId)
+        {
+            UsersArticle userArticle =
+                repository.GetAll().FirstOrDefault(x => x.ArticleId == articleId && x.UserId == userId);
+
+            var userArticleClient = new UsersArticle
+            {
+                Id = userArticle.Id,
+                IsToReadLater = userArticle.IsToReadLater,
+                IsRead = userArticle.IsRead,
+                Article = null,
+                User = null,
+                ArticleId = userArticle.ArticleId,
+                IsFavorite = userArticle.IsFavorite,
+                UserId = userArticle.UserId
+            };
+            return userArticleClient;
+        }
+
+
+        [SuppressMessage("StyleCop.CSharp.LayoutRules", "SA1503:CurlyBracketsMustNotBeOmitted", Justification = "Reviewed. Suppression is OK here.")]
+        public UsersArticle ToReadLater(int userId, int articleId, bool add)
+        {
+            UsersArticle userArticle = repository.GetAll().FirstOrDefault(x => x.ArticleId == articleId && x.UserId == userId);
+
+            if (userArticle == null)
+                userArticle = new UsersArticle
+                {
+                    ArticleId = articleId,
+                    UserId = userId,
+                    IsToReadLater = add,
+                    IsFavorite = false,
+                    IsRead = false
+                };
+            else
+            {
+                userArticle.IsToReadLater = add;
+                userArticle.IsRead = false;
+            }
+            repository.Edit(userArticle);
+
+            var userArticleClient = new UsersArticle
+            {
+                Id = userArticle.Id,
+                IsToReadLater = userArticle.IsToReadLater,
+                IsRead = userArticle.IsRead,
+                Article = null,
+                User = null,
+                ArticleId = userArticle.ArticleId,
+                IsFavorite = userArticle.IsFavorite,
+                UserId = userArticle.UserId
+            };
+            return userArticleClient;
         }
 
     }

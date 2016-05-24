@@ -38,6 +38,12 @@ namespace Penpusher.Controllers
         {
             return View();
         }
+
+        public ActionResult UserToReadLaterArticles()
+        {
+            return View();
+        }
+
         public ActionResult ArticlesBySelectedSubscriptions()
         {
             return View();
