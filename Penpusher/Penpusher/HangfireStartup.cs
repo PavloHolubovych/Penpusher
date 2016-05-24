@@ -7,6 +7,8 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using Penpusher.Services;
+
 namespace Penpusher
 {
     using System.Diagnostics.CodeAnalysis;
@@ -39,11 +41,11 @@ namespace Penpusher
             app.UseHangfireServer(
                 new BackgroundJobServerOptions { Activator = new NinjectJobActivator(NinjectWebCommon.Kernel) });
 
-            var artService = NinjectWebCommon.Kernel.Get<IProviderTrackingService>();
-            RecurringJob.AddOrUpdate(
-                "test add new article",
-                () => artService.UpdateArticlesFromNewsProviders(),
-                Cron.Daily);
+            // var artService = NinjectWebCommon.Kernel.Get<IProviderTrackingService>();
+            // RecurringJob.AddOrUpdate(
+            // "Update articles from providers",
+            // () => artService.UpdateArticlesFromNewsProviders(),
+            // Cron.Daily);
         }
     }
 }
