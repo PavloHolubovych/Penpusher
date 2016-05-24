@@ -1,12 +1,12 @@
 ﻿
 using System.Collections.Generic;
-using System.Xml.Linq;
+using Penpusher.Models;
 
 namespace Penpusher.Services.ContentService
 {
     public interface IDataBaseServiceExtension
     {
-        void InserNewArticles(List<XDocument> providers, int idProvider);
+        void InsertNewArticles(IEnumerable<RssChannelModel> rssChannels);
         string GetRssUrlById(int id);
     }
 }

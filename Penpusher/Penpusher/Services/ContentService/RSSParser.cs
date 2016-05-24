@@ -1,21 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Xml.Linq;
+using Penpusher.Models;
 
 namespace Penpusher.Services.ContentService
 {
     public class RssParser : IParser
     {
-        public List<Article> GetParsedArticles(XDocument rssDocument)
+        public IEnumerable<Article> GetParsedArticles(RssChannelModel rssModel)
         {
             List<Article> parsedArticles = new List<Article>();
-            IEnumerable<XElement> rssArticles = rssDocument.Descendants("item");
+            IEnumerable<XElement> rssArticles = rssModel.RssFile.Descendants("item");
+
             foreach (XElement post in rssArticles)
-                parsedArticles.Add(ParseArticle(post));
+                parsedArticles.Add(ParseArticle(post, rssModel.ProviderId));
+
             return parsedArticles;
         }
 
-        private Article ParseArticle(XElement post)
+        private Article ParseArticle(XElement post, int idNewsProvider)
         {
             DateTime date;
             if(!DateTime.TryParse((GetDescedantValue(post, "pubDate")), out date))
@@ -28,7 +31,7 @@ namespace Penpusher.Services.ContentService
                 Date = date,
                 Link = GetDescedantValue(post, "link"),
                 Id = 0,
-                IdNewsProvider = 0,
+                IdNewsProvider = idNewsProvider,
                 UsersArticles = null,
                 NewsProvider = null
             };

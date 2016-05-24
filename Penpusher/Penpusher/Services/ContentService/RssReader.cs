@@ -7,14 +7,21 @@ using System.Xml.Linq;
 
 namespace Penpusher.Services.ContentService
 {
-    public class RssReader
+    public class RssReader : IRssReader
     {
-        public IEnumerable<XElement> ReadFeed(string url)
+        // TODO: Testing
+        public XDocument GetRssFileByLink(string link)
         {
-            var rssFeed = XDocument.Load(url);
-            var posts = rssFeed.Descendants("item");
-
-            return posts;
+            XDocument rssFile = null;
+            try
+            {
+                rssFile = XDocument.Load(link);
+            }
+            catch
+            {
+                // ignored
+            }
+            return rssFile;
         }
     }
 }
