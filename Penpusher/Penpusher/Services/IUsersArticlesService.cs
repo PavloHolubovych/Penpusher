@@ -13,5 +13,8 @@ namespace Penpusher.Services
         void RemoveFromFavorites(int userId, int articleId);
 
         bool CheckIsFavorite(int userId, int articleId);
+
+        UsersArticle ToReadLater(int userId, int articleId, bool add);
+        UsersArticle ReadLaterInfo(int userId, int articleId);
     }
 }

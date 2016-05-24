@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Xml.Linq;
 using Penpusher.Models;
 
@@ -24,25 +23,27 @@ namespace Penpusher.Services.ContentService
             this.rssReader = rssReader;
         }
 
-        // TODO: test
         public void UpdateArticlesFromNewsProviders()
         {
             List<RssChannelModel> updatedRssChannells = GetUpdatedRssFilesFromNewsProviders().ToList();
-            if (updatedRssChannells.Count > 0)
+            if (updatedRssChannells.Any())
             {
                 dbServiceExtension.InsertNewArticles(updatedRssChannells);
             }
         }
 
-        // TODO: test with null date
         public IEnumerable<RssChannelModel> GetUpdatedRssFilesFromNewsProviders()
         {
             IEnumerable<NewsProvider> providers = newsProvidersService.GetAll();
             var updatedRssChannells = new List<RssChannelModel>();
             foreach (NewsProvider provider in providers)
             {
+                DateTime? lastBuildDateFromRss = null;
                 XDocument rssFile = rssReader.GetRssFileByLink(provider.Link);
-                DateTime? lastBuildDateFromRss = GetLastBuildDateForRss(rssFile);
+                if (rssFile != null)
+                {
+                    lastBuildDateFromRss = GetLastBuildDateForRss(rssFile);
+                }
                 if (rssFile != null && IsRssUpdated(provider.LastBuildDate, lastBuildDateFromRss))
                 {
                     var updatedChannel = new RssChannelModel { ProviderId = provider.Id, RssFile = rssFile, LastBuildDate = lastBuildDateFromRss };
@@ -61,36 +62,57 @@ namespace Penpusher.Services.ContentService
             return previousLastBuilDate < updatedLastBuildDate;
         }
 
-        // TODO: try/catch
         private DateTime? GetLastBuildDateForRss(XDocument rssFile)
         {
             string content = rssFile.ToString();
             XElement rootElement = XDocument.Parse(content).Root;
                 if (rootElement != null)
                 {
-                    var lastBuild = (string)rootElement.Element("channel")
-                        .Element("lastBuildDate");
-                if (lastBuild != null)
+                    string lastBuild = null;
+                    try
                     {
-                        return ParseDateTimeFormat(lastBuild);
+                        lastBuild = (string)rootElement.Element("channel")
+                        .Element("lastBuildDate");
                     }
-
-                var lastpubDate = (string)rootElement.Element("channel")
+                    catch
+                    {
+                        // no root element channel
+                    }
+                    if (lastBuild != null)
+                        {
+                            return ParseDateTimeFormat(lastBuild);
+                        }
+                        string lastpubDate = null;
+                        try
+                        {
+                            lastpubDate = (string)rootElement.Element("channel")
                             .Element("pubDate");
-                if (lastpubDate != null)
-                {
-                    return ParseDateTimeFormat(lastpubDate);
-                }
-                    ////return null;
+                        }
+                        catch
+                        {
+                            // no root element channel
+                        }
+                    if (lastpubDate != null)
+                    {
+                        return ParseDateTimeFormat(lastpubDate);
+                    }
+                        ////return null;
                 }
             return null;
         }
 
-        // TODO: try/catch
-        private DateTime ParseDateTimeFormat(string date)
+        private DateTime? ParseDateTimeFormat(string date)
         {
-            string dt = DateTime.ParseExact(date, @"ddd, dd MMM yyyy HH:mm:ss zzz", CultureInfo.InvariantCulture).ToString("MM/dd/yyyy HH:mm:ss");
-            DateTime newdate = Convert.ToDateTime(dt);
+            DateTime? newdate = null;
+            try
+            {
+                string dt = DateTime.ParseExact(date, @"ddd, dd MMM yyyy HH:mm:ss zzz", CultureInfo.InvariantCulture).ToString("MM/dd/yyyy HH:mm:ss");
+                newdate = Convert.ToDateTime(dt);
+            }
+            catch
+            {
+               // if string date is unreadable
+            }
             return newdate;
         }
     }

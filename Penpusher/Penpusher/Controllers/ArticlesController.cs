@@ -75,6 +75,19 @@ namespace Penpusher.Controllers
             _userArticlesService.AddToFavorites(userId, articleId);
         }
 
+        [HttpGet]
+        public UsersArticle ReadLaterInfo(int userId, int articleIdInfo)
+        {
+            return _userArticlesService.ReadLaterInfo(userId, articleIdInfo);
+        }
+
+
+        [HttpPost]
+        public UsersArticle ToReadLater(int userId, int articleIdRL, bool add)
+        {
+            return _userArticlesService.ToReadLater(userId, articleIdRL, add);
+        }
+
         [HttpPost]
         public void RemoveFromFavorites(int userId, int articleId)
         {
