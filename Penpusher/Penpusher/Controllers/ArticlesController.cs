@@ -68,5 +68,12 @@ namespace Penpusher.Controllers
             var newsProviders = _newsProviderService.GetByUserId(someUserId);
             return _articleService.GetArticlesFromSelectedProviders(newsProviders);
         }
+
+        [HttpPost]
+        public void AddToFavorites(int userId, int articleId)
+        {
+            _userArticlesService.AddToFavorites(userId, articleId);
+        }
+
     }
 }

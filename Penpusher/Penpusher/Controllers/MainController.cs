@@ -87,16 +87,11 @@ namespace Penpusher.Controllers
             return View();
         }
 
-        /// <summary>
-        /// The article content details.
-        /// </summary>
-        /// <returns>
-        /// The <see cref="ActionResult"/>.
-        /// </returns>
-        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Reviewed. Suppression is OK here.")]
-        public ActionResult ArticleContentDetails()
+        public ActionResult ArticleContentDetails(int articleId)
         {
-            return View();
+            ViewBag.articleId = articleId;
+            ViewBag.userId = 5;
+            return View(articleId);
         }
     }
 }

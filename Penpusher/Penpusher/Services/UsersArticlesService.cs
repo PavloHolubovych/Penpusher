@@ -38,5 +38,26 @@ namespace Penpusher.Services
             }
             repository.Edit(userArticle);
         }
+
+        public void AddToFavorites(int userId, int articleId)
+        {
+            var userArticle = repository.GetAll().FirstOrDefault(x => x.ArticleId == articleId && x.UserId == userId);
+
+            if (userArticle == null)
+                userArticle = new UsersArticle
+                {
+                    ArticleId = articleId,
+                    UserId = userId,
+                    IsToReadLater = false,
+                    IsFavorite = false,
+                    IsRead = true
+                };
+            else
+            {
+                userArticle.IsFavorite = true;
+            }
+            repository.Edit(userArticle);
+        }
+
     }
 }
