@@ -75,6 +75,12 @@ namespace Penpusher.Controllers
             return View();
         }
 
+        public ActionResult UserToReadLaterArticles()
+        {
+            return View();
+        }
+
+
         /// <summary>
         /// The articles by selected subscriptions.
         /// </summary>

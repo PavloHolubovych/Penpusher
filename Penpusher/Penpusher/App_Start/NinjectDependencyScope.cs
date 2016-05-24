@@ -27,7 +27,7 @@ namespace Penpusher
         /// <summary>
         /// The resolver.
         /// </summary>
-        private IResolutionRoot resolver;
+        private IResolutionRoot _resolver;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="NinjectDependencyScope"/> class.
@@ -39,7 +39,7 @@ namespace Penpusher
         {
             Contract.Assert(resolver != null);
 
-            this.resolver = resolver;
+            _resolver = resolver;
         }
 
         /// <summary>
@@ -47,10 +47,10 @@ namespace Penpusher
         /// </summary>
         public void Dispose()
         {
-            var disposable = this.resolver as IDisposable;
+            var disposable = _resolver as IDisposable;
             disposable?.Dispose();
 
-            resolver = null;
+            _resolver = null;
         }
 
         /// <summary>
@@ -67,12 +67,12 @@ namespace Penpusher
         [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1627:DocumentationTextMustNotBeEmpty", Justification = "Reviewed. Suppression is OK here.")]
         public object GetService(Type serviceType)
         {
-            if (resolver == null)
+            if (_resolver == null)
             {
                 throw new ObjectDisposedException("this", "This scope has already been disposed");
             }
 
-            return resolver.TryGet(serviceType);
+            return _resolver.TryGet(serviceType);
         }
 
         /// <summary>
@@ -82,19 +82,22 @@ namespace Penpusher
         /// The service type.
         /// </param>
         /// <returns>
-        /// The <see cref="IEnumerable"/>.
+        /// The <see>
+        ///         <cref>IEnumerable</cref>
+        ///     </see>
+        ///     .
         /// </returns>
         /// <exception cref="ObjectDisposedException">
         /// </exception>
         [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1627:DocumentationTextMustNotBeEmpty", Justification = "Reviewed. Suppression is OK here.")]
         public IEnumerable<object> GetServices(Type serviceType)
         {
-            if (resolver == null)
+            if (_resolver == null)
             {
                 throw new ObjectDisposedException("this", "This scope has already been disposed");
             }
 
-            return resolver.GetAll(serviceType);
+            return _resolver.GetAll(serviceType);
         }
     }
 }

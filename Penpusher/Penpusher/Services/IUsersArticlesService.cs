@@ -9,5 +9,8 @@ namespace Penpusher.Services
 
         void AddToReadLater(int userId, int articleId);
         void AddToFavorites(int userId, int articleId);
+
+        UsersArticle ToReadLater(int userId, int articleId, bool add);
+        UsersArticle ReadLaterInfo(int userId, int articleId);
     }
 }
