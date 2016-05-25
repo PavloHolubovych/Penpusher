@@ -11,14 +11,14 @@ var userId = 5;
 var ToReadLaterArticlesViewModel = function () {
     $.ajax({
         type: "GET",
-        url: "/api/Articles/UserToReadLaterArticles?userId=" + userId + "@articleId=",
+        url: "/api/Articles/GetReadLeaterArticles",
         data: JSON.stringify(articleInfo),
         contentType: "application/json; charset=utf8",
         accept: "application/json",
         success: function (data) {
             $.each(data,
                 function (key, item) {
-                    var article = new articleInfo(item.Title, item.Description, "http://hi-news.ru/wp-content/uploads/2015/10/community_image_1403628549-650x370.jpg", item.Id);
+                    var article = new articleInfo(item.Title, item.Description, "https://upload.wikimedia.org/wikipedia/en/thumb/4/43/Feed-icon.svg/128px-Feed-icon.svg.png", item.Id);
                     articlesList.push(article);
                 });
         },
