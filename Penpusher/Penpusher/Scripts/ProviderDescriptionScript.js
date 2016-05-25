@@ -1,26 +1,13 @@
-﻿var ProviderViewModel = function (provider) {
+﻿var ProviderViewModel = function (name, link, subscriptionDate, description) {
     var self = this;
+     
+    self.name = ko.observable(name);
+    self.link = ko.observable(link);
+    self.description = ko.observable(description);
+    self.subscriptionDate = ko.observable(subscriptionDate);
+     
 
-    self.provider = ko.observable(provider);
-    console.log(provider.Name);
 
-    self.subscribe = function(newsprovider) {
-        var link = newsprovider.AddLink;
-        console.log({ link });
-        var newsProvider = {};
-        newsProvider.Link = link;
-        $.ajax({
-            url: '/api/add',
-            type: "POST",
-            data: newsProvider,
-            success: function() {
-                console.log("+");
-            },
-            error: function(request, textStatus) {
-                alert("Error: " + textStatus);
-            }
-        });
-    };
 };
 
 $(document)
@@ -31,5 +18,6 @@ $(document)
         });
 
 
-        ko.applyBindings(new ProviderViewModel(provider), document.getElementById('providerDescriptionContainer'));
+        ko.applyBindings(new ProviderViewModel(provider.Name, provider.Link,
+             provider.Subscription.Data, provider.Description), document.getElementById("providerDescriptionContainer"));
     });
