@@ -17,9 +17,9 @@ namespace Penpusher.Test.Services
         /// The initialize.
         /// </summary>
         [SetUp]
-        public override void Initialize()
+        public override void Testinitialize()
         {
-            base.Initialize();
+            base.Testinitialize();
             MockKernel.Bind<IUsersArticlesService>().To<UsersArticlesService>();
             MockKernel.GetMock<IRepository<UsersArticle>>().Reset();
         }

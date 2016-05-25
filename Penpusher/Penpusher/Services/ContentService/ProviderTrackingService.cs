@@ -66,38 +66,38 @@ namespace Penpusher.Services.ContentService
         {
             string content = rssFile.ToString();
             XElement rootElement = XDocument.Parse(content).Root;
-                if (rootElement != null)
+            if (rootElement != null)
+            {
+                string lastBuild = null;
+                try
                 {
-                    string lastBuild = null;
-                    try
-                    {
-                        lastBuild = (string)rootElement.Element("channel")
-                        .Element("lastBuildDate");
-                    }
-                    catch
-                    {
-                        // no root element channel
-                    }
-                    if (lastBuild != null)
-                        {
-                            return ParseDateTimeFormat(lastBuild);
-                        }
-                        string lastpubDate = null;
-                        try
-                        {
-                            lastpubDate = (string)rootElement.Element("channel")
-                            .Element("pubDate");
-                        }
-                        catch
-                        {
-                            // no root element channel
-                        }
-                    if (lastpubDate != null)
-                    {
-                        return ParseDateTimeFormat(lastpubDate);
-                    }
-                        ////return null;
+                    lastBuild = (string)rootElement.Element("channel")
+                    .Element("lastBuildDate");
                 }
+                catch
+                {
+                    // no root element channel
+                }
+                if (lastBuild != null)
+                {
+                    return ParseDateTimeFormat(lastBuild);
+                }
+                string lastpubDate = null;
+                try
+                {
+                    lastpubDate = (string)rootElement.Element("channel")
+                    .Element("pubDate");
+                }
+                catch
+                {
+                    // no root element channel
+                }
+                if (lastpubDate != null)
+                {
+                    return ParseDateTimeFormat(lastpubDate);
+                }
+                ////return null;
+            }
             return null;
         }
 
@@ -111,7 +111,7 @@ namespace Penpusher.Services.ContentService
             }
             catch
             {
-               // if string date is unreadable
+                // if string date is unreadable
             }
             return newdate;
         }

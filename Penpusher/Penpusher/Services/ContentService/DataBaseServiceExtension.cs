@@ -10,12 +10,13 @@ namespace Penpusher.Services.ContentService
     {
         private readonly IArticleService articleService;
         private readonly INewsProviderService newsProviderService;
-        private RssParser rssParser;
-        public DataBaseServiceExtension(IArticleService articleService, INewsProviderService newsProviderService)
+        private readonly IParser rssParser;
+
+        public DataBaseServiceExtension(IArticleService articleService, INewsProviderService newsProviderService, IParser rssParser)
         {
             this.articleService = articleService;
             this.newsProviderService = newsProviderService;
-            this.rssParser=new RssParser();
+            this.rssParser = rssParser;
         }
 
         public void InsertNewArticles(IEnumerable<RssChannelModel> rssChannels)

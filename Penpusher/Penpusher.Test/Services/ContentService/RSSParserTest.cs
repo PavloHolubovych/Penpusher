@@ -13,9 +13,9 @@ namespace Penpusher.Test.Services.ContentService
     class RssParserTest : TestBase
     {
         [SetUp]
-        public override void Initialize()
+        public override void Testinitialize()
         {
-            base.Initialize();
+            base.Testinitialize();
             MockKernel.Bind<IParser>().To<RssParser>();
         }
 

@@ -14,9 +14,9 @@ namespace Penpusher.Test.Services.ContentService
     public class DataBaseServiceExtensionTest : TestBase
     {
         [SetUp]
-        public override void Initialize()
+        public override void Testinitialize()
         {
-            base.Initialize();
+            base.Testinitialize();
            
             MockKernel.Bind<INewsProviderService>().To<NewsProviderService>();
             MockKernel.Bind<IDataBaseServiceExtension>().To<DataBaseServiceExtension>();

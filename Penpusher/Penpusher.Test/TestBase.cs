@@ -9,7 +9,7 @@ namespace Penpusher.Test
 
         protected MoqMockingKernel MockKernel => mockKernel;
 
-        public virtual void Initialize()
+        public virtual void Testinitialize()
         {
             mockKernel = new MoqMockingKernel();
         }

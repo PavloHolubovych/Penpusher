@@ -12,9 +12,9 @@ namespace Penpusher.Test.Services
     public class NewsProviderTest : TestBase
     {
         [SetUp]
-        public override void Initialize()
+        public override void Testinitialize()
         {
-            base.Initialize();
+            base.Testinitialize();
             MockKernel.Bind<INewsProviderService>().To<NewsProviderService>();
             MockKernel.GetMock<IRepository<UsersNewsProvider>>().Reset();
         }
