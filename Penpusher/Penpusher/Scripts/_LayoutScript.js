@@ -42,3 +42,7 @@ function LoadReadPage() {
 function LoadReadLaterPage() {
     location.href = "/Main/UserToReadLaterArticles";
 }
+
+function LoadFavoritePage() {
+    location.href = "/Main/UserFavoriteArticles";
+}

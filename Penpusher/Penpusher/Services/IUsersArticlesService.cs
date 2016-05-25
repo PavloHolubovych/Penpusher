@@ -30,6 +30,8 @@ namespace Penpusher.Services
         /// </returns>
         IEnumerable<UsersArticle> GetUsersReadArticles(int userId);
 
+        IEnumerable<Article> GetUsersFavoriteArticles(int userId);
+
         /// <summary>
         /// The mark as read.
         /// </summary>

@@ -61,6 +61,20 @@ namespace Penpusher.Services
             return repository.GetAll().Where(art => art.IsRead == true && art.UserId == userId).ToList();
         }
 
+        public IEnumerable<Article> GetUsersFavoriteArticles(int userId)
+        {
+           IEnumerable<Article> usart = repository.GetAll().Where(art => art.IsFavorite == true && art.UserId == userId).Select(a => new Article
+           {
+               Id = a.Article.Id,
+               Title = a.Article.Title,
+               Description = a.Article.Description,
+               Image = a.Article.Image,
+               Link = a.Article.Link,
+               Date = a.Article.Date
+           });
+            return usart;
+        }
+
         /// <summary>
         /// The mark as read.
         /// </summary>

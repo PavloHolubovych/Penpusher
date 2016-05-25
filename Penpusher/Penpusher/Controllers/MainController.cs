@@ -70,7 +70,10 @@ namespace Penpusher.Controllers
             return View();
         }
 
-
+        public ActionResult UserFavoriteArticles()
+        {
+            return View();
+        }
         /// <summary>
         /// The articles by selected subscriptions.
         /// </summary>
