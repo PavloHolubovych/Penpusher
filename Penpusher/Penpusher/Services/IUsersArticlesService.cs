@@ -42,17 +42,6 @@ namespace Penpusher.Services
         void MarkAsRead(int userId, int articleId);
 
         /// <summary>
-        /// The add to read later.
-        /// </summary>
-        /// <param name="userId">
-        /// The user id.
-        /// </param>
-        /// <param name="articleId">
-        /// The article id.
-        /// </param>
-        void AddToReadLater(int userId, int articleId);
-
-        /// <summary>
         /// The add to favorites.
         /// </summary>
         /// <param name="userId">
