@@ -78,5 +78,12 @@ namespace Penpusher.Services
                 IdUser = 4
             });
         }
+
+        public void UpdateLastBuildDateForNewsProvider(int id, DateTime? lastBuildDate)
+        {
+            NewsProvider updatedProvider = _newsProviderRepository.GetById(id);
+            updatedProvider.LastBuildDate = lastBuildDate;
+            _newsProviderRepository.Edit(updatedProvider);
+        }
     }
 }
