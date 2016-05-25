@@ -18,7 +18,7 @@ var ReadArticlesViewModel = function () {
         success: function (data) {
             $.each(data,
                 function (key, item) {
-                    var article = new articleInfo(item.Title, item.Description, "http://hi-news.ru/wp-content/uploads/2015/10/community_image_1403628549-650x370.jpg", item.Id);
+                    var article = new articleInfo(item.Title, item.Description, item.Image, item.Id);
                     articlesList.push(article);
                 });
         },

@@ -94,7 +94,6 @@ namespace Penpusher.Controllers
         /// The id.
         /// </param>
         [Route("delete/{id}")]
-
         public void Delete(int id)
         {
             _newsProviderService.Unsubscription(id);

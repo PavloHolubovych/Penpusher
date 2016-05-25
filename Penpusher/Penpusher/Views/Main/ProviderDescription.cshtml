@@ -1,0 +1,27 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="~/Scripts/ProviderDescriptionScript.js"></script>
+
+<div class="readArticles" id="providerDescriptionContainer"> <!--main container-->
+    <div> <!--header-->
+        <a data-bind="attr: { href: provider.Link }">
+            <img data-bind="attr: { src: provider.RssImage }" /> <!--provider image-->
+            <h1 data-bind="text: provider.Name"></h1> <!--provider name-->
+        </a>
+    </div>
+
+    <div><!--description-->
+        <p data-bind="text: provider.Description"></p>
+    </div>
+
+    <div> <!--buttons-->
+        <button></button><!--sub/unsub-->
+        <button></button><!--visit-->
+    </div>
+
+    <div><!--start date-->
+        <p>This provider on our resourse from <span data-bind="text: provider.SubscriptionDate"></span></p>
+    </div>
+</div>
