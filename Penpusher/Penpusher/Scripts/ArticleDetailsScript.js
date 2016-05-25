@@ -55,10 +55,10 @@ $(document)
             ko.applyBindings(article, document.getElementById("articleContent"));
         });
 
-       $.get("/api/Articles/MarkAsRead?userId=" + localStorage.userId + "&articleId=" + localStorage.articleId,
+       $.post("/api/Articles/MarkAsRead?userId=" + localStorage.userId + "&articleId=" + localStorage.articleId,
             function(data) {});
 
-       var userId = 4;
+       var userId = 5;
 
        $.get("/api/Articles/ReadLaterInfo?userId=" + userId + "&articleIdInfo=" + QueryString.articleId).
            success(function (data) {

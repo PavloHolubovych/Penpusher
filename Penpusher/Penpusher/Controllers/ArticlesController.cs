@@ -91,7 +91,7 @@ namespace Penpusher.Controllers
         /// <param name="articleId">
         /// The article id.
         /// </param>
-        [HttpGet]
+        [HttpPost]
         [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Reviewed. Suppression is OK here.")]
         public void MarkAsRead(int userId, int articleId)
         {
@@ -171,15 +171,7 @@ namespace Penpusher.Controllers
             userArticlesService.RemoveFromFavorites(userId, articleId);
         }
 
-        /// <summary>
-        /// The add to favorites.
-        /// </summary>
-        /// <param name="userId">
-        /// The user id.
-        /// </param>
-        /// <param name="articleId">
-        /// The article id.
-        /// </param>
+        
         [HttpPost]
         [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Reviewed. Suppression is OK here.")]
         public void AddToFavorites(JObject jsonData)

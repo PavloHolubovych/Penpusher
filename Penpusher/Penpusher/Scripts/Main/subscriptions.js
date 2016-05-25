@@ -1,8 +1,9 @@
 ﻿    var NewsProviderModel = function () {
         var self = this;
+        var userId = 5;
         self.newsproviders = ko.observableArray([]);
         self.AddLink = ko.observable("example");
-        $.getJSON('/api/getallsubscription/4', function (data) {
+        $.getJSON('/api/getallsubscription/' + userId, function (data) {
 
             self.newsproviders(data);
 
@@ -23,7 +24,7 @@
                     //console.log(data);
                     //alert('data.result');
                     //console.log(data.result);
-                    $.getJSON('/api/getallsubscription/4', function (data) {
+                    $.getJSON('/api/getallsubscription/' + userId, function (data) {
 
                         self.newsproviders(data);
                     });

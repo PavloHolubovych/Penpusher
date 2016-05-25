@@ -1,6 +1,7 @@
 ﻿
 $(document)
     .ready(function () {
+        var userId = 5;
         var ProvidersModel = function (providers) {
             var ProviderObject = function (Name, ID) {
                 this.Name = Name;
@@ -10,7 +11,7 @@ $(document)
             self.providers = ko.observableArray([new ProviderObject("All", "All")]);
             self.selectedProvider = ko.observable();
             
-            $.get("/api/getallsubscription/4",
+            $.get("/api/getallsubscription/" + userId,
                 function (data, status) {
                     for (var i = 0; i < data.length; i++) {
                         self.providers.push(
@@ -19,7 +20,7 @@ $(document)
                     }
                 });
             self.selectedProvider.subscribe(function (data) {
-                if (data === "All") location.href = "/Main/ArticlesBySelectedSubscriptions?someUserId=4";
+                if (data === "All") location.href = "/Main/ArticlesBySelectedSubscriptions?someUserId=" + userId;
                 else
                     location.href = "/Main/ArticlesBySubscription?providerID=" + data;
 
@@ -36,4 +37,8 @@ function ManageContentPage() {
 
 function LoadReadPage() {
     location.href = "/Main/UserReadArticles";
+}
+
+function LoadReadLaterPage() {
+    location.href = "/Main/UserToReadLaterArticles";
 }
