@@ -13,6 +13,7 @@ namespace Penpusher.Controllers
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Web.Http;
+
     using Newtonsoft.Json.Linq;
 
     using Models;
@@ -162,7 +163,14 @@ namespace Penpusher.Controllers
             return articleService.GetArticlesFromSelectedProviders(newsProviders);
         }
 
+        /// <summary>
+        /// The remove from favorites.
+        /// </summary>
+        /// <param name="jsonData">
+        /// The json data.
+        /// </param>
         [HttpPost]
+        [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "Reviewed. Suppression is OK here.")]
         public void RemoveFromFavorites(JObject jsonData)
         {
             int userId = int.Parse(jsonData["userId"].ToString());
@@ -171,9 +179,15 @@ namespace Penpusher.Controllers
             userArticlesService.RemoveFromFavorites(userId, articleId);
         }
 
-        
+        /// <summary>
+        /// The add to favorites.
+        /// </summary>
+        /// <param name="jsonData">
+        /// The json data.
+        /// </param>
         [HttpPost]
         [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Reviewed. Suppression is OK here.")]
+        [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "Reviewed. Suppression is OK here.")]
         public void AddToFavorites(JObject jsonData)
         {
             int userId = int.Parse(jsonData["userId"].ToString());
@@ -241,6 +255,18 @@ namespace Penpusher.Controllers
         public bool CheckIsFavorite(int userId, int articleId)
         {
             return userArticlesService.CheckIsFavorite(userId, articleId);
+        }
+
+        public IEnumerable<Article> GetReadLeaterArticles()
+        {
+            IEnumerable<Article> readLeaterArticles = articleService.GetAllArticleses()
+                .Join(
+                    userArticlesService.GetReadLaterArticles(5),
+                    article => article.Id,
+                    readLeaterArticle => readLeaterArticle.ArticleId,
+                    (article, readLeaterArticle) => article);
+
+            return readLeaterArticles;
         }
     }
 }
