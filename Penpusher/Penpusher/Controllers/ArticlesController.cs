@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 using Penpusher.Services;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Penpusher.Controllers
 {
@@ -69,9 +72,21 @@ namespace Penpusher.Controllers
             return _articleService.GetArticlesFromSelectedProviders(newsProviders);
         }
 
-        [HttpPost] 
-        public void AddToFavorites(int userId, int articleId)
+        [HttpPost]
+        public void RemoveFromFavorites(JObject jsonData)
         {
+            int userId = int.Parse(jsonData["userId"].ToString());
+            int articleId = int.Parse(jsonData["articleId"].ToString());
+
+            _userArticlesService.RemoveFromFavorites(userId, articleId);
+        }
+
+        [HttpPost] 
+        public void AddToFavorites([FromBody]JObject jsonData)
+        {
+            int userId = int.Parse(jsonData["userId"].ToString());
+            int articleId = int.Parse(jsonData["articleId"].ToString());
+
             _userArticlesService.AddToFavorites(userId, articleId);
         }
 
@@ -88,12 +103,6 @@ namespace Penpusher.Controllers
             return _userArticlesService.ToReadLater(userId, articleIdRL, add);
         }
 
-        [HttpPost]
-        public void RemoveFromFavorites(int userId, int articleId)
-        {
-            _userArticlesService.RemoveFromFavorites(userId, articleId);
-        }
-        
         [HttpGet]
         public bool CheckIsFavorite(int userId, int articleId)
         {
