@@ -1,22 +1,64 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Web.Http;
-using Penpusher.Services;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ArticlesController.cs" company="Sigma sowtware">
+//   ArticlesController
+// </copyright>
+// <summary>
+//   Defines the ArticlesController type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace Penpusher.Controllers
 {
+    using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Linq;
+    using System.Web.Http;
+
+    using Models;
+
+    using Services;
+
+    /// <summary>
+    /// The articles controller.
+    /// </summary>
+    [SuppressMessage("StyleCopPlus.StyleCopPlusRules", "SP2000:CodeLineMustNotEndWithWhitespace", Justification = "Reviewed. Suppression is OK here.")]
     public class ArticlesController : ApiController
     {
-        private readonly IArticleService _articleService;
-        private readonly IUsersArticlesService _userArticlesService;
-        private readonly INewsProviderService _newsProviderService;
+        /// <summary>
+        /// The _article service.
+        /// </summary>
+        private readonly IArticleService articleService;
 
-        public ArticlesController(IArticleService articleService, IUsersArticlesService userArticlesService,
+        /// <summary>
+        /// The _user articles service.
+        /// </summary>
+        private readonly IUsersArticlesService userArticlesService;
+
+        /// <summary>
+        /// The _news provider service.
+        /// </summary>
+        private readonly INewsProviderService newsProviderService;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ArticlesController"/> class.
+        /// </summary>
+        /// <param name="articleService">
+        /// The article service.
+        /// </param>
+        /// <param name="userArticlesService">
+        /// The user articles service.
+        /// </param>
+        /// <param name="newsProviderService">
+        /// The news provider service.
+        /// </param>
+        public ArticlesController(
+            IArticleService articleService,
+            IUsersArticlesService userArticlesService,
             INewsProviderService newsProviderService)
         {
-            this._articleService = articleService;
-            this._userArticlesService = userArticlesService;
-            this._newsProviderService = newsProviderService;
+            this.articleService = articleService;
+            this.userArticlesService = userArticlesService;
+            this.newsProviderService = newsProviderService;
         }
 
         /// <summary>
@@ -26,27 +68,54 @@ namespace Penpusher.Controllers
         /// Provider ID
         /// </param>
         /// <returns>
-        /// The <see cref="IEnumerable"/>.
+        /// The <see>
+        ///         <cref>IEnumerable</cref>
+        ///     </see>
+        ///     .
         /// </returns>
         [HttpGet]
         [ActionName("ArticlesFromProvider")]
+        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Reviewed. Suppression is OK here.")]
         public IEnumerable<Article> ArticlesFromProvider(int newsProviderId)
         {
-            return this._articleService.GetArticlesFromProvider(newsProviderId);
+            return articleService.GetArticlesFromProvider(newsProviderId);
         }
 
+        /// <summary>
+        /// The mark as read.
+        /// </summary>
+        /// <param name="userId">
+        /// The user id.
+        /// </param>
+        /// <param name="articleId">
+        /// The article id.
+        /// </param>
         [HttpGet]
+        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Reviewed. Suppression is OK here.")]
         public void MarkAsRead(int userId, int articleId)
         {
-            _userArticlesService.MarkAsRead(userId, articleId);
+            userArticlesService.MarkAsRead(userId, articleId);
         }
 
+        /// <summary>
+        /// The user read articles.
+        /// </summary>
+        /// <param name="userId">
+        /// The user id.
+        /// </param>
+        /// <returns>
+        /// The <see>
+        ///         <cref>IEnumerable</cref>
+        ///     </see>
+        ///     .
+        /// </returns>
         [HttpGet]
+        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Reviewed. Suppression is OK here.")]
         public IEnumerable<Article> UserReadArticles(int userId)
         {
-            var readArticles = _articleService.GetAllArticleses()
+            IEnumerable<Article> readArticles = articleService.GetAllArticleses()
                 .Join(
-                    _userArticlesService.GetUsersReadArticles(userId),
+                    userArticlesService.GetUsersReadArticles(userId),
                     article => article.Id,
                     readArticle => readArticle.ArticleId,
                     (article, readArticle) => article);
@@ -54,50 +123,135 @@ namespace Penpusher.Controllers
             return readArticles;
         }
 
+        /// <summary>
+        /// The article details.
+        /// </summary>
+        /// <param name="articleId">
+        /// The article id.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Article"/>.
+        /// </returns>
         [HttpGet]
         [ActionName("GetArticleDetail")]
-        public  Article ArticleDetails(int articleId)
+        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Reviewed. Suppression is OK here.")]
+        public Article ArticleDetails(int articleId)
         {
-           return  _articleService.GetById(articleId);
+            return articleService.GetById(articleId);
         }
 
+        /// <summary>
+        /// The articles from selected providers.
+        /// </summary>
+        /// <param name="someUserId">
+        /// The some user id.
+        /// </param>
+        /// <returns>
+        /// The <see>
+        ///         <cref>IEnumerable</cref>
+        ///     </see>
+        ///     .
+        /// </returns>
         [HttpGet]
         [ActionName("ArticlesFromSelectedProviders")]
+        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Reviewed. Suppression is OK here.")]
         public IEnumerable<Article> ArticlesFromSelectedProviders(int someUserId)
         {
-            var newsProviders = _newsProviderService.GetByUserId(someUserId);
-            return _articleService.GetArticlesFromSelectedProviders(newsProviders);
+            IEnumerable<UserNewsProviderModels> newsProviders = newsProviderService.GetByUserId(someUserId);
+            return articleService.GetArticlesFromSelectedProviders(newsProviders);
         }
 
-        [HttpPost] 
+        /// <summary>
+        /// The add to favorites.
+        /// </summary>
+        /// <param name="userId">
+        /// The user id.
+        /// </param>
+        /// <param name="articleId">
+        /// The article id.
+        /// </param>
+        [HttpPost]
+        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Reviewed. Suppression is OK here.")]
         public void AddToFavorites(int userId, int articleId)
         {
-            _userArticlesService.AddToFavorites(userId, articleId);
+            userArticlesService.AddToFavorites(userId, articleId);
         }
 
+        /// <summary>
+        /// The read later info.
+        /// </summary>
+        /// <param name="userId">
+        /// The user id.
+        /// </param>
+        /// <param name="articleIdInfo">
+        /// The article id info.
+        /// </param>
+        /// <returns>
+        /// The <see cref="UsersArticle"/>.
+        /// </returns>
         [HttpGet]
+        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Reviewed. Suppression is OK here.")]
         public UsersArticle ReadLaterInfo(int userId, int articleIdInfo)
         {
-            return _userArticlesService.ReadLaterInfo(userId, articleIdInfo);
+            return userArticlesService.ReadLaterInfo(userId, articleIdInfo);
         }
 
-
+        /// <summary>
+        /// The to read later.
+        /// </summary>
+        /// <param name="userId">
+        /// The user id.
+        /// </param>
+        /// <param name="articleIdRl">
+        /// The article id rl.
+        /// </param>
+        /// <param name="add">
+        /// The add.
+        /// </param>
+        /// <returns>
+        /// The <see cref="UsersArticle"/>.
+        /// </returns>
         [HttpPost]
-        public UsersArticle ToReadLater(int userId, int articleIdRL, bool add)
+        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Reviewed. Suppression is OK here.")]
+        [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "Reviewed. Suppression is OK here.")]
+        public UsersArticle ToReadLater(int userId, int articleIdRl, bool add)
         {
-            return _userArticlesService.ToReadLater(userId, articleIdRL, add);
+            return userArticlesService.ToReadLater(userId, articleIdRl, add);
         }
 
+        /// <summary>
+        /// The remove from favorites.
+        /// </summary>
+        /// <param name="userId">
+        /// The user id.
+        /// </param>
+        /// <param name="articleId">
+        /// The article id.
+        /// </param>
         [HttpPost]
+        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Reviewed. Suppression is OK here.")]
         public void RemoveFromFavorites(int userId, int articleId)
         {
-            _userArticlesService.RemoveFromFavorites(userId, articleId);
+            userArticlesService.RemoveFromFavorites(userId, articleId);
         }
-        
+
+        /// <summary>
+        /// The check is favorite.
+        /// </summary>
+        /// <param name="userId">
+        /// The user id.
+        /// </param>
+        /// <param name="articleId">
+        /// The article id.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
         [HttpGet]
+        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Reviewed. Suppression is OK here.")]
         public bool CheckIsFavorite(int userId, int articleId)
         {
-            return _userArticlesService.CheckIsFavorite(userId, articleId);
+            return userArticlesService.CheckIsFavorite(userId, articleId);
         }
     }
 }
