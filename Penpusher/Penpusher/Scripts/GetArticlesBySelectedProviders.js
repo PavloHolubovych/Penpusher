@@ -20,7 +20,7 @@
             });
         }
         var apiController = window.location.origin + "/api/Articles/ArticlesFromSelectedProviders?someUserId=";
-        var someUserId = 4;
+        var someUserId = 5;
         var viewModel = new ArticlesModel(someUserId);
         ko.applyBindings(viewModel, document.getElementById("articlesSubscriptions"));
     });

@@ -75,7 +75,7 @@ namespace Penpusher.Services
             return subscription ?? _usersNewsProviderRepository.Add(new UsersNewsProvider
             {
                 IdNewsProvider = channel.Id,
-                IdUser = 4
+                IdUser = 5
             });
         }
 

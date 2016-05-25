@@ -30,6 +30,8 @@ namespace Penpusher.Services
         /// </returns>
         IEnumerable<UsersArticle> GetUsersReadArticles(int userId);
 
+        IEnumerable<Article> GetUsersFavoriteArticles(int userId);
+
         /// <summary>
         /// The mark as read.
         /// </summary>
@@ -40,17 +42,6 @@ namespace Penpusher.Services
         /// The article id.
         /// </param>
         void MarkAsRead(int userId, int articleId);
-
-        /// <summary>
-        /// The add to read later.
-        /// </summary>
-        /// <param name="userId">
-        /// The user id.
-        /// </param>
-        /// <param name="articleId">
-        /// The article id.
-        /// </param>
-        void AddToReadLater(int userId, int articleId);
 
         /// <summary>
         /// The add to favorites.
@@ -118,5 +109,7 @@ namespace Penpusher.Services
         /// The <see cref="UsersArticle"/>.
         /// </returns>
         UsersArticle ReadLaterInfo(int userId, int articleId);
+
+        IEnumerable<UsersArticle> GetReadLaterArticles(int userId);
     }
 }

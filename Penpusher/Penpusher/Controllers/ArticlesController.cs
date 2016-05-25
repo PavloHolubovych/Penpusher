@@ -7,17 +7,16 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
+using System.Web.Http;
+using Newtonsoft.Json.Linq;
+using Penpusher.Models;
+using Penpusher.Services;
+
 namespace Penpusher.Controllers
 {
-    using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Linq;
-    using System.Web.Http;
-
-    using Models;
-
-    using Services;
-
     /// <summary>
     /// The articles controller.
     /// </summary>
@@ -90,7 +89,7 @@ namespace Penpusher.Controllers
         /// <param name="articleId">
         /// The article id.
         /// </param>
-        [HttpGet]
+        [HttpPost]
         [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Reviewed. Suppression is OK here.")]
         public void MarkAsRead(int userId, int articleId)
         {
@@ -121,6 +120,13 @@ namespace Penpusher.Controllers
                     (article, readArticle) => article);
 
             return readArticles;
+        }
+
+        [HttpGet]
+        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Reviewed. Suppression is OK here.")]
+        public IEnumerable<Article> UserFavoriteArticles(int userId)
+        {
+            return userArticlesService.GetUsersFavoriteArticles(userId);
         }
 
         /// <summary>
@@ -162,18 +168,35 @@ namespace Penpusher.Controllers
         }
 
         /// <summary>
+        /// The remove from favorites.
+        /// </summary>
+        /// <param name="jsonData">
+        /// The json data.
+        /// </param>
+        [HttpPost]
+        [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "Reviewed. Suppression is OK here.")]
+        public void RemoveFromFavorites(JObject jsonData)
+        {
+            int userId = int.Parse(jsonData["userId"].ToString());
+            int articleId = int.Parse(jsonData["articleId"].ToString());
+
+            userArticlesService.RemoveFromFavorites(userId, articleId);
+        }
+
+        /// <summary>
         /// The add to favorites.
         /// </summary>
-        /// <param name="userId">
-        /// The user id.
-        /// </param>
-        /// <param name="articleId">
-        /// The article id.
+        /// <param name="jsonData">
+        /// The json data.
         /// </param>
         [HttpPost]
         [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Reviewed. Suppression is OK here.")]
-        public void AddToFavorites(int userId, int articleId)
+        [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "Reviewed. Suppression is OK here.")]
+        public void AddToFavorites(JObject jsonData)
         {
+            int userId = int.Parse(jsonData["userId"].ToString());
+            int articleId = int.Parse(jsonData["articleId"].ToString());
+
             userArticlesService.AddToFavorites(userId, articleId);
         }
 
@@ -220,22 +243,6 @@ namespace Penpusher.Controllers
         }
 
         /// <summary>
-        /// The remove from favorites.
-        /// </summary>
-        /// <param name="userId">
-        /// The user id.
-        /// </param>
-        /// <param name="articleId">
-        /// The article id.
-        /// </param>
-        [HttpPost]
-        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Reviewed. Suppression is OK here.")]
-        public void RemoveFromFavorites(int userId, int articleId)
-        {
-            userArticlesService.RemoveFromFavorites(userId, articleId);
-        }
-
-        /// <summary>
         /// The check is favorite.
         /// </summary>
         /// <param name="userId">
@@ -252,6 +259,18 @@ namespace Penpusher.Controllers
         public bool CheckIsFavorite(int userId, int articleId)
         {
             return userArticlesService.CheckIsFavorite(userId, articleId);
+        }
+
+        public IEnumerable<Article> GetReadLeaterArticles()
+        {
+            IEnumerable<Article> readLeaterArticles = articleService.GetAllArticleses()
+                .Join(
+                    userArticlesService.GetReadLaterArticles(5),
+                    article => article.Id,
+                    readLeaterArticle => readLeaterArticle.ArticleId,
+                    (article, readLeaterArticle) => article);
+
+            return readLeaterArticles;
         }
     }
 }

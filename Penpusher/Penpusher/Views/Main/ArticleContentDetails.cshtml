@@ -1,7 +1,5 @@
-﻿ 
-<link rel="stylesheet" type="text/css" href="~/Content/Site.css"/>
+﻿<link rel="stylesheet" type="text/css" href="~/Content/Site.css"/>
 <script type="text/javascript" src="~/Scripts/ArticleDetailsScript.js"></script>
-
 <script>
     localStorage.articleId = @ViewBag.articleId;
     localStorage.userId = @ViewBag.userId;
@@ -9,18 +7,19 @@
 <div id="articleContent">
     
     <div id="articleTitleDiv" >
-        <label data-bind='text: title'/>
+        <label data-bind="text: title"/>
     </div >
     <div class="fluidMedia" >
         <iframe data-bind ="attr: { src: link }" sandbox="allow-same-origin" seamless></iframe>
     </div>
     <div  id="articleLinkDiv">
-        <label> You can view original article content here: </label><a data-bind='text: link'> </a><br/>
+        <label> You can view original article content </label>
+        <a data-bind="attr: { href: link}">here:</a> 
+        <br/>
         <button class="btn btn-primary myButton" data-bind="click: function(){ addToFavorites(@ViewBag.userId, @ViewBag.articleId)}, visible: addToFavoritesVisibility">Add to <b>favorites</b></button>
-        <button class="btn btn-primary myButton" data-bind="click: function(){ removeFromFavorites(@ViewBag.userId, @ViewBag.articleId)}, visible: removeFromFavoritesVisibility">Remove from <b>favorites</b></button>
+        <button class="btn btn-warning myButton" data-bind="click: function(){ removeFromFavorites(@ViewBag.userId, @ViewBag.articleId)}, visible: removeFromFavoritesVisibility">Remove from <b>favorites</b></button>
         <button id="addToReadLater" class="btn btn-primary myButton" onclick="AddtoReadLater(@ViewBag.userId)">Add to <b>read later</b></button>
         <button id="removeFromReadLater" class="btn btn-warning myButton" onclick="DeleteFromReadLater(@ViewBag.userId)">Delete from <b>read later</b></button>
     </div>
-
 </div>
  

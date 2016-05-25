@@ -70,7 +70,10 @@ namespace Penpusher.Controllers
             return View();
         }
 
-
+        public ActionResult UserFavoriteArticles()
+        {
+            return View();
+        }
         /// <summary>
         /// The articles by selected subscriptions.
         /// </summary>
@@ -89,6 +92,12 @@ namespace Penpusher.Controllers
             ViewBag.articleId = articleId;
             ViewBag.userId = 5;
             return View(articleId);
+        }
+
+        public ActionResult ProviderDescription(int newsProviderId)
+        {
+            ViewBag.providerId = newsProviderId;
+            return View();
         }
     }
 }

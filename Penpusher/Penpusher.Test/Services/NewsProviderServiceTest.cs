@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Moq;
 using Ninject;
@@ -146,10 +147,8 @@ namespace Penpusher.Test.Services
             MockKernel.GetMock<IRepository<UsersNewsProvider>>()
                 .Setup(repos => repos.Add(It.IsAny<UsersNewsProvider>()))
                 .Returns(subscription);
-            //// act
             UsersNewsProvider actual = MockKernel.Get<INewsProviderService>().Subscription(link);
 
-            ////assert
             Assert.AreEqual(actual.Id, subscription.Id);
             Assert.AreEqual(actual.IdNewsProvider, channel.Id);
             newsProviderRepositoryMock.Verify(repo => repo.Add(It.IsAny<NewsProvider>()), Times.Once);
@@ -179,13 +178,33 @@ namespace Penpusher.Test.Services
                 {
                     subscription
                 });
-            //// act
             UsersNewsProvider actual = MockKernel.Get<INewsProviderService>().Subscription(link);
-
-            ////assert
             Assert.AreEqual(actual.Id, subscription.Id);
             Assert.AreEqual(actual.IdNewsProvider, channel.Id);
             subscriptionsRepository.Verify(repo => repo.Add(It.IsAny<UsersNewsProvider>()), Times.Never);
         }
+
+        [TestCase(1 )]
+        public void UpdateLastBuildDateForNewsProviderTest(int id)
+        {
+            var testDate = new DateTime(2016, 7, 1, 13, 2, 1);
+
+            var newsproviders = new List<NewsProvider>()
+            {
+                new NewsProvider() { Id = 1, Description = "qwe", LastBuildDate = new DateTime?(new DateTime(2016, 6, 1, 4, 5, 4)), Link = "sdf"},
+                new NewsProvider() { Id = 3, Description = "desc1", LastBuildDate = new DateTime?(new DateTime(2016, 5, 1, 3, 5, 14)), Link = "sdf"},
+                new NewsProvider() { Id = 5, Description = "desc2", LastBuildDate = new DateTime?(new DateTime(2016, 6, 2, 10, 5, 9)), Link = "sdfqwe"}
+            };
+            MockKernel.GetMock<IRepository<NewsProvider>>().Setup(usrv => usrv.GetById(It.IsAny<int>())).Returns(newsproviders.First(np => np.Id == id));
+            MockKernel.GetMock<IRepository<NewsProvider>>().Setup(usrv => usrv.Edit(It.IsAny<NewsProvider>())).Callback(
+                (NewsProvider newsProvider) =>
+                {
+                   var favoriteNewsProvider= newsproviders.Find(np => np.Id == newsProvider.Id);
+                    favoriteNewsProvider = newsProvider;
+                });
+            MockKernel.Get<INewsProviderService>().UpdateLastBuildDateForNewsProvider(id, testDate);
+            Assert.AreEqual(newsproviders.First(np=>np.Id==id).LastBuildDate, testDate);
+        }
+
     }
 }

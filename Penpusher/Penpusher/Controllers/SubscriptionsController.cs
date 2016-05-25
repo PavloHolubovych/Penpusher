@@ -55,6 +55,11 @@ namespace Penpusher.Controllers
             return _newsProviderService.GetByUserId(id).ToArray();
         }
 
+        public  NewsProvider GetProviderDetails(int providerId)
+        {
+           return  _newsProviderService.GetAll().First(np => np.Id == providerId);
+        }
+
         // POST api/<controller>
 
         /// <summary>
@@ -68,6 +73,12 @@ namespace Penpusher.Controllers
         {
             string link = newsProvider.Link;
             _newsProviderService.Subscription(link);
+        }
+        
+
+        public void AddSubscriptionToUser()
+        {
+           
         }
 
         // PUT api/<controller>/5
@@ -94,7 +105,6 @@ namespace Penpusher.Controllers
         /// The id.
         /// </param>
         [Route("delete/{id}")]
-
         public void Delete(int id)
         {
             _newsProviderService.Unsubscription(id);

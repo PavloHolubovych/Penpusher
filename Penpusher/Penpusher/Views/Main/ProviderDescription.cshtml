@@ -1,0 +1,30 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script>
+    localStorage.providerId = @ViewBag.providerId;
+</script>
+
+<script src="~/Scripts/ProviderDescriptionScript.js"></script>
+
+<div class="readArticles" id="providerDescriptionContainer"> <!--main container-->
+    <div> <!--header-->
+        <a data-bind="attr: { href:  link}">
+            <h1 data-bind="text: name"></h1> <!--provider name-->
+        </a>
+    </div>
+
+    <div><!--description-->
+        <p data-bind="text: description"></p>
+    </div>
+
+    <div> <!--buttons-->
+        <button></button><!--sub/unsub-->
+        <button></button><!--visit-->
+    </div>
+
+    <div><!--start date-->
+        <p>This provider on our resourse from <span data-bind="text: subscriptionDate"></span></p>
+    </div>
+</div>
