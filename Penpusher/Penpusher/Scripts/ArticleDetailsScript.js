@@ -29,6 +29,8 @@
 
 };
 
+// AddToRead
+
 $(document)
    .ready(function () { 
        $('#addToReadLater').show();
@@ -75,7 +77,7 @@ $(document)
         });
 
 function AddtoReadLater(userId) {
-    $.post("/api/Articles/ToReadLater?userId=" + userId + "&articleIdRL=" + QueryString.articleId + "&add=true")
+    $.post("/api/Articles/ToReadLater?userId=" + userId + "&articleIdRl=" + QueryString.articleId + "&add=true")
         .success(function (data) {
             var article = data;
             if (data.IsToReadLater) {
@@ -92,7 +94,7 @@ function AddtoReadLater(userId) {
 }
 
 function DeleteFromReadLater(userId) {
-    $.post("/api/Articles/ToReadLater?userId=" + userId + "&articleIdRL=" + QueryString.articleId + "&add=false")
+    $.post("/api/Articles/ToReadLater?userId=" + userId + "&articleIdRl=" + QueryString.articleId + "&add=false")
         .success(function (data) {
             var article = data;
             if (data.IsToReadLater) {

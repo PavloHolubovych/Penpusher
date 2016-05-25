@@ -32,6 +32,7 @@ namespace Penpusher.Services.ContentService
                 Date = date,
                 Link = GetDescedantValue(post, "link"),
                 Id = 0,
+                Image = GetImage(post),
                 IdNewsProvider = idNewsProvider,
                 UsersArticles = null,
                 NewsProvider = null
@@ -41,6 +42,23 @@ namespace Penpusher.Services.ContentService
         private string GetDescedantValue(XElement post, string descedantName)
         {
             return post.Element(descedantName)?.Value;
+        }
+
+        private string GetImage(XElement post)
+        {
+            XElement image = post.Element("enclosure");
+            if (image != null && image.HasAttributes)
+            {
+                foreach (var attribute in image.Attributes())
+                {
+                    string value = attribute.Value.ToLower();
+                    if (value.StartsWith("http://") && (value.EndsWith(".jpg") || value.EndsWith(".png") || value.EndsWith(".gif")))
+                    {
+                        return value; // Add here the image link to some array
+                    }
+                }
+            }
+            return null;
         }
     }
 }

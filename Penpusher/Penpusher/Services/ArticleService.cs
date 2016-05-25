@@ -85,7 +85,7 @@ namespace Penpusher.Services
         [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Reviewed. Suppression is OK here.")]
         public Article GetById(int id)
         {
-            return this.repository.GetAll().Where(article => article.Id == id).Select(n => new Article()
+            return repository.GetAll().Where(article => article.Id == id).Select(n => new Article()
             {
                 Id = n.Id,
                 Title = n.Title,
@@ -150,7 +150,11 @@ namespace Penpusher.Services
         {
             // I changed this code for performance. Selected only necessary fields
             // var vari = _repository.GetAll().Where(x => x.IdNewsProvider == newsProviderId).ToList();
-            return repository.GetAll().Where(x => x.IdNewsProvider == newsProviderId).Select(o => new Article { Title = o.Title, Description = o.Description, Link = o.Link }).ToList();
+            return repository.GetAll().Where(x => x.IdNewsProvider == newsProviderId).Select(o => new Article()
+            {
+                Id = o.Id, Title = o.Title, Description = o.Description, Link = o.Link, Date = o.Date, Image = o.Image
+            })
+                .ToList();
         }
 
         /// <summary>
@@ -193,7 +197,7 @@ namespace Penpusher.Services
             var articles = new List<Article>();
 
             IEnumerable<UserNewsProviderModels> userNewsProviderModelses = newsProviders as UserNewsProviderModels[] ?? newsProviders.ToArray();
-            if (userNewsProviderModelses.ToList().Count > 0)
+            if (userNewsProviderModelses.Any())
             {
                 foreach (UserNewsProviderModels provider in userNewsProviderModelses)
                 {
@@ -202,8 +206,9 @@ namespace Penpusher.Services
                         Id = n.Id,
                         Title = n.Title,
                         Description = n.Description,
+                        Image = n.Image,
                         Link = n.Link,
-                        Date = n.Date,
+                        Date = n.Date
                     }).ToList();
                     articles.AddRange(nextProviderArticles);
                 }

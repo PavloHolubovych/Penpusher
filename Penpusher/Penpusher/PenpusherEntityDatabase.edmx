@@ -15,6 +15,7 @@
           <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Date" Type="date" Nullable="false" />
           <Property Name="IdNewsProvider" Type="int" Nullable="false" />
+          <Property Name="Image" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="NewsProviders">
           <Key>
@@ -162,6 +163,7 @@
           <Property Name="IdNewsProvider" Type="Int32" Nullable="false" />
           <NavigationProperty Name="NewsProvider" Relationship="Self.FK_Articles_IdProvider" FromRole="Articles" ToRole="NewsProviders" />
           <NavigationProperty Name="UsersArticles" Relationship="Self.FK_UsersArticles_IdArticle" FromRole="Articles" ToRole="UsersArticles" />
+          <Property Name="Image" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="NewsProvider">
           <Key>
@@ -310,6 +312,7 @@
           <EntitySetMapping Name="Articles">
             <EntityTypeMapping TypeName="PenpusherDatabaseModel.Article">
               <MappingFragment StoreEntitySet="Articles">
+                <ScalarProperty Name="Image" ColumnName="Image" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="Link" ColumnName="Link" />

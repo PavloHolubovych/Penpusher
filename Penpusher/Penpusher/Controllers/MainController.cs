@@ -1,11 +1,9 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="MainController.cs" company="Sigma software">
-//   MainController
-// </copyright>
-// <summary>
-//   The main controller.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+﻿using System;
+using System.Collections.Generic; 
+using System.Web.Mvc;
+using System.Xml.Linq;
+using Penpusher.Models;
+using Penpusher.Services.ContentService;
 
 namespace Penpusher.Controllers
 {
@@ -18,15 +16,6 @@ namespace Penpusher.Controllers
     /// </summary>
     public class MainController : Controller
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MainController"/> class.
-        /// </summary>
-        public MainController()
-        {
-            ViewBag.UserName = "UserNAme1";
-            ViewBag.ProvidersList = new List<string> { "sdfs", "sdfsdf", "sdfsdf" };
-        }
-
         /// <summary>
         /// The index.
         /// </summary>
@@ -75,6 +64,7 @@ namespace Penpusher.Controllers
             return View();
         }
 
+        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Reviewed. Suppression is OK here.")]
         public ActionResult UserToReadLaterArticles()
         {
             return View();
@@ -90,6 +80,7 @@ namespace Penpusher.Controllers
         [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Reviewed. Suppression is OK here.")]
         public ActionResult ArticlesBySelectedSubscriptions()
         {
+
             return View();
         }
 
