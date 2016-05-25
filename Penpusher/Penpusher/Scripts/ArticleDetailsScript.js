@@ -55,7 +55,7 @@ $(document)
             ko.applyBindings(article, document.getElementById("articleContent"));
         });
 
-       $.get("/api/Articles/MarkAsRead?userId=" + localStorage.userId + "&articleId=" + localStorage.articleId,
+       $.post("/api/Articles/MarkAsRead?userId=" + localStorage.userId + "&articleId=" + localStorage.articleId,
             function(data) {});
 
        var userId = 5;
