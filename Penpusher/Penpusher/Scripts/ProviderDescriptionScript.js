@@ -11,13 +11,10 @@
 };
 
 $(document)
-    .ready(function () {
-        var provider;
+    .ready(function (){
         $.getJSON('/api/Subscriptions/GetProviderDetails?providerId=' + localStorage.providerId, function(data) {
-            provider = data;
-        });
-
-
-        ko.applyBindings(new ProviderViewModel(provider.Name, provider.Link,
-             provider.Subscription.Data, provider.Description), document.getElementById("providerDescriptionContainer"));
+            var provider = new ProviderViewModel(data.Name, data.Link,
+                data.SubscriptionDate, data.Description);
+            ko.applyBindings(provider, document.getElementById("providerDescriptionContainer"));
+        });        
     });

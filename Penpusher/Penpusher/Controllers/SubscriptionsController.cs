@@ -26,10 +26,10 @@ namespace Penpusher.Controllers
         /// </summary>
         private readonly INewsProviderService _newsProviderService;
 
-        //public SubscriptionsController(INewsProviderService newsProviderService, I)
-        //{
-        //    _newsProviderService = newsProviderService;
-        //}
+        public SubscriptionsController(INewsProviderService newsProviderService)
+        {
+            _newsProviderService = newsProviderService;
+        }
 
         // GET api/<controller>
 
