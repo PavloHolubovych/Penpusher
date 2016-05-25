@@ -6,7 +6,7 @@
     self.removeFromFavoritesVisibility = ko.observable(removeVisibility);
 
     self.addToFavorites = function (userId, articleId) {
-        $.post("/api/Articles/AddToFavorites?userId=" + userId + "&articleId=" + articleId)
+        $.post("/api/Articles/AddToFavorites", { "userId": userId, "articleId": articleId })
             .success(function () {
                 self.addToFavoritesVisibility(false);
                 self.removeFromFavoritesVisibility(true);
@@ -17,7 +17,7 @@
     };
 
     self.removeFromFavorites = function (userId, articleId) {
-        $.post("/api/Articles/RemoveFromFavorites?userId=" + userId + "&articleId=" + articleId)
+        $.post("/api/Articles/RemoveFromFavorites", { "userId": userId, "articleId": articleId })
             .success(function () {
                 self.addToFavoritesVisibility(true);
                 self.removeFromFavoritesVisibility(false);

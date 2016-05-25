@@ -22,6 +22,7 @@ namespace Penpusher.Services.ContentService
         {
             foreach (RssChannelModel provider in rssChannels)
             {
+                newsProviderService.UpdateLastBuildDateForNewsProvider(provider.ProviderId, provider.LastBuildDate);
                 var parsedArticles = rssParser.GetParsedArticles(provider);
                 foreach (Article article in parsedArticles)
                 {

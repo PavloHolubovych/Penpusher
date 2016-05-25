@@ -13,6 +13,7 @@ namespace Penpusher.Controllers
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Web.Http;
+    using Newtonsoft.Json.Linq;
 
     using Models;
 
@@ -161,6 +162,15 @@ namespace Penpusher.Controllers
             return articleService.GetArticlesFromSelectedProviders(newsProviders);
         }
 
+        [HttpPost]
+        public void RemoveFromFavorites(JObject jsonData)
+        {
+            int userId = int.Parse(jsonData["userId"].ToString());
+            int articleId = int.Parse(jsonData["articleId"].ToString());
+
+            userArticlesService.RemoveFromFavorites(userId, articleId);
+        }
+
         /// <summary>
         /// The add to favorites.
         /// </summary>
@@ -172,8 +182,11 @@ namespace Penpusher.Controllers
         /// </param>
         [HttpPost]
         [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Reviewed. Suppression is OK here.")]
-        public void AddToFavorites(int userId, int articleId)
+        public void AddToFavorites(JObject jsonData)
         {
+            int userId = int.Parse(jsonData["userId"].ToString());
+            int articleId = int.Parse(jsonData["articleId"].ToString());
+
             userArticlesService.AddToFavorites(userId, articleId);
         }
 
@@ -217,22 +230,6 @@ namespace Penpusher.Controllers
         public UsersArticle ToReadLater(int userId, int articleIdRl, bool add)
         {
             return userArticlesService.ToReadLater(userId, articleIdRl, add);
-        }
-
-        /// <summary>
-        /// The remove from favorites.
-        /// </summary>
-        /// <param name="userId">
-        /// The user id.
-        /// </param>
-        /// <param name="articleId">
-        /// The article id.
-        /// </param>
-        [HttpPost]
-        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Reviewed. Suppression is OK here.")]
-        public void RemoveFromFavorites(int userId, int articleId)
-        {
-            userArticlesService.RemoveFromFavorites(userId, articleId);
         }
 
         /// <summary>
