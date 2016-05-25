@@ -38,3 +38,7 @@ function ManageContentPage() {
 function LoadReadPage() {
     location.href = "/Main/UserReadArticles";
 }
+
+function LoadReadLaterPage() {
+    location.href = "/Main/UserToReadLaterArticles";
+}
