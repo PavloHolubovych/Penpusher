@@ -19,7 +19,7 @@
         <button class="btn btn-primary myButton" data-bind="click: function(){ addToFavorites(@ViewBag.userId, @ViewBag.articleId)}, visible: addToFavoritesVisibility">Add to <b>favorites</b></button>
         <button class="btn btn-primary myButton" data-bind="click: function(){ removeFromFavorites(@ViewBag.userId, @ViewBag.articleId)}, visible: removeFromFavoritesVisibility">Remove from <b>favorites</b></button>
         <button id="addToReadLater" class="btn btn-primary myButton" onclick="AddtoReadLater(@ViewBag.userId)">Add to <b>read later</b></button>
-        <button id="removeFromReadLater" class="btn btn-primary myButton" onclick="DeleteFromReadLater(@ViewBag.userId)">Delete from <b>read later</b></button>
+        <button id="removeFromReadLater" class="btn btn-warning myButton" onclick="DeleteFromReadLater(@ViewBag.userId)">Delete from <b>read later</b></button>
     </div>
 
 </div>
