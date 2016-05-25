@@ -1,7 +1,8 @@
-﻿var ProviderViewModel = function () {
+﻿var ProviderViewModel = function (provider) {
     var self = this;
 
-    self.provider = $.getJSON('/api/GetProviderDetails/' + providerId);
+    self.provider = ko.observable(provider);
+    console.log(provider.Name);
 
     self.subscribe = function(newsprovider) {
         var link = newsprovider.AddLink;
@@ -24,5 +25,11 @@
 
 $(document)
     .ready(function () {
+        var provider;
+        $.getJSON('/api/Subscriptions/GetProviderDetails?providerId=' + localStorage.providerId, function(data) {
+            provider = data;
+        });
+
+
         ko.applyBindings(new ProviderViewModel(provider), document.getElementById('providerDescriptionContainer'));
     });

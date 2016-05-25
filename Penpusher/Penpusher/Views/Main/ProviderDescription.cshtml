@@ -2,6 +2,10 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<script>
+    localStorage.providerId = @ViewBag.providerId;
+</script>
+
 <script src="~/Scripts/ProviderDescriptionScript.js"></script>
 
 <div class="readArticles" id="providerDescriptionContainer"> <!--main container-->
