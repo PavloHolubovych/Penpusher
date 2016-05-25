@@ -95,40 +95,6 @@ namespace Penpusher.Services
         }
 
         /// <summary>
-        /// The add to read later.
-        /// </summary>
-        /// <param name="userId">
-        /// The user id.
-        /// </param>
-        /// <param name="articleId">
-        /// The article id.
-        /// </param>
-        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1101:PrefixLocalCallsWithThis", Justification = "Reviewed. Suppression is OK here.")]
-        public void AddToReadLater(int userId, int articleId)
-        {
-            var userArticle = repository.GetAll().FirstOrDefault(ua => ua.ArticleId == articleId && ua.UserId == userId);
-
-            if (userArticle == null)
-            {
-                userArticle = new UsersArticle
-                {
-                    ArticleId = articleId,
-                    UserId = userId,
-                    IsToReadLater = true,
-                    IsFavorite = false,
-                    IsRead = false
-                };
-            }
-            else
-            {
-                userArticle.IsFavorite = true;
-                userArticle.IsRead = false;
-            }
-
-            repository.Edit(userArticle);
-        }
-
-        /// <summary>
         /// The add to favorites.
         /// </summary>
         /// <param name="userId">
@@ -255,21 +221,23 @@ namespace Penpusher.Services
             UsersArticle userArticle = repository.GetAll().FirstOrDefault(x => x.ArticleId == articleId && x.UserId == userId);
 
             if (userArticle == null)
+            {
                 userArticle = new UsersArticle
-                {
-                    ArticleId = articleId,
-                    UserId = userId,
-                    IsToReadLater = add,
-                    IsFavorite = false,
-                    IsRead = false
-                };
+                                  {
+                                      ArticleId = articleId,
+                                      UserId = userId,
+                                      IsToReadLater = add,
+                                      IsFavorite = false,
+                                      IsRead = false
+                                  };
+                repository.Add(userArticle);
+            }
             else
             {
                 userArticle.IsToReadLater = add;
                 userArticle.IsRead = !add;
+                repository.Edit(userArticle);
             }
-
-            repository.Edit(userArticle);
 
             var userArticleClient = new UsersArticle
             {
