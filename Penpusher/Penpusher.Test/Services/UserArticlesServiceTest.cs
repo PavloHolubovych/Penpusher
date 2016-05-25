@@ -104,7 +104,7 @@ namespace Penpusher.Test.Services
         [Category("UserArticlesService")]
         [TestCase(1, 15, TestName = "For existing UserArticle item where article IsFavorite == true")]
         [TestCase(3, 6, TestName = "For existing UserArticle item where article IsFavorite == false")]
-        [TestCase(5, 5, TestName = "For not existing item UserArticle")]
+ 
         public void RemoveFromFavoritesTest(int userId, int articleId)
         {
             var testArticles = new List<UsersArticle>()
@@ -119,7 +119,12 @@ namespace Penpusher.Test.Services
             MockKernel.GetMock<IRepository<UsersArticle>>().Setup(usrv => usrv.GetAll()).Returns(testArticles);
             MockKernel.GetMock<IRepository<UsersArticle>>()
                 .Setup(edit => edit.Edit(It.IsAny<UsersArticle>()))
-                .Callback((UsersArticle article) => { testArticles.Add(article); });
+                .Callback((UsersArticle article) =>
+                {
+                    var articleForChange = testArticles.First(ua => ua.ArticleId == article.ArticleId && 
+                    ua.UserId == article.UserId);
+                    articleForChange = article;
+                });
 
             MockKernel.Get<IUsersArticlesService>().RemoveFromFavorites(userId, articleId);
             UsersArticle actual = testArticles.First(ua => ua.ArticleId == articleId && ua.ArticleId == articleId);
