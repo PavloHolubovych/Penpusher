@@ -27,7 +27,7 @@ namespace Penpusher.Services.ContentService
 
             return new Article()
             {
-                Description = WebUtility.HtmlEncode(GetDescedantValue(post, "description")),
+                Description =  (GetDescedantValue(post, "description")),
                 Title = GetDescedantValue(post, "title"),
                 Date = date,
                 Link = GetDescedantValue(post, "link"),
