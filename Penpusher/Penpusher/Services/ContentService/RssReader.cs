@@ -19,6 +19,7 @@ namespace Penpusher.Services.ContentService
             }
             catch
             {
+                //DEFECT: bad practice to use empty catch
                 // ignored
             }
             return rssFile;

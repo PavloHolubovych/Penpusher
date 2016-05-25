@@ -30,9 +30,9 @@ namespace Penpusher.Services
                 LastBuildDate = n.LastBuildDate
             });
 
-            return newsproviders;
+            return newsproviders;//ToList()?
         }
-
+        //DEFECT: naming. type if a collection but name specified as we expect a single record
         public IEnumerable<UserNewsProviderModels> GetByUserId(int id)
         {
             IEnumerable<UserNewsProviderModels> news = _usersNewsProviderRepository.GetAll().Where(_ => _.IdUser == id)
@@ -46,9 +46,9 @@ namespace Penpusher.Services
                     RssImage = un.NewsProvider.RssImage,
                     SubscriptionDate = un.NewsProvider.SubscriptionDate
                 });
-            return news;
+            return news;//.ToList()?
         }
-
+        //i dont really like void type for methods changing db state
         public void Unsubscription(int id)
         {
             _usersNewsProviderRepository.Delete(id);
@@ -63,7 +63,7 @@ namespace Penpusher.Services
                 channel = new NewsProvider
                 {
                     Link = link,
-                    Name = "test",
+                    Name = "test",//duplication. extract constant and reuse it
                     Description = "test",
                     SubscriptionDate = DateTime.Today
                 };
@@ -79,6 +79,7 @@ namespace Penpusher.Services
             });
         }
 
+        //i dont really like void type for methods changing db state
         public void UpdateLastBuildDateForNewsProvider(int id, DateTime? lastBuildDate)
         {
             NewsProvider updatedProvider = _newsProviderRepository.GetById(id);

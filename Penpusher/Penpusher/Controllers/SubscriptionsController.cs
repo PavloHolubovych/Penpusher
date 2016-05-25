@@ -43,6 +43,7 @@ namespace Penpusher.Controllers
         ///     .
         /// </returns>
         [Route("getall")]
+        //DEFECT: violation dependency inversion principle. method type must be more abstract and return is more specific
         public NewsProvider[] Get()
         {
             return _newsProviderService.GetAll().ToArray();
@@ -50,6 +51,7 @@ namespace Penpusher.Controllers
 
         // GET api/<controller>/5
         [Route("getallsubscription/{id}")]
+        //DEFECT: violation dependency inversion principle. method type must be more abstract and return is more specific
         public UserNewsProviderModels[] GetByUser(int id)
         {
             return _newsProviderService.GetByUserId(id).ToArray();
@@ -92,6 +94,7 @@ namespace Penpusher.Controllers
         /// <param name="value">
         /// The value.
         /// </param>
+        //DEFECT: remove unused method
         public void Put(int id, [FromBody]string value)
         {
         }
@@ -104,6 +107,7 @@ namespace Penpusher.Controllers
         /// <param name="id">
         /// The id.
         /// </param>
+        //DEFECT: its bad practice to return void in API. return bool at least to check does action perform successfully
         [Route("delete/{id}")]
         public void Delete(int id)
         {

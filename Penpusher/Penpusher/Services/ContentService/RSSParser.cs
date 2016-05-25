@@ -34,8 +34,8 @@ namespace Penpusher.Services.ContentService
                 Id = 0,
                 Image = GetImage(post),
                 IdNewsProvider = idNewsProvider,
-                UsersArticles = null,
-                NewsProvider = null
+                UsersArticles = null,//remove this
+                NewsProvider = null//remove this
             };
         }
 

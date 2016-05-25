@@ -4,6 +4,7 @@ using Penpusher.Services;
 
 namespace Penpusher.Controllers
 {
+    //DEFECT: remove unused method and code was written for test
     public class HomeController : Controller
     {
         private readonly IArticleService articleService;

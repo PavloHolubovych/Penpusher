@@ -122,6 +122,7 @@ namespace Penpusher.Services
         /// <param name="articleId">
         /// The article id.
         /// </param>
+        //DEFECT: duplication detected. use single method for changind favorite flag
         [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1101:PrefixLocalCallsWithThis", Justification = "Reviewed. Suppression is OK here.")]
         public void AddToFavorites(int userId, int articleId)
         {
@@ -156,6 +157,7 @@ namespace Penpusher.Services
         /// <param name="articleId">
         /// The article id.
         /// </param>
+        //DEFECT see remark above
         [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1101:PrefixLocalCallsWithThis", Justification = "Reviewed. Suppression is OK here.")]
         public void RemoveFromFavorites(int userId, int articleId)
         {
@@ -194,6 +196,7 @@ namespace Penpusher.Services
         /// </returns>
         [SuppressMessage("StyleCop.CSharp.LayoutRules", "SA1503:CurlyBracketsMustNotBeOmitted", Justification = "Reviewed. Suppression is OK here.")]
         [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1101:PrefixLocalCallsWithThis", Justification = "Reviewed. Suppression is OK here.")]
+        //DEFECT: naming
         public UsersArticle ReadLaterInfo(int userId, int articleId)
         {
             UsersArticle userArticle =
@@ -206,15 +209,15 @@ namespace Penpusher.Services
                                                 Id = userArticle.Id,
                                                 IsToReadLater = userArticle.IsToReadLater,
                                                 IsRead = userArticle.IsRead,
-                                                Article = null,
-                                                User = null,
+                                                Article = null,//should be removed
+                                                User = null,//should be removed
                                                 ArticleId = userArticle.ArticleId,
                                                 IsFavorite = userArticle.IsFavorite,
                                                 UserId = userArticle.UserId
                                             };
                 return userArticleClient;
             }
-
+            //DEFECT: why return new object?
             return new UsersArticle();
         }
 
@@ -263,13 +266,13 @@ namespace Penpusher.Services
                 Id = userArticle.Id,
                 IsToReadLater = userArticle.IsToReadLater,
                 IsRead = userArticle.IsRead,
-                Article = null,
-                User = null,
+                Article = null,//remove this
+                User = null,//remove this
                 ArticleId = userArticle.ArticleId,
                 IsFavorite = userArticle.IsFavorite,
                 UserId = userArticle.UserId
             };
-            return userArticleClient;
+            return userArticleClient;//could be inlined
         }
 
         /// <summary>
@@ -285,11 +288,12 @@ namespace Penpusher.Services
         /// The <see cref="bool"/>.
         /// </returns>
         [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1101:PrefixLocalCallsWithThis", Justification = "Reviewed. Suppression is OK here.")]
+        //whats the purpose of this method? do we need it?
         public bool CheckIsFavorite(int userId, int articleId)
         {
             UsersArticle userArticle = repository.GetAll().FirstOrDefault(ua => ua.ArticleId == articleId && ua.UserId == userId);
 
-            return userArticle != null && (bool)userArticle.IsFavorite;
+            return userArticle != null && (bool)userArticle.IsFavorite;//use C# 6 feature: e.g. return userArticle?.IsFavorite;
         }
     }
 }

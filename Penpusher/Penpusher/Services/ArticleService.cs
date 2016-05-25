@@ -85,6 +85,7 @@ namespace Penpusher.Services
         [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Reviewed. Suppression is OK here.")]
         public Article GetById(int id)
         {
+            //DEFECT:this solution is suboptimal as far as we need only single record with current id. better use method GetById from repository
             return repository.GetAll().Where(article => article.Id == id).Select(n => new Article()
             {
                 Id = n.Id,
@@ -92,7 +93,7 @@ namespace Penpusher.Services
                 Description = n.Description,
                 Link = n.Link,
                 Date = n.Date,
-            }).ToList()[0];
+            }).ToList()[0];//DEFECT: this is potential nullreference exception. if result of query is empty list exception will throw.
         }
 
         /// <summary>
@@ -107,7 +108,7 @@ namespace Penpusher.Services
         [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Reviewed. Suppression is OK here.")]
         public bool CheckDoesExists(string title)
         {
-            return repository.GetAll().Count(x => x.Title == title) > 0;
+            return repository.GetAll().Count(x => x.Title == title) > 0;//could be changed to .Any()
         }
 
         /// <summary>

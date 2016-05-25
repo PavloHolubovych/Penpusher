@@ -159,7 +159,7 @@ namespace Penpusher.Test.Services
                 new Article { Id = 4, Title = "article2", IdNewsProvider = 4 }
             };
 
-            switch (testcase)
+            switch (testcase)//DEFECT: remove switch. use TestCase args instead
             {
                 case 0:
                     break;

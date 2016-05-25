@@ -86,7 +86,7 @@ namespace Penpusher.Controllers
 
             return View();
         }
-
+        //try to avoid using VievBad and VievData. use model instead
         public ActionResult ArticleContentDetails(int articleId)
         {
             ViewBag.articleId = articleId;

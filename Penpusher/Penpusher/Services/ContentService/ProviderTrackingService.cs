@@ -23,6 +23,7 @@ namespace Penpusher.Services.ContentService
             this.rssReader = rssReader;
         }
 
+        //i dont really like void type for methods changing db state
         public void UpdateArticlesFromNewsProviders()
         {
             List<RssChannelModel> updatedRssChannells = GetUpdatedRssFilesFromNewsProviders().ToList();
@@ -68,6 +69,7 @@ namespace Penpusher.Services.ContentService
             XElement rootElement = XDocument.Parse(content).Root;
             if (rootElement != null)
             {
+                //DEFECT: duplication detected. move to method
                 string lastBuild = null;
                 try
                 {
@@ -77,6 +79,7 @@ namespace Penpusher.Services.ContentService
                 catch
                 {
                     // no root element channel
+                    //DEFECT: please, do not use empty catch
                 }
                 if (lastBuild != null)
                 {
@@ -91,6 +94,7 @@ namespace Penpusher.Services.ContentService
                 catch
                 {
                     // no root element channel
+                    //again empty catch
                 }
                 if (lastpubDate != null)
                 {

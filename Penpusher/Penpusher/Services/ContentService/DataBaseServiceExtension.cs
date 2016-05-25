@@ -19,6 +19,7 @@ namespace Penpusher.Services.ContentService
             this.rssParser = rssParser;
         }
 
+        //i dont really like void type for methods changing db state
         public void InsertNewArticles(IEnumerable<RssChannelModel> rssChannels)
         {
             foreach (RssChannelModel provider in rssChannels)
@@ -37,6 +38,7 @@ namespace Penpusher.Services.ContentService
 
         public string GetRssUrlById(int id)
         {
+            //DEFECT: use getById method from repository
                 return newsProviderService.GetAll().FirstOrDefault(x => x.Id == id).Link;
         }
     }

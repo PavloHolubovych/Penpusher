@@ -43,7 +43,7 @@ namespace Penpusher.DAL
             DbSet.Remove(item);
             EntitiesContext.SaveChanges();
         }
-
+        //TODO: implement this method and use it when we need to get entity by its id
         public T GetById(int id)
         {
             throw new NotImplementedException();
