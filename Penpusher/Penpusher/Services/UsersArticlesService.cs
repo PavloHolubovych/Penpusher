@@ -75,6 +75,11 @@ namespace Penpusher.Services
             return usart;
         }
 
+        public IEnumerable<UsersArticle> GetReadLaterArticles(int userId)
+        {
+            return repository.GetAll().Where(art => art.IsToReadLater == true && art.UserId == userId).ToList();
+        }
+
         /// <summary>
         /// The mark as read.
         /// </summary>

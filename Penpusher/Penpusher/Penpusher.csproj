@@ -406,6 +406,7 @@
     <Content Include="Scripts\Main\favoritearticles.js" />
     <Content Include="Scripts\Main\subscriptions.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\ProviderDescriptionScript.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\UserToReadLaterArticleScript.js" />
@@ -454,6 +455,7 @@
     <Content Include="Views\Main\ArticlesBySelectedSubscriptions.cshtml" />
     <Content Include="Views\Main\ArticleContentDetails.cshtml" />
     <Content Include="Views\Main\UserToReadLaterArticles.cshtml" />
+    <Content Include="Views\Main\ProviderDescription.cshtml" />
     <Content Include="Views\Main\UserFavoriteArticles.cshtml" />
   </ItemGroup>
   <ItemGroup>

@@ -93,5 +93,11 @@ namespace Penpusher.Controllers
             ViewBag.userId = 5;
             return View(articleId);
         }
+
+        public ActionResult ProviderDescription(int newsProviderId)
+        {
+            ViewBag.providerId = newsProviderId;
+            return View();
+        }
     }
 }

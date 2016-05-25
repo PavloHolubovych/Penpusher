@@ -109,5 +109,7 @@ namespace Penpusher.Services
         /// The <see cref="UsersArticle"/>.
         /// </returns>
         UsersArticle ReadLaterInfo(int userId, int articleId);
+
+        IEnumerable<UsersArticle> GetReadLaterArticles(int userId);
     }
 }
