@@ -7,19 +7,16 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
+using System.Web.Http;
+using Newtonsoft.Json.Linq;
+using Penpusher.Models;
+using Penpusher.Services;
+
 namespace Penpusher.Controllers
 {
-    using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Linq;
-    using System.Web.Http;
-
-    using Newtonsoft.Json.Linq;
-
-    using Models;
-
-    using Services;
-
     /// <summary>
     /// The articles controller.
     /// </summary>
@@ -123,6 +120,13 @@ namespace Penpusher.Controllers
                     (article, readArticle) => article);
 
             return readArticles;
+        }
+
+        [HttpGet]
+        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Reviewed. Suppression is OK here.")]
+        public IEnumerable<Article> UserFavoriteArticles(int userId)
+        {
+            return userArticlesService.GetUsersFavoriteArticles(userId);
         }
 
         /// <summary>

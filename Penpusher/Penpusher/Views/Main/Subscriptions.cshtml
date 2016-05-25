@@ -1,6 +1,6 @@
 ﻿<div id="subscription">
 <form>
-    <h1><p>You have subscribe for <span data-bind="text: newsproviders().length">&nbsp;</span> newsprovider(s)
+    <h1><p>You have subscribe for <span data-bind="text: newsproviders().length">&nbsp;</span> channel(s)
     </p></h1>
     <table class="table" data-bind="visible: newsproviders().length > 0">
         <thead>
@@ -8,7 +8,7 @@
             <th>Name</th>
             <th>Link</th>
             <th>Description</th>
-            <th>RssImage</th>
+            <th >RssImage</th>
             <th>SubscriptionDate</th>
             <th/>
         </tr>
@@ -23,7 +23,7 @@
                 <span class="required number" data-bind="text: Description, uniqueName: true"></span>
             </td>
             <td>
-                <span class="required number" data-bind="text: RssImage, uniqueName: true"></span>
+                <img class="required number" data-bind="attr:{src: RssImage}"/>
             </td>
             <td>
                 <span class="required number" data-bind="text: SubscriptionDate, uniqueName: true"></span>
@@ -43,4 +43,41 @@
     <button class="btn btn-primary" data-bind="click: $root.addNewsProvider">Add newsprovider</button>
 </form>
 </div>
+
+<div id="availableChannel">
+    <form>
+        <h1>
+            <p>You can choose from available channel(s)
+            </p>
+        </h1>
+        <table class="table" data-bind="visible:">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Link</th>
+                <th>Description</th>
+                <th>RssImage</th>
+                <th>SubscriptionDate</th>
+                <th/>
+            </tr>
+            </thead>
+            <tbody data-bind="foreach: alailableChannels">
+            <tr>
+                <td><span class="required number" data-bind="text: alailableName, uniqueName: true"></span></td>
+                <td>
+                    <span class="required number" data-bind="text: alailableLink, uniqueName: true"></span>
+                </td>
+                <td>
+                    <span class="required number" data-bind="text: alailableDescription, uniqueName: true"></span>
+                </td>
+                <td>
+                    <span class="required number" data-bind="text: alailableRssImage, uniqueName: true"></span>
+                </td>
+                <td><a href="#" data-bind="click: $root.removeNewsProvider">Subscribe</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
+</div>
+
 @Scripts.Render("~/bundles/subscriptions")

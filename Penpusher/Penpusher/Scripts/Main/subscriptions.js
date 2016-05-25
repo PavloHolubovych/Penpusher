@@ -2,13 +2,13 @@
         var self = this;
         var userId = 5;
         self.newsproviders = ko.observableArray([]);
-        self.AddLink = ko.observable("example");
-        $.getJSON('/api/getallsubscription/' + userId, function (data) {
+        self.AddLink = ko.observable("liga.net");
 
-            self.newsproviders(data);
+        $.getJSON('/api/getallsubscription/' + userId, function (channel) {
 
+            self.newsproviders(channel);
         });
-
+        
         self.addNewsProvider = function (newsprovider) {
             var link = newsprovider.AddLink;
             console.log({ link });

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Moq;
 using Ninject;
@@ -51,33 +52,105 @@ namespace Penpusher.Test.Services
             Assert.AreEqual(expected, actual);
         }
 
-
         [Category("UserArticlesService")]
-        [TestCase(1, TestName = "For existing user, that has read to later articles")]
-        [TestCase(3, TestName = "For existing user, that hasn't read to later articles")]
-        [TestCase(5, TestName = "For not existing user")]
-        public void GetReadLaterArticlesTest(int userId)
+        [TestCase(1, 2, TestName = "For existing user, that has favorite articles")]
+        [TestCase(3, 2, TestName = "For existing user, that hasn't favorite articles")]
+        [TestCase(5, 2, TestName = "For nt existing user")]
+        public void GetUsersFavoriteArticlesTest(int userId, int expected)
         {
             var testArticles = new List<UsersArticle>()
             {
-                new UsersArticle() { Id = 1, UserId = 1, ArticleId = 5, IsToReadLater = false },
-                new UsersArticle() { Id = 2, UserId = 1, ArticleId = 15, IsToReadLater = true },
-                new UsersArticle() { Id = 3, UserId = 2, ArticleId = 15, IsToReadLater = true },
-                new UsersArticle() { Id = 4, UserId = 2, ArticleId = 6, IsToReadLater = false },
-                new UsersArticle() { Id = 4, UserId = 3, ArticleId = 6, IsToReadLater = false }
+                new UsersArticle()
+                {
+                    Id = 1,
+                    UserId = 1,
+                    ArticleId = 5,
+                    IsFavorite = false,
+                    Article =new Article()
+                    {
+                        Id = 5,
+                        Title = "first",
+                        Date = DateTime.Now,
+                        Description = "firstfirstfirst",
+                        Image = "link",
+                        Link = "linklink"
+                    }
+                },
+                new UsersArticle()
+                {
+                    Id = 2,
+                    UserId = 1,
+                    ArticleId = 153,
+                    IsFavorite = true,
+                    Article = new Article()
+                    {
+                        Id = 153,
+                        Title = "second",
+                        Date = DateTime.Now,
+                        Description = "secondsecondsecondsecond",
+                        Image = "link",
+                        Link = "linklink"
+                    }
+                },
+                new UsersArticle()
+                {
+                    Id = 3,
+                    UserId = 1,
+                    ArticleId = 15,
+                    IsFavorite = true,
+                    Article = new Article()
+                    {
+                        Id = 15,
+                        Title = "second",
+                        Date = DateTime.Now,
+                        Description = "secondsecondsecondsecond",
+                        Image = "link",
+                        Link = "linklink"
+                    }
+                },
+                new UsersArticle()
+                {
+                    Id = 4,
+                    UserId = 1,
+                    ArticleId = 6,
+                    IsFavorite = false,
+                    Article = new Article()
+                    {
+                        Id = 15,
+                        Title = "third",
+                        Date = DateTime.Now,
+                        Description = "thirdthirdthirdthird",
+                        Image = "link",
+                        Link = "linklink"
+                    }
+                },
+                new UsersArticle()
+                {
+                    Id = 4,
+                    UserId = 3,
+                    ArticleId = 63,
+                    IsFavorite = false,
+                    Article = new Article()
+                    {
+                        Id = 15,
+                        Title = "fourth",
+                        Date = DateTime.Now,
+                        Description = "fourthfourthfourthfourth",
+                        Image = "link",
+                        Link = "linklink"
+                    }
+                }
             };
 
             MockKernel.GetMock<IRepository<UsersArticle>>().Setup(usrv => usrv.GetAll()).Returns(testArticles);
-            IEnumerable<UsersArticle> actual = MockKernel.Get<IUsersArticlesService>().GetReadLaterArticles(userId);
-            IEnumerable<UsersArticle> expected = testArticles.Where(ua => ua.IsToReadLater == true && ua.UserId == userId);
+            int actual = MockKernel.Get<IUsersArticlesService>().GetUsersFavoriteArticles(userId).Count();
             Assert.AreEqual(expected, actual);
         }
 
-        [Category("UserArticlesService")]
         [TestCase(1, 5, TestName = "For existin UserArticle item with IsRead==false")]
         [TestCase(1, 15, TestName = "For existin UserArticle item with IsRead==true")]
         [TestCase(1, 7, TestName = "For not existin UserArticle")]
-        public void MarkAsReadTest(int userId, int articleId)
+        public void MarkAsReadTest (int userId, int articleId)
         {
             var testArticles = new List<UsersArticle>()
             {
