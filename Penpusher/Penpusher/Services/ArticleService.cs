@@ -197,7 +197,7 @@ namespace Penpusher.Services
             var articles = new List<Article>();
 
             IEnumerable<UserNewsProviderModels> userNewsProviderModelses = newsProviders as UserNewsProviderModels[] ?? newsProviders.ToArray();
-            if (userNewsProviderModelses.ToList().Count > 0)
+            if (userNewsProviderModelses.Any())
             {
                 foreach (UserNewsProviderModels provider in userNewsProviderModelses)
                 {
