@@ -17,15 +17,6 @@ namespace Penpusher.Controllers
     public class MainController : Controller
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="MainController"/> class.
-        /// </summary>
-        public MainController()
-        {
-            ViewBag.UserName = "UserNAme1";
-            ViewBag.ProvidersList = new List<string> { "sdfs", "sdfsdf", "sdfsdf" };
-        }
-
-        /// <summary>
         /// The index.
         /// </summary>
         /// <returns>
@@ -73,6 +64,7 @@ namespace Penpusher.Controllers
             return View();
         }
 
+        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Reviewed. Suppression is OK here.")]
         public ActionResult UserToReadLaterArticles()
         {
             return View();

@@ -7,15 +7,17 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using Penpusher.Models;
-using Penpusher.Services.Base;
-
 namespace Penpusher.Services
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Linq;
+
+    using Models;
+
+    using Base;
+
     /// <summary>
     /// The article service.
     /// </summary>
