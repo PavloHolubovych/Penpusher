@@ -15,6 +15,7 @@
             var newsProvider = {};
             newsProvider.Link = link;
             $.ajax({
+                url: '/api/add',
                 type: "POST",
                 //contentType: 'application/json; charset=utf-8',
                 data: newsProvider,
