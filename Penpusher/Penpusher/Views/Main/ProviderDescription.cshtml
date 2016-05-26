@@ -1,37 +1,20 @@
 ﻿@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 <script>
     localStorage.providerId = @ViewBag.providerId;
 </script>
-
 <script src="~/Scripts/ProviderDescriptionScript.js"></script>
-
-<div id="providerDescriptionContainer" class="body-content">
-    <div>
-        <div id="imageDiv">
-            <img class="provideImg" data-bind="attr: { src: image }" />
-
-        </div>
-
-        <div id="descriptionDiv">
+<div id="providerDescriptionContainer">
+    <div class="providerDescription">
+        <img data-bind="attr: { src: image }"/>
+        <div class="providerDescriptionContent">
             <h1 data-bind="text: name"></h1>
-            <div>
-                <p data-bind="text: description"></p>
-            </div>
-            <br />
+            <p data-bind="text: description"></p><br />
+            <p>This provider on our resourse from <span data-bind="text: date"></span></p><br/>
+            <button class="btn btn-primary" data-bind="text: buttonText,
+                click: function(){ subscribe()}"></button>
         </div>
-    </div>
-
-    <div>
-        <div>
-            <p>This provider on our resourse from <span data-bind="text: date"></span></p>
-        </div>
-        <br />
-        <div>
-            <button class="btn btn-primary"> Subscribe </button>
-        </div>
-
+        <br/>
     </div>
 </div>
