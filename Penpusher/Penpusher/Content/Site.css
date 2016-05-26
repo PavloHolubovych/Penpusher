@@ -174,50 +174,50 @@ text-align:center;
     padding-top: 50px;
 }
 
-/* Общий контейнер */
 .wrapper {
     width: 100%;
     margin: 3em auto;
 }
 
-/* ------------- Контейнер с адаптивными блоками------------- */
 .masonry {
     margin: 1.5em 0;
     padding: 0;
-    column-gap: 1.5em; /* Общее расстояние между колонками */
+    column-gap: 1.5em;
     font-size: .85em;
-    -moz-column-gap: 1.5em; /* Расстояние между колонками для Firefox */
-    -webkit-column-gap: 1.5em; /* Расстояние между колонками  для Safari, Chrome и iOS */
+    -moz-column-gap: 1.5em;
+    -webkit-column-gap: 1.5em;
 }
 
-/* Элементы в виде плиток с содержанием */
 .item {
     display: inline-block;
     background: #ECECEA;
     padding: 1em;
     margin: 0 0 1.5em;
     width: 100%;
-    box-sizing: border-box; /* Изменения алгоритма расчета ширины и высоты элемента.*/
-    -moz-box-sizing: border-box; /* Для Firefox */
-    -webkit-box-sizing: border-box; /* Для Safari, Chrome, iOS иAndroid */
-    box-shadow: 2px 2px 4px 0 #ccc; /* Внешняя тень плиток */
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-shadow: 2px 2px 4px 0 #ccc;
 }
-
-/* Стили картинок, видое и фреймов внутри адаптивных плиток */
+  
 img, iframe {
 max-width: 100%;
-height: auto;
 display: block;
 }
 
-/* Стили ссылок внутри плиток */
+.subscription {   
+    max-width: 32px;
+    width: 30px;
+    height: 30px;
+}
+
+
 .item a {
 text-decoration: none;
 color: #359CC6;
 margin: 0 10px;
 }
 
-/* Стили ссылок при наведении */
 .item a:hover {
 color: #E88F00;
 border-bottom: 1px dotted #9F1D35;
