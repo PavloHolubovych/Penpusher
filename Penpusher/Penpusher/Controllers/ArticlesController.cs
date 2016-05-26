@@ -63,24 +63,14 @@ namespace Penpusher.Controllers
         }
 
         [HttpPost]
-        //// DEFECT: do not use JObject type in parameters. use some model. deserialisation perform before it pass to controller. code is unsafe
-        public void RemoveFromFavorites(JObject jsonData)
+         //DEFECT: duplication. change to single method AddRemoveFavorites
+       public void AddToFavorites(JObject jsonData)
         {
             int userId = int.Parse(jsonData["userId"].ToString());
             int articleId = int.Parse(jsonData["articleId"].ToString());
+            bool favoriteFlag = bool.Parse(jsonData["favoriteFlag"].ToString());
 
-            userArticlesService.RemoveFromFavorites(userId, articleId);
-        }
-
-        [HttpPost]
-        //// see message above
-        // DEFECT: duplication. change to single method AddRemoveFavorites
-        public void AddToFavorites(JObject jsonData)
-        {
-            int userId = int.Parse(jsonData["userId"].ToString());
-            int articleId = int.Parse(jsonData["articleId"].ToString());
-
-            userArticlesService.AddToFavorites(userId, articleId);
+            userArticlesService.AddRemoveFavorites(userId, articleId, favoriteFlag);
         }
 
         [HttpGet]

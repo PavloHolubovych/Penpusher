@@ -52,18 +52,7 @@ namespace Penpusher.Services
         /// <param name="articleId">
         /// The article id.
         /// </param>
-        void AddToFavorites(int userId, int articleId);
-
-        /// <summary>
-        /// The remove from favorites.
-        /// </summary>
-        /// <param name="userId">
-        /// The user id.
-        /// </param>
-        /// <param name="articleId">
-        /// The article id.
-        /// </param>
-        void RemoveFromFavorites(int userId, int articleId);
+        void AddRemoveFavorites(int userId, int articleId, bool favoriteFlag);
 
         /// <summary>
         /// The check is favorite.

@@ -8,16 +8,16 @@
     $.get("/api/Articles/CheckIsFavorite?userId=" + localStorage.userId + "&articleId=" + localStorage.articleId,
             function (result) {
                 if (result === true) {
-                    self.addVisibility(false);
-                    self.removeVisibility(true);
+                    self.addToFavoritesVisibility(false);
+                    self.removeFromFavoritesVisibility(true);
                 } else {
-                    self.addVisibility(true);
-                    self.removeVisibility(false);
+                    self.addToFavoritesVisibility(true);
+                    self.removeFromFavoritesVisibility(false);
                 }
             });
 
     self.addToFavorites = function () {
-        $.post("/api/Articles/AddToFavorites", { "userId": localStorage.userId, "articleId": localStorage.articleId })
+        $.post("/api/Articles/AddRemoveFavorites", { "userId": localStorage.userId})
             .success(function () {
                 self.addToFavoritesVisibility(false);
                 self.removeFromFavoritesVisibility(true);
@@ -28,7 +28,7 @@
     };
 
     self.removeFromFavorites = function () {
-        $.post("/api/Articles/RemoveFromFavorites", { "userId": localStorage.userId, "articleId": localStorage.articleId })
+        $.post("/api/Articles/AddRemoveFavorites", { "userId": localStorage.userId  })
             .success(function () {
                 self.addToFavoritesVisibility(true);
                 self.removeFromFavoritesVisibility(false);

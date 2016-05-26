@@ -87,37 +87,13 @@ namespace Penpusher.Services
                                       ArticleId = articleId,
                                       UserId = userId,
                                       IsToReadLater = false,
-                                      IsFavorite = true,
+                                      IsFavorite = favoriteFlag,
                                       IsRead = true
                                   };
             }
             else
             {
-                userArticle.IsFavorite = true;
-            }
-
-            repository.Edit(userArticle);
-        }
-
-        //DEFECT see remark above
-        public void RemoveFromFavorites(int userId, int articleId)
-        {
-            UsersArticle userArticle = repository.GetAll().FirstOrDefault(ua => ua.ArticleId == articleId && ua.UserId == userId);
-
-            if (userArticle == null)
-            {
-                userArticle = new UsersArticle
-                {
-                    ArticleId = articleId,
-                    UserId = userId,
-                    IsToReadLater = false,
-                    IsFavorite = false,
-                    IsRead = true
-                };
-            }
-            else
-            {
-                userArticle.IsFavorite = false;
+                userArticle.IsFavorite = favoriteFlag;
             }
 
             repository.Edit(userArticle);
