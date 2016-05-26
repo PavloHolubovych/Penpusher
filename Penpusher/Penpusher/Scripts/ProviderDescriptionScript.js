@@ -5,22 +5,41 @@
     self.description = ko.observable(description);
     self.date = ko.observable(subscriptionDate);
     self.buttonText = ko.observable(buttonText);
-    self.subscribe = function () {
-        $.post('/api/Subscriptions/SubscribeUserToProvider?providerId=' + localStorage.providerId, function (data) { });
-    };
+    var subscribe;
+    function unsubscribe() {
+        self.buttonText("Subscribe");
+        self.subscribe = function () {
+            $.post('/api/Subscriptions/SubscribeUserToProvider?providerId=' + localStorage.providerId, function (data) {
+                subscribe();
+           
+            });
+        };
+    }
+
+    subscribe=function() {
+        self.buttonText("Unsubscribe");
+        self.subscribe = function () {
+            $.post('/api/Subscriptions/UnsubscribeUserToProvider?providerId=' + localStorage.providerId, function (data) {
+                unsubscribe();
+            });
+
+        };
+    }
+
+    $.get('/api/Subscriptions/IsUserSubscriberToProvider?providerId=' + localStorage.providerId, function (data) {
+        if (data === true) {
+
+        } else {
+            unsubscribe();
+        }
+    });
 };
 
-var isSubscribed = true;
-$.get('/api/Subscriptions/IsUserSubscriberToProvider?providerId=' + localStorage.providerId, function (data) {
-    isSubscribed = data;
-});
 
 $.get('/api/Subscriptions/GetProviderDetails?providerId=' + localStorage.providerId, function (data) {
-    var buttext = "Subscribe";
-    if (isSubscribed === true)
-        buttext = "Unsubscribe";
+
     ko.applyBindings(new ProviderViewModel(data.Name, data.RssImage, data.Description,
-        data.SubscriptionDate, buttext), document.getElementById("providerDescriptionContainer"));
+        data.SubscriptionDate, ""), document.getElementById("providerDescriptionContainer"));
 
 });
 

@@ -15,13 +15,14 @@ namespace Penpusher.Services
             this.repository = repository;
         }
 
-        public bool SubscribeUserToProvider(int userId, int providerId, bool isSubscribe)
+        public bool SubscribeUserToProvider( int providerId, bool isSubscribe)
         {
+            int userId = 5;
             try
             {
                 if (isSubscribe)
                 {
-                    repository.Add(new UsersNewsProvider
+                    repository.Edit(new UsersNewsProvider
                     {
                         IdNewsProvider = providerId,
                         IdUser = userId

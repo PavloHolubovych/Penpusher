@@ -78,16 +78,16 @@ namespace Penpusher.Controllers
             _newsProviderService.Subscription(link);
         }
 
-        [HttpGet]
+        [HttpPost]
         public bool SubscribeUserToProvider(int providerId)
         {
-            return _userProviderService.SubscribeUserToProvider(5, providerId, true);
+            return _userProviderService.SubscribeUserToProvider(providerId, true);
         }
 
-        [HttpGet]
-        public bool UnsubscribeUserToProvider(int userId, int providerId)
+        [HttpPost]
+        public bool UnsubscribeUserToProvider(int providerId)
         {
-            return _userProviderService.SubscribeUserToProvider(userId, providerId, false);
+            return _userProviderService.SubscribeUserToProvider(providerId, false);
         }
 
         [HttpGet]
