@@ -124,7 +124,7 @@ namespace Penpusher.Services
         /// </param>
         //DEFECT: duplication detected. use single method for changind favorite flag
         [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1101:PrefixLocalCallsWithThis", Justification = "Reviewed. Suppression is OK here.")]
-        public void AddToFavorites(int userId, int articleId)
+        public void AddRemoveFavorites(int userId, int articleId, bool favoriteFlag)
         {
             UsersArticle userArticle =
                 repository.GetAll().FirstOrDefault(ua => ua.ArticleId == articleId && ua.UserId == userId);
@@ -136,47 +136,13 @@ namespace Penpusher.Services
                                       ArticleId = articleId,
                                       UserId = userId,
                                       IsToReadLater = false,
-                                      IsFavorite = true,
+                                      IsFavorite = favoriteFlag,
                                       IsRead = true
                                   };
             }
             else
             {
-                userArticle.IsFavorite = true;
-            }
-
-            repository.Edit(userArticle);
-        }
-
-        /// <summary>
-        /// The remove from favorites.
-        /// </summary>
-        /// <param name="userId">
-        /// The user id.
-        /// </param>
-        /// <param name="articleId">
-        /// The article id.
-        /// </param>
-        //DEFECT see remark above
-        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1101:PrefixLocalCallsWithThis", Justification = "Reviewed. Suppression is OK here.")]
-        public void RemoveFromFavorites(int userId, int articleId)
-        {
-            UsersArticle userArticle = repository.GetAll().FirstOrDefault(ua => ua.ArticleId == articleId && ua.UserId == userId);
-
-            if (userArticle == null)
-            {
-                userArticle = new UsersArticle
-                {
-                    ArticleId = articleId,
-                    UserId = userId,
-                    IsToReadLater = false,
-                    IsFavorite = false,
-                    IsRead = true
-                };
-            }
-            else
-            {
-                userArticle.IsFavorite = false;
+                userArticle.IsFavorite = favoriteFlag;
             }
 
             repository.Edit(userArticle);

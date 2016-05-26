@@ -171,23 +171,6 @@ namespace Penpusher.Controllers
         }
 
         /// <summary>
-        /// The remove from favorites.
-        /// </summary>
-        /// <param name="jsonData">
-        /// The json data.
-        /// </param>
-        [HttpPost]
-        [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "Reviewed. Suppression is OK here.")]
-        //DEFECT: do not use JObject type in parameters. use some model. deserialisation perform before it pass to controller. code is unsafe
-        public void RemoveFromFavorites(JObject jsonData)
-        {
-            int userId = int.Parse(jsonData["userId"].ToString());
-            int articleId = int.Parse(jsonData["articleId"].ToString());
-
-            userArticlesService.RemoveFromFavorites(userId, articleId);
-        }
-
-        /// <summary>
         /// The add to favorites.
         /// </summary>
         /// <param name="jsonData">
@@ -198,12 +181,13 @@ namespace Penpusher.Controllers
         [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "Reviewed. Suppression is OK here.")]
         //see message above
         //DEFECT: duplication. change to single method AddRemoveFavorites
-        public void AddToFavorites(JObject jsonData)
+        public void AddRemoveFavorites(JObject jsonData)
         {
             int userId = int.Parse(jsonData["userId"].ToString());
             int articleId = int.Parse(jsonData["articleId"].ToString());
+            bool favoriteFlag = bool.Parse(jsonData["favoriteFlag"].ToString());
 
-            userArticlesService.AddToFavorites(userId, articleId);
+            userArticlesService.AddRemoveFavorites(userId, articleId, favoriteFlag);
         }
 
         /// <summary>

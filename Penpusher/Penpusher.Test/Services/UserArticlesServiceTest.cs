@@ -172,17 +172,20 @@ namespace Penpusher.Test.Services
         }
 
         [Category("UserArticlesService")]
-        [TestCase(2, 6, TestName = "For existing UserArticle item with IsFavorite==false")]
-        [TestCase(1, 5, TestName = "For existing UserArticle item with IsFavorite==true")]
-        [TestCase(2, 5, TestName = "For not existing UserArticle")]
-        public void AddToFavoritesTest(int userId, int articleId)
+        [TestCase(2, 6, true, TestName = "Add to favorite for existing UserArticle item with IsFavorite==false")]
+        [TestCase(1, 5, true, TestName = "Add to favorite for existing UserArticle item with IsFavorite==true")]
+        [TestCase(2, 5, true, TestName = "Add to favorite for not existing UserArticle")]
+        [TestCase(4, 3, false, TestName = "Remove from existing UserArticle item with IsFavorite==false")]
+        [TestCase(4, 2, false, TestName = "Remove from existing UserArticle item with IsFavorite==true")]
+        [TestCase(12, 5, false, TestName = "Remove from not existing UserArticle")]
+        public void AddRemoveFavoritesTest(int userId, int articleId, bool favoriteFlag)
         {
             var testArticles = new List<UsersArticle>()
             {
                 new UsersArticle() { Id = 1, UserId = 1, ArticleId = 5, IsRead = false, IsFavorite = true},
                 new UsersArticle() { Id = 2, UserId = 1, ArticleId = 15, IsRead = true, IsFavorite = true },
                 new UsersArticle() { Id = 3, UserId = 2, ArticleId = 15, IsRead = true, IsFavorite = false },
-                new UsersArticle() { Id = 4, UserId = 2, ArticleId = 6, IsRead = false, IsFavorite = false },
+                new UsersArticle() { Id = 4, UserId = 2, ArticleId = 6, IsRead = false, IsFavorite = true },
                 new UsersArticle() { Id = 4, UserId = 3, ArticleId = 6, IsRead = false, IsFavorite = false }
             };
 
@@ -191,39 +194,9 @@ namespace Penpusher.Test.Services
                 .Setup(edit => edit.Edit(It.IsAny<UsersArticle>()))
                 .Callback((UsersArticle article) => { testArticles.Add(article); });
 
-            MockKernel.Get<IUsersArticlesService>().AddToFavorites(userId, articleId);
-            UsersArticle actual = testArticles.First(ua => ua.ArticleId == articleId && ua.ArticleId==articleId);
-            Assert.AreEqual(actual.IsFavorite, true);
-        }
-
-        [Category("UserArticlesService")]
-        [TestCase(1, 15, TestName = "For existing UserArticle item where article IsFavorite == true")]
-        [TestCase(3, 6, TestName = "For existing UserArticle item where article IsFavorite == false")]
- 
-        public void RemoveFromFavoritesTest(int userId, int articleId)
-        {
-            var testArticles = new List<UsersArticle>()
-            {
-                new UsersArticle() { Id = 1, UserId = 1, ArticleId = 5, IsRead = false, IsFavorite = true},
-                new UsersArticle() { Id = 2, UserId = 1, ArticleId = 15, IsRead = true, IsFavorite = true },
-                new UsersArticle() { Id = 3, UserId = 2, ArticleId = 15, IsRead = true, IsFavorite = false },
-                new UsersArticle() { Id = 4, UserId = 2, ArticleId = 6, IsRead = false, IsFavorite = false },
-                new UsersArticle() { Id = 4, UserId = 3, ArticleId = 6, IsRead = false, IsFavorite = false }
-            };
-
-            MockKernel.GetMock<IRepository<UsersArticle>>().Setup(usrv => usrv.GetAll()).Returns(testArticles);
-            MockKernel.GetMock<IRepository<UsersArticle>>()
-                .Setup(edit => edit.Edit(It.IsAny<UsersArticle>()))
-                .Callback((UsersArticle article) =>
-                {
-                    var articleForChange = testArticles.First(ua => ua.ArticleId == article.ArticleId && 
-                    ua.UserId == article.UserId);
-                    articleForChange = article;
-                });
-
-            MockKernel.Get<IUsersArticlesService>().RemoveFromFavorites(userId, articleId);
-            UsersArticle actual = testArticles.First(ua => ua.ArticleId == articleId && ua.ArticleId == articleId);
-            Assert.AreEqual(false, actual.IsFavorite);
+            MockKernel.Get<IUsersArticlesService>().AddRemoveFavorites(userId, articleId, favoriteFlag);
+            UsersArticle actual = testArticles.First(ua => ua.UserId == userId && ua.ArticleId==articleId);
+            Assert.AreEqual(favoriteFlag, actual.IsFavorite);
         }
     }
 }
