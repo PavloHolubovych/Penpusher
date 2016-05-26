@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Xml.Linq;
 using Ninject;
 using NUnit.Framework;
-using Pci.TestUtils;
 using Penpusher.Models;
 using Penpusher.Services.ContentService;
 

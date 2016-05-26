@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Reflection;
 
-namespace Pci.TestUtils
+namespace Penpusher.Test
 {
     public class PropertiesEqualityComparer<T> : IEqualityComparer<T>
         where T : class
@@ -19,7 +19,7 @@ namespace Pci.TestUtils
                 return false;
             }
 
-            return this.CompareProperties(x, y);
+            return CompareProperties(x, y);
         }
 
         public int GetHashCode(T obj)
@@ -28,7 +28,7 @@ namespace Pci.TestUtils
             {
                 return 0;
             }
-            return this.GenerateHashCode(obj);
+            return GenerateHashCode(obj);
         }
 
         protected static int GetHashCodeFromValues(params object[] values)
