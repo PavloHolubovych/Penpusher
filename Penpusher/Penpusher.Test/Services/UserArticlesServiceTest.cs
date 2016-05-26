@@ -154,11 +154,11 @@ namespace Penpusher.Test.Services
         {
             var testArticles = new List<UsersArticle>()
             {
-                new UsersArticle() { Id = 1, UserId = 1, ArticleId = 5, IsRead = false },
-                new UsersArticle() { Id = 2, UserId = 1, ArticleId = 15, IsRead = true },
-                new UsersArticle() { Id = 3, UserId = 2, ArticleId = 15, IsRead = true },
-                new UsersArticle() { Id = 4, UserId = 2, ArticleId = 6, IsRead = false },
-                new UsersArticle() { Id = 4, UserId = 3, ArticleId = 6, IsRead = false }
+                new UsersArticle() { Id = 1, UserId = 1, ArticleId = 5, IsRead = false, IsToReadLater = true},
+                new UsersArticle() { Id = 2, UserId = 1, ArticleId = 15, IsRead = true, IsToReadLater = true },
+                new UsersArticle() { Id = 3, UserId = 2, ArticleId = 15, IsRead = true, IsToReadLater = false },
+                new UsersArticle() { Id = 4, UserId = 2, ArticleId = 6, IsRead = false, IsToReadLater = true },
+                new UsersArticle() { Id = 4, UserId = 3, ArticleId = 6, IsRead = false, IsToReadLater = false }
             };
 
             MockKernel.GetMock<IRepository<UsersArticle>>().Setup(usrv => usrv.GetAll()).Returns(testArticles);

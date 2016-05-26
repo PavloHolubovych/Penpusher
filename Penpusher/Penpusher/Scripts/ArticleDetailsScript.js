@@ -29,8 +29,6 @@
 
 };
 
-// AddToRead
-
 $(document)
    .ready(function () { 
        $('#addToReadLater').show();

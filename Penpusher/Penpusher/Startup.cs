@@ -39,7 +39,10 @@ namespace Penpusher
             config.MapHttpAttributeRoutes();
             ConfigureAuth(app);
 
-            // app.InitHangfire();
+            // Initialization of timer job. Don't use in debug
+#if !DEBUG
+            app.InitHangfire();
+#endif
         }
     }
 }
