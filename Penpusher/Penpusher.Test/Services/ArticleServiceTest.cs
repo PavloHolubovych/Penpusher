@@ -1,31 +1,16 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright company="Sigma" file="ArticleServiceTest.cs">
-//   
-// </copyright>
-// <summary>
-//   The article service test class.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+﻿using System.Collections.Generic;
+using System.Linq;
+using Moq;
+using Ninject;
+using NUnit.Framework;
+using Penpusher.Models;
+using Penpusher.Services;
 
 namespace Penpusher.Test.Services
 {
-    using System.Collections.Generic;
-    using System.Linq;
-    using Moq;
-    using Ninject;
-    using NUnit.Framework;
-    using Penpusher.Services;
-    using Models;
-
-    /// <summary>
-    /// The article service test class.
-    /// </summary>
     [TestFixture]
     public class ArticleServiceTest : TestBase
     {
-        /// <summary>
-        /// The initialize.
-        /// </summary>
         [SetUp]
         public override void Testinitialize()
         {
@@ -34,32 +19,22 @@ namespace Penpusher.Test.Services
             MockKernel.GetMock<IRepository<Article>>().Reset();
         }
 
-        /// <summary>
-        /// The check does exists test.
-        /// </summary>
-        /// <param name="title">
-        /// The title.
-        /// </param>
-        /// <param name="expected"></param>
         [Category("ArticleService")]
         [TestCase("my title", true, TestName = "CheckDoesExists title exists")]
         [TestCase("my title123321", false, TestName = "CheckDoesExists title is missing ")]
         public void CheckDoesExistsTest(string title, bool expected)
         {
-            var testArticles = new List<Article>()
+            var testArticles = new List<Article>
             {
-                new Article() { Id = 1, Title = "test title" },
-                new Article() { Id = 2, Title = "my title" },
-                new Article() { Id = 3, Title = "my title" }
+                new Article { Id = 1, Title = "test title" },
+                new Article { Id = 2, Title = "my title" },
+                new Article { Id = 3, Title = "my title" }
             };
             MockKernel.GetMock<IRepository<Article>>().Setup(asrv => asrv.GetAll()).Returns(testArticles);
             bool actual = MockKernel.Get<IArticleService>().CheckDoesExists(title);
             Assert.AreEqual(actual, expected);
         }
 
-        /// <summary>
-        /// The add article test.
-        /// </summary>
         [Category("ArticleService")]
         [TestCase(TestName = "Checks if ArticleService adds a new article")]
         public void AddArticleTest()
@@ -73,15 +48,6 @@ namespace Penpusher.Test.Services
             Assert.AreEqual(testArticle, actual, "Another article");
         }
 
-        /// <summary>
-        /// The find article test.
-        /// </summary>
-        /// <param name="title">
-        /// The title.
-        /// </param>
-        /// <param name="expectedCount">
-        /// The expected Count.
-        /// </param>
         [Category("ArticleService")]
         [TestCase("article1", 1, TestName = "Should find article by title")]
         [TestCase("article 1", 1, TestName = "Should find article by title contains space")]
@@ -108,15 +74,6 @@ namespace Penpusher.Test.Services
             Assert.AreEqual(expected, expectedCount);
         }
 
-        /// <summary>
-        /// Get articles from provider test.
-        /// </summary>
-        /// <param name="providerId">
-        /// The provider id.
-        /// </param>
-        /// <param name="expected">
-        /// The expected.
-        /// </param>
         [Category("ArticleService")]
         [TestCase(1, true, TestName = "Should find articles by providerId = 1")]
         [TestCase(4, false, TestName = "Shouldn't find any articles by providerId = 4")]
@@ -124,10 +81,10 @@ namespace Penpusher.Test.Services
         {
             var testArticles = new List<Article>
             {
-                new Article { Id = 1, Title = "article2", IdNewsProvider = 1},
-                new Article { Id = 2, Title = "article 1", IdNewsProvider = 2 },
+                new Article { Id = 1, Title = "article2", IdNewsProvider = 1 },
+                new Article { Id = 2, Title = "article1", IdNewsProvider = 2 },
                 new Article { Id = 3, Title = "article1", IdNewsProvider = 3 },
-                new Article { Id = 3, Title = "article1", IdNewsProvider = 0 },
+                new Article { Id = 3, Title = "article1", IdNewsProvider = 0 }
             };
             MockKernel.GetMock<IRepository<Article>>().Setup(_ => _.GetAll()).Returns(testArticles);
             bool result = MockKernel.Get<ArticleService>().GetArticlesFromProvider(providerId).Any();
@@ -135,21 +92,11 @@ namespace Penpusher.Test.Services
         }
 
         [Category("ArticleService")]
-        [TestCase(0, TestName = "Should find all articles by selection of 0 providers")]
-        [TestCase(1, TestName = "Should find all articles by selection of 2 providers")]
-        [TestCase(2, TestName = "Should find all articles by selection of 4 providers")]
-        [TestCase(3, TestName = "Should find all articles by selection of 1 provider")]
-        [TestCase(4, TestName = "Should find 0 articles")]
-        public void GetArticlesFromSelectedProvidersTest(int testcase)
+        [TestCase(1, 0, TestName = "Should find 0 articles if there is no any provider in scope")]
+        [TestCase(2, 4, TestName = "Should find all articles if user is subscribed to several providers")]
+        [TestCase(3, 0, TestName = "Should find 0 articles if user has no subscriptions for providers in scope")]
+        public void GetArticlesFromSelectedProvidersTest(int testCase, int expected)
         {
-            var expected = 0;
-
-            var testUserProviders = new List<UserNewsProviderModels>();
-            var model1 = new UserNewsProviderModels { Name = "provider1", IdNewsProvider = 1 };
-            var model2 = new UserNewsProviderModels { Name = "provider2", IdNewsProvider = 2 };
-            var model3 = new UserNewsProviderModels { Name = "provider3", IdNewsProvider = 3 };
-            var model4 = new UserNewsProviderModels { Name = "provider3", IdNewsProvider = 4 };
-
             var testArticles = new List<Article>
             {
                 new Article { Id = 1, Title = "article2", IdNewsProvider = 1 },
@@ -158,25 +105,20 @@ namespace Penpusher.Test.Services
                 new Article { Id = 4, Title = "article2", IdNewsProvider = 4 }
             };
 
-            switch (testcase)//DEFECT: remove switch. use TestCase args instead
+            var testUserProviders = new List<UserNewsProviderModels>();
+            var model1 = new UserNewsProviderModels { Name = "provider1", IdNewsProvider = 1 };
+            var model2 = new UserNewsProviderModels { Name = "provider2", IdNewsProvider = 2 };
+            var model3 = new UserNewsProviderModels { Name = "provider3", IdNewsProvider = 3 };
+            var model4 = new UserNewsProviderModels { Name = "provider3", IdNewsProvider = 4 };
+
+            if (testCase == 2)
             {
-                case 0:
-                    break;
-                case 1:
-                    testUserProviders.AddRange(new List<UserNewsProviderModels> { model1, model2 });
-                    expected = 2;
-                    break;
-                case 2:
-                    testUserProviders.AddRange(new List<UserNewsProviderModels> { model1, model2, model3, model4 });
-                    expected = 4;
-                    break;
-                case 3:
-                    testUserProviders.Add(model4);
-                    expected = 2;
-                    break;
-                case 4:
-                    testUserProviders.Add(model3);
-                    break;
+                testUserProviders.AddRange(new List<UserNewsProviderModels> { model1, model2, model4 });
+            }
+
+            if (testCase == 3)
+            {
+                testUserProviders.Add(model3);
             }
 
             MockKernel.GetMock<IRepository<Article>>().Setup(_ => _.GetAll()).Returns(testArticles);
