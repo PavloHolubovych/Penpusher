@@ -3,7 +3,7 @@
     self.name = ko.observable(name);
     self.image = ko.observable(image);
     self.description = ko.observable(description);
-    self.date = ko.observable(subscriptionDate);
+    self.date = ko.observable(new Date(subscriptionDate).toLocaleDateString());
     self.buttonText = ko.observable(buttonText);
     var subscribe;
     function unsubscribe() {

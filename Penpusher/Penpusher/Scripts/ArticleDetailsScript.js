@@ -1,12 +1,23 @@
-﻿var ArticleModel = function (title, link, addVisibility, removeVisibility) {
+﻿var ArticleModel = function (title, link) {
     self = this;
     self.title = ko.observable(title);
     self.link = ko.observable(link);
-    self.addToFavoritesVisibility = ko.observable(addVisibility);
-    self.removeFromFavoritesVisibility = ko.observable(removeVisibility);
+    self.addToFavoritesVisibility = ko.observable(true);
+    self.removeFromFavoritesVisibility = ko.observable(false);
 
-    self.addToFavorites = function (userId, articleId) {
-        $.post("/api/Articles/AddToFavorites", { "userId": userId, "articleId": articleId })
+    $.get("/api/Articles/CheckIsFavorite?userId=" + localStorage.userId + "&articleId=" + localStorage.articleId,
+            function (result) {
+                if (result === true) {
+                    self.addVisibility(false);
+                    self.removeVisibility(true);
+                } else {
+                    self.addVisibility(true);
+                    self.removeVisibility(false);
+                }
+            });
+
+    self.addToFavorites = function () {
+        $.post("/api/Articles/AddToFavorites", { "userId": localStorage.userId, "articleId": localStorage.articleId })
             .success(function () {
                 self.addToFavoritesVisibility(false);
                 self.removeFromFavoritesVisibility(true);
@@ -16,8 +27,8 @@
             });
     };
 
-    self.removeFromFavorites = function (userId, articleId) {
-        $.post("/api/Articles/RemoveFromFavorites", { "userId": userId, "articleId": articleId })
+    self.removeFromFavorites = function () {
+        $.post("/api/Articles/RemoveFromFavorites", { "userId": localStorage.userId, "articleId": localStorage.articleId })
             .success(function () {
                 self.addToFavoritesVisibility(true);
                 self.removeFromFavoritesVisibility(false);
@@ -29,29 +40,17 @@
 
 };
 
+$.get("/api/Articles/GetArticleDetail?articleId=" + localStorage.articleId,
+ function (data) {
+     var article = new ArticleModel(data.Title, data.Link);
+     ko.applyBindings(article, document.getElementById("articleContent"));
+ });
+
+
 $(document)
    .ready(function () { 
        $('#addToReadLater').show();
        $('#removeFromReadLater').hide();
-
-       var addVisibility, removeVisibility;
-
-        $.get("/api/Articles/CheckIsFavorite?userId=" + localStorage.userId + "&articleId=" + localStorage.articleId,
-            function(result) {
-                if (result === true) {
-                    addVisibility = false;
-                    removeVisibility = true;
-                } else {
-                    addVisibility = true;
-                    removeVisibility = false;
-                }
-            });
-
-       $.get("/api/Articles/GetArticleDetail?articleId=" + localStorage.articleId,
-        function (data) {
-            var article = new ArticleModel(data.Title, data.Link, addVisibility, removeVisibility);
-            ko.applyBindings(article, document.getElementById("articleContent"));
-        });
 
        $.post("/api/Articles/MarkAsRead?userId=" + localStorage.userId + "&articleId=" + localStorage.articleId,
             function(data) {});
@@ -74,8 +73,8 @@ $(document)
        
         });
 
-function AddtoReadLater(userId) {
-    $.post("/api/Articles/ToReadLater?userId=" + userId + "&articleIdRl=" + QueryString.articleId + "&add=true")
+function AddtoReadLater() {
+    $.post("/api/Articles/ToReadLater?userId=" + localStorage.userId + "&articleIdRl=" + QueryString.articleId + "&add=true")
         .success(function (data) {
             var article = data;
             if (data.IsToReadLater) {
@@ -91,8 +90,8 @@ function AddtoReadLater(userId) {
         });
 }
 
-function DeleteFromReadLater(userId) {
-    $.post("/api/Articles/ToReadLater?userId=" + userId + "&articleIdRl=" + QueryString.articleId + "&add=false")
+function DeleteFromReadLater() {
+    $.post("/api/Articles/ToReadLater?userId=" + localStorage.userId + "&articleIdRl=" + QueryString.articleId + "&add=false")
         .success(function (data) {
             var article = data;
             if (data.IsToReadLater) {
