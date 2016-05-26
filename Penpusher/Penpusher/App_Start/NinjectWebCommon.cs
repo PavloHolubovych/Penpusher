@@ -1,46 +1,27 @@
-// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="NinjectWebCommon.cs" company="Sigma software">
-//   NinjectWebCommon
-// </copyright>
-// <summary>
-//   The ninject web common.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
-
 using Microsoft.Web.Infrastructure.DynamicModuleHelper;
 using Ninject;
 using Ninject.Web.Common;
-
 using Penpusher;
 using Penpusher.DAL;
 using Penpusher.Services;
 using Penpusher.Services.ContentService;
 
 [assembly: WebActivatorEx.PreApplicationStartMethod(typeof(NinjectWebCommon), "Start")]
-[assembly: WebActivatorEx.ApplicationShutdownMethodAttribute(typeof(NinjectWebCommon), "Stop")]
+[assembly: WebActivatorEx.ApplicationShutdownMethod(typeof(NinjectWebCommon), "Stop")]
 
 namespace Penpusher
 {
-    /// <summary>
-    /// The ninject web common.
-    /// </summary>
-    [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "Reviewed. Suppression is OK here.")]
     public static class NinjectWebCommon
     {
-        /// <summary>
-        /// The bootstrapper.
-        /// </summary>
         private static readonly Bootstrapper Bootstrapper = new Bootstrapper();
+        private static readonly Lazy<IKernel> KernelFactoryLazy = new Lazy<IKernel>(CreateKernel);
 
-        /// <summary>
-        /// Starts the application
-        /// </summary>
+        public static IKernel Kernel => KernelFactoryLazy.Value;
+
         public static void Start()
         {
             DynamicModuleUtility.RegisterModule(typeof(OnePerRequestHttpModule));
@@ -48,29 +29,11 @@ namespace Penpusher
             Bootstrapper.Initialize(() => Kernel);
         }
 
-        /// <summary>
-        /// Stops the application.
-        /// </summary>
         public static void Stop()
         {
             Bootstrapper.ShutDown();
         }
 
-        /// <summary>
-        /// The kernel factory lazy.
-        /// </summary>
-        [SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1201:ElementsMustAppearInTheCorrectOrder", Justification = "Reviewed. Suppression is OK here.")]
-        private static readonly Lazy<IKernel> kernelFactoryLazy = new Lazy<IKernel>(CreateKernel);
-
-        /// <summary>
-        /// The kernel.
-        /// </summary>
-        public static IKernel Kernel => kernelFactoryLazy.Value;
-
-        /// <summary>
-        /// Creates the kernel that will manage your application.
-        /// </summary>
-        /// <returns>The created kernel.</returns>
         private static IKernel CreateKernel()
         {
             var kernel = new StandardKernel();
@@ -93,10 +56,6 @@ namespace Penpusher
             }
         }
 
-        /// <summary>
-        /// Load your modules or register your services here!
-        /// </summary>
-        /// <param name="kernel">The kernel.</param>
         private static void RegisterServices(IKernel kernel)
         {
             kernel.Bind<IArticleService>().To<ArticleService>();

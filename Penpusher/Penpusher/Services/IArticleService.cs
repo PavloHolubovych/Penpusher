@@ -6,6 +6,7 @@ namespace Penpusher.Services
     public interface IArticleService
     {
         Article AddArticle(Article article);
+
         void AddArticle();
 
         IEnumerable<Article> Find(string value);
