@@ -9,7 +9,7 @@ namespace Penpusher.Services
         IEnumerable<NewsProvider> GetAll();
         NewsProvider GetById(int id);
 
-        IEnumerable<UserNewsProviderModels> GetUserNewsProviderByUserId(int id);
+        IEnumerable<UserNewsProviderModels> GetSubscriptionsByUserId(int id);
 
         UsersNewsProvider Subscription(string link);
 

@@ -29,7 +29,7 @@ namespace Penpusher.Controllers
         //DEFECT: violation dependency inversion principle. method type must be more abstract and return is more specific
         public UserNewsProviderModels[] GetByUser(int id)
         {
-            return newsProviderService.GetUserNewsProviderByUserId(id).ToArray();
+            return newsProviderService.GetSubscriptionsByUserId(id).ToArray();
         }
 
         public NewsProvider GetProviderDetails(int providerId)
@@ -44,14 +44,23 @@ namespace Penpusher.Controllers
             newsProviderService.Subscription(link);
         }
 
-        public bool SubscribeUserToProvider(int userId, int providerId)
+        [HttpPost]
+        public bool SubscribeUserToProvider(int providerId)
         {
-            return userProviderService.SubscribeUserToProvider(userId, providerId, true);
+            return userProviderService.SubscribeUserToProvider(providerId, true);
         }
 
-        public bool UnsubscribeUserToProvider(int userId, int providerId)
+        [HttpPost]
+        public bool UnsubscribeUserToProvider(int providerId)
         {
-            return userProviderService.SubscribeUserToProvider(userId, providerId, false);
+            return userProviderService.SubscribeUserToProvider(providerId, false);
+        }
+
+        [HttpGet]
+        public bool IsUserSubscriberToProvider(int providerId)
+        {
+            var p= userProviderService.IsUserSubscribedOnProvider(providerId);
+            return p;
         }
 
         //DEFECT: its bad practice to return void in API. return bool at least to check does action perform successfully

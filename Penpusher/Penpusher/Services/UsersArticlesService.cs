@@ -56,9 +56,26 @@ namespace Penpusher.Services
         ///     .
         /// </returns>
         [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1101:PrefixLocalCallsWithThis", Justification = "Reviewed. Suppression is OK here.")]
-        public IEnumerable<UsersArticle> GetUsersReadArticles(int userId)
+        public IEnumerable<Article> GetUsersReadArticles(int userId)
         {
-            return repository.GetAll().Where(art => art.IsRead == true && art.UserId == userId).ToList();
+            return
+                articleRepository.GetAll()
+                    .Join(
+                        repository.GetAll().Where(art => art.IsRead == true && art.UserId == userId),
+                        article => article.Id,
+                        readArticle => readArticle.ArticleId,
+                        (article, readArticle) => article).ToList();
+        }
+
+        public IEnumerable<Article> GetReadLaterArticles(int userId)
+        {
+            return
+                articleRepository.GetAll()
+                    .Join(
+                        repository.GetAll().Where(art => art.IsToReadLater == true && art.UserId == userId),
+                        article => article.Id,
+                    readLeaterArticle => readLeaterArticle.ArticleId,
+                    (article, readLeaterArticle) => article).ToList();
         }
 
         public IEnumerable<Article> GetUsersFavoriteArticles(int userId)
@@ -73,11 +90,6 @@ namespace Penpusher.Services
                Date = a.Article.Date
            });
             return usart;
-        }
-
-        public IEnumerable<UsersArticle> GetReadLaterArticles(int userId)
-        {
-            return repository.GetAll().Where(art => art.IsToReadLater == true && art.UserId == userId).ToList();
         }
 
         /// <summary>
@@ -107,7 +119,7 @@ namespace Penpusher.Services
             }
             else
             {
-                if(!(bool)userArticle.IsToReadLater)
+                if(userArticle.IsToReadLater != null && userArticle.IsToReadLater.Value)
                 userArticle.IsRead = true;
             }
             repository.Edit(userArticle);

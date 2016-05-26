@@ -69,6 +69,8 @@ namespace Penpusher
             kernel.Bind<IProviderTrackingService>().To<ProviderTrackingService>();
             kernel.Bind<IDataBaseServiceExtension>().To<DataBaseServiceExtension>();
             kernel.Bind<IRssReader>().To<RssReader>();
+            kernel.Bind<IUserProviderService>().To<UserProvidersService>();
+
         }
     }
 }

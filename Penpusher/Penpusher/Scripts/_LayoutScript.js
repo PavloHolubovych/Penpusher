@@ -28,7 +28,7 @@ $(document)
 
         };
         var viewModel = new ProvidersModel();
-        ko.applyBindings(viewModel, document.getElementById("sideBarSelect"));
+        //ko.applyBindings(viewModel, document.getElementById("sideBarSelect"));
     });
 
 function ManageContentPage() {

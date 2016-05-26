@@ -28,7 +28,7 @@
             <tbody data-bind="foreach: newsproviders">
                 <tr>
                     <td>
-                        <img style="width:30px" class="" data-bind="attr:{src: RssImage}" />
+                        <img class="subscription" data-bind="attr:{src: RssImage}" />
                     </td>
                     <td><span class="required number" data-bind="text: Name, uniqueName: true"></span></td>
                     <td>
@@ -60,15 +60,13 @@
                 <th>Name</th>
                 <th>Link</th>
                 <th>Description</th>
-                <th>RssImage</th>
-                <th>SubscriptionDate</th>
                 <th/>
             </tr>
             </thead>
             <tbody data-bind="foreach: availableChannels">
             <tr>
                 <td>
-                    <img class="required number" data-bind="attr:{src: RssImage}" />
+                    <img class="subscription" data-bind="attr:{src: RssImage}" />
                 </td>
                 <td><span class="required number" data-bind="text: Name, uniqueName: true"></span></td>
                 <td>

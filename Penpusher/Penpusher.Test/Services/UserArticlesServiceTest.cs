@@ -47,7 +47,7 @@ namespace Penpusher.Test.Services
             };
 
             MockKernel.GetMock<IRepository<UsersArticle>>().Setup(usrv => usrv.GetAll()).Returns(testArticles);
-            IEnumerable<UsersArticle> actual = MockKernel.Get<IUsersArticlesService>().GetUsersReadArticles(userId);
+            IEnumerable<Article> actual = MockKernel.Get<IUsersArticlesService>().GetUsersReadArticles(userId);
             IEnumerable<UsersArticle> expected = testArticles.Where(ua => ua.IsRead == true && ua.UserId == userId);
             Assert.AreEqual(expected, actual);
         }
@@ -150,15 +150,15 @@ namespace Penpusher.Test.Services
         [TestCase(1, 5, TestName = "For existin UserArticle item with IsRead==false")]
         [TestCase(1, 15, TestName = "For existin UserArticle item with IsRead==true")]
         [TestCase(1, 7, TestName = "For not existin UserArticle")]
-        public void MarkAsReadTest (int userId, int articleId)
+        public void MarkAsReadTest(int userId, int articleId)
         {
             var testArticles = new List<UsersArticle>()
             {
-                new UsersArticle() { Id = 1, UserId = 1, ArticleId = 5, IsRead = false },
-                new UsersArticle() { Id = 2, UserId = 1, ArticleId = 15, IsRead = true },
-                new UsersArticle() { Id = 3, UserId = 2, ArticleId = 15, IsRead = true },
-                new UsersArticle() { Id = 4, UserId = 2, ArticleId = 6, IsRead = false },
-                new UsersArticle() { Id = 4, UserId = 3, ArticleId = 6, IsRead = false }
+                new UsersArticle() { Id = 1, UserId = 1, ArticleId = 5, IsRead = false, IsToReadLater = true},
+                new UsersArticle() { Id = 2, UserId = 1, ArticleId = 15, IsRead = true, IsToReadLater = true },
+                new UsersArticle() { Id = 3, UserId = 2, ArticleId = 15, IsRead = true, IsToReadLater = false },
+                new UsersArticle() { Id = 4, UserId = 2, ArticleId = 6, IsRead = false, IsToReadLater = true },
+                new UsersArticle() { Id = 4, UserId = 3, ArticleId = 6, IsRead = false, IsToReadLater = false }
             };
 
             MockKernel.GetMock<IRepository<UsersArticle>>().Setup(usrv => usrv.GetAll()).Returns(testArticles);
@@ -167,8 +167,8 @@ namespace Penpusher.Test.Services
                 .Callback((UsersArticle article) => { testArticles.Add(article); });
             MockKernel.Get<IUsersArticlesService>().MarkAsRead(userId, articleId);
 
-            UsersArticle actual = MockKernel.Get<IUsersArticlesService>().GetUsersReadArticles(userId).First(ua => ua.ArticleId == articleId && ua.ArticleId == articleId);
-            Assert.AreEqual(true, actual.IsRead);
+            bool actual = MockKernel.Get<IUsersArticlesService>().GetUsersReadArticles(userId).Any(ua => ua.Id == articleId);
+            Assert.AreEqual(false, actual);
         }
 
         [Category("UserArticlesService")]
@@ -192,14 +192,14 @@ namespace Penpusher.Test.Services
                 .Callback((UsersArticle article) => { testArticles.Add(article); });
 
             MockKernel.Get<IUsersArticlesService>().AddToFavorites(userId, articleId);
-            UsersArticle actual = testArticles.First(ua => ua.ArticleId == articleId && ua.ArticleId==articleId);
+            UsersArticle actual = testArticles.First(ua => ua.ArticleId == articleId && ua.ArticleId == articleId);
             Assert.AreEqual(actual.IsFavorite, true);
         }
 
         [Category("UserArticlesService")]
         [TestCase(1, 15, TestName = "For existing UserArticle item where article IsFavorite == true")]
         [TestCase(3, 6, TestName = "For existing UserArticle item where article IsFavorite == false")]
- 
+
         public void RemoveFromFavoritesTest(int userId, int articleId)
         {
             var testArticles = new List<UsersArticle>()
@@ -216,7 +216,7 @@ namespace Penpusher.Test.Services
                 .Setup(edit => edit.Edit(It.IsAny<UsersArticle>()))
                 .Callback((UsersArticle article) =>
                 {
-                    var articleForChange = testArticles.First(ua => ua.ArticleId == article.ArticleId && 
+                    var articleForChange = testArticles.First(ua => ua.ArticleId == article.ArticleId &&
                     ua.UserId == article.UserId);
                     articleForChange = article;
                 });
