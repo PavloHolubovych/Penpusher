@@ -63,21 +63,9 @@ namespace Penpusher.Controllers
             return articleService.GetArticlesFromSelectedProviders(newsProviders);
         }
 
-        /// <summary>
-        /// The add to favorites.
-        /// </summary>
-        /// <param name="jsonData">
-        /// The json data.
-        /// </param>
         [HttpPost]
-        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Reviewed. Suppression is OK here.")]
-        [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "Reviewed. Suppression is OK here.")]
-        //see message above
-        //DEFECT: duplication. change to single method AddRemoveFavorites
-        public void AddRemoveFavorites(JObject jsonData)
-        //// see message above
-        // DEFECT: duplication. change to single method AddRemoveFavorites
-        public void AddToFavorites(JObject jsonData)
+         //DEFECT: duplication. change to single method AddRemoveFavorites
+       public void AddToFavorites(JObject jsonData)
         {
             int userId = int.Parse(jsonData["userId"].ToString());
             int articleId = int.Parse(jsonData["articleId"].ToString());

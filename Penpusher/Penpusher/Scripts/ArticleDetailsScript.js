@@ -17,7 +17,7 @@
             });
 
     self.addToFavorites = function () {
-        $.post("/api/Articles/AddRemoveFavorites", { "userId": localStorage.userId, "articleId": localStorage.articleId, "favoriteFlag": true })
+        $.post("/api/Articles/AddRemoveFavorites", { "userId": localStorage.userId})
             .success(function () {
                 self.addToFavoritesVisibility(false);
                 self.removeFromFavoritesVisibility(true);
@@ -28,7 +28,7 @@
     };
 
     self.removeFromFavorites = function () {
-        $.post("/api/Articles/AddRemoveFavorites", { "userId": localStorage.userId, "articleId": localStorage.articleId, "favoriteFlag": false })
+        $.post("/api/Articles/AddRemoveFavorites", { "userId": localStorage.userId  })
             .success(function () {
                 self.addToFavoritesVisibility(true);
                 self.removeFromFavoritesVisibility(false);
