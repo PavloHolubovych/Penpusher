@@ -1,58 +1,62 @@
 ﻿<div id="subscription">
-<form>
-    <h1><p>You have subscribe for <span data-bind="text: newsproviders().length">&nbsp;</span> channel(s)
-    </p></h1>
-    <table class="table" data-bind="visible: newsproviders().length > 0">
-        <thead>
-        <tr>
-            <th>Name</th>
-            <th>Link</th>
-            <th>Description</th>
-            <th >RssImage</th>
-            <th>SubscriptionDate</th>
-            <th/>
-        </tr>
-        </thead>
-        <tbody data-bind="foreach: newsproviders">
-        <tr>
-            <td><span class="required number" data-bind="text: Name, uniqueName: true"></span></td>
-            <td>
-                <span class="required number" data-bind="text: Link, uniqueName: true"></span>
-            </td>
-            <td>
-                <span class="required number" data-bind="text: Description, uniqueName: true"></span>
-            </td>
-            <td>
-                <img class="required number" data-bind="attr:{src: RssImage}"/>
-            </td>
-            <td>
-                <span class="required number" data-bind="text: SubscriptionDate, uniqueName: true"></span>
-            </td>
-            <td><a href="#" data-bind="click: $root.removeNewsProvider">Unsubscribe</a></td>
-        </tr>
-        </tbody>
-    </table>
-</form>
-
-<form class="form-inline">
-    <div class="form-group">
-        <div class="input-group">
-            <input class="form-control" placeholder="wwww.liga.net" data-bind="value: AddLink"/>
+    <form class="form-inline">
+        <div class="form-group">
+            <div class="input-group">
+                <input class="form-control" placeholder="wwww.liga.net" data-bind="value: AddLink" />
+            </div>
         </div>
-    </div>
-    <button class="btn btn-primary" data-bind="click: $root.addNewsProvider">Add newsprovider</button>
-</form>
+        <button class="btn btn-primary" data-bind="click: $root.addNewsProvider">Add newsprovider</button>
+    </form>
+
+    <form>
+        <h3>
+            <p>
+                You have subscribe for <span data-bind="text: newsproviders().length">&nbsp;</span> channel(s)
+            </p>
+        </h3>
+        <table class="table" data-bind="visible: newsproviders().length > 0">
+            <thead>
+            <tr>
+                <th></th>
+                <th>Name</th>
+                <th>Link</th>
+                <th>Description</th>
+                <th>SubscriptionDate</th>
+                <th/>
+            </tr>
+            </thead>
+            <tbody data-bind="foreach: newsproviders">
+                <tr>
+                    <td>
+                        <img style="width:30px" class="" data-bind="attr:{src: RssImage}" />
+                    </td>
+                    <td><span class="required number" data-bind="text: Name, uniqueName: true"></span></td>
+                    <td>
+                        <span class="required number" data-bind="text: Link, uniqueName: true"></span>
+                    </td>
+                    <td>
+                        <span class="required number" data-bind="text: Description, uniqueName: true"></span>
+                    </td>
+                    <td>
+                        <span class="required number" data-bind="text: SubscriptionDate, uniqueName: true"></span>
+                    </td>
+                    <td><a href="#" data-bind="click: $root.removeNewsProvider">Unsubscribe</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
 </div>
 
 <div id="availableChannel">
     <form>
-        <h1>
+        <h3>
             <p>You can choose from available channel(s)
             </p>
-        </h1>
-        <table class="table" data-bind="visible:">
+        </h3>
+        <table class="table" data-bind="visible: true">
             <thead>
             <tr>
+                <th></th>
                 <th>Name</th>
                 <th>Link</th>
                 <th>Description</th>
@@ -61,19 +65,19 @@
                 <th/>
             </tr>
             </thead>
-            <tbody data-bind="foreach: alailableChannels">
+            <tbody data-bind="foreach: availableChannels">
             <tr>
-                <td><span class="required number" data-bind="text: alailableName, uniqueName: true"></span></td>
                 <td>
-                    <span class="required number" data-bind="text: alailableLink, uniqueName: true"></span>
+                    <img class="required number" data-bind="attr:{src: RssImage}" />
+                </td>
+                <td><span class="required number" data-bind="text: Name, uniqueName: true"></span></td>
+                <td>
+                    <span class="required number" data-bind="text: Link, uniqueName: true"></span>
                 </td>
                 <td>
-                    <span class="required number" data-bind="text: alailableDescription, uniqueName: true"></span>
+                    <span class="required number" data-bind="text: Description, uniqueName: true"></span>
                 </td>
-                <td>
-                    <span class="required number" data-bind="text: alailableRssImage, uniqueName: true"></span>
-                </td>
-                <td><a href="#" data-bind="click: $root.removeNewsProvider">Subscribe</a></td>
+                <td><a href="#" data-bind="click: $root.addNewsProvider">Subscribe</a></td>
             </tr>
             </tbody>
         </table>
