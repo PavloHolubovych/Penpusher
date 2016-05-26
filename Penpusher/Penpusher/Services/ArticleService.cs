@@ -17,7 +17,7 @@ namespace Penpusher.Services
     using Models;
 
     using Base;
-
+    
     /// <summary>
     /// The article service.
     /// </summary>
