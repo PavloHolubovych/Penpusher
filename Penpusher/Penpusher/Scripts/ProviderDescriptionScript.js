@@ -1,20 +1,12 @@
-﻿var ProviderViewModel = function (name, link, subscriptionDate, description) {
+﻿var ProviderViewModel = function (name, image, description, subscriptionDate) {
     var self = this;
-     
+
     self.name = ko.observable(name);
-    self.link = ko.observable(link);
+    self.image = ko.observable(image);
     self.description = ko.observable(description);
-    self.subscriptionDate = ko.observable(subscriptionDate);
-     
-
-
+    self.date = ko.observable(subscriptionDate);
 };
 
-$(document)
-    .ready(function (){
-        $.getJSON('/api/Subscriptions/GetProviderDetails?providerId=' + localStorage.providerId, function(data) {
-            var provider = new ProviderViewModel(data.Name, data.Link,
-                data.SubscriptionDate, data.Description);
-            ko.applyBindings(provider, document.getElementById("providerDescriptionContainer"));
-        });        
-    });
+$.get('/api/Subscriptions/GetProviderDetails?providerId=' + localStorage.providerId, function(data) {
+    ko.applyBindings(new ProviderViewModel(data.Name, data.RssImage, data.Description, data.SubscriptionDate), document.getElementById("providerDescriptionContainer"));
+});

@@ -28,6 +28,20 @@
     height: 100%;
 }
 
+.providerDetails {
+    width: 100%;
+    display: flex;
+    padding: 1%;
+}
+
+.provideImg {
+    width: 40%;
+    height: 20%;
+    max-width: 300px;
+    float: none;
+    padding: 1%;
+}
+
 .readArticles {
     width: 100%;
     display: flex;
