@@ -6,11 +6,8 @@ namespace Penpusher
     {
         public static void Register(HttpConfiguration config)
         {
-            // Attribute routing.
             config.MapHttpAttributeRoutes();
-            config.Routes.MapHttpRoute("DefaultApiWithActionAndId",
-                                "api/{controller}/{action}/{id}",
-                                new { id = RouteParameter.Optional });
+            config.Routes.MapHttpRoute("DefaultApiWithActionAndId", "api/{controller}/{action}/{id}", new { id = RouteParameter.Optional });
         }
     }
 }

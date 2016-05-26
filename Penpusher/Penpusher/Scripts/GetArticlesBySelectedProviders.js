@@ -1,11 +1,11 @@
 ﻿$(document)
     .ready(function () {
 
-        var ArticlesModel = function (someUserId) {
+        var ArticlesModel = function (userId) {
             self = this;
             self.articles = ko.observableArray([]);
             $.ajax({
-                url: apiController + someUserId,
+                url: apiController + userId,
                 method: "GET",
                 success: function (data) {
                     for (var i = 0; i < data.length; i++) {
@@ -19,8 +19,8 @@
                 }
             });
         }
-        var apiController = window.location.origin + "/api/Articles/ArticlesFromSelectedProviders?someUserId=";
-        var someUserId = 5;
-        var viewModel = new ArticlesModel(someUserId);
+        var apiController = window.location.origin + "/api/Articles/ArticlesFromSelectedProviders?userId=";
+        var userId = 5;
+        var viewModel = new ArticlesModel(userId);
         ko.applyBindings(viewModel, document.getElementById("articlesSubscriptions"));
     });
