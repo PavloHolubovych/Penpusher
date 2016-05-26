@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Xml.Linq;
+﻿using System.Collections.Generic;
 using Penpusher.Models;
 
 namespace Penpusher.Services.ContentService
@@ -19,13 +16,13 @@ namespace Penpusher.Services.ContentService
             this.rssParser = rssParser;
         }
 
-        //i dont really like void type for methods changing db state
+        ////i dont really like void type for methods changing db state
         public void InsertNewArticles(IEnumerable<RssChannelModel> rssChannels)
         {
             foreach (RssChannelModel provider in rssChannels)
             {
                 newsProviderService.UpdateLastBuildDateForNewsProvider(provider.ProviderId, provider.LastBuildDate);
-                var parsedArticles = rssParser.GetParsedArticles(provider);
+                IEnumerable<Article> parsedArticles = rssParser.GetParsedArticles(provider);
                 foreach (Article article in parsedArticles)
                 {
                     if (!articleService.CheckDoesExists(article.Link))
