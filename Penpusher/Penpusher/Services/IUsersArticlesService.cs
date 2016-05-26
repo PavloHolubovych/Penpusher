@@ -28,7 +28,7 @@ namespace Penpusher.Services
         ///     </see>
         ///     .
         /// </returns>
-        IEnumerable<UsersArticle> GetUsersReadArticles(int userId);
+        IEnumerable<Article> GetUsersReadArticles(int userId);
 
         IEnumerable<Article> GetUsersFavoriteArticles(int userId);
 
@@ -99,6 +99,7 @@ namespace Penpusher.Services
         /// </returns>
         UsersArticle ReadLaterInfo(int userId, int articleId);
 
-        IEnumerable<UsersArticle> GetReadLaterArticles(int userId);
+        IEnumerable<Article> GetReadLaterArticles(int userId);
+        //IEnumerable<UsersArticle> GetReadLaterArticles(int userId);
     }
 }

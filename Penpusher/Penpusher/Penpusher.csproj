@@ -362,6 +362,9 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\template\font-awesome.min.css" />
+    <Content Include="Content\template\metisMenu.min.css" />
+    <Content Include="Content\template\sb-admin-2.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\load.gif" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -380,9 +383,9 @@
     <Content Include="Scripts\ai.0.15.0-build58334.js" />
     <Content Include="Scripts\ai.0.15.0-build58334.min.js" />
     <Content Include="Scripts\ArticleDetailsScript.js" />
-    <Content Include="Scripts\GetArticlesBySelectedProviders.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\GetArticlesBySelectedProviders.js" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -393,11 +396,16 @@
     <Content Include="PenpusherEntityDatabase.edmx.diagram">
       <DependentUpon>PenpusherEntityDatabase.edmx</DependentUpon>
     </Content>
+    <Content Include="Content\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\fonts\fontawesome-webfont.woff" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\GetAllArticlesByProvider.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <Content Include="Scripts\jquery.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.js" />
+    <Content Include="Scripts\jquery.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -409,6 +417,8 @@
     <Content Include="Scripts\ProviderDescriptionScript.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\template\metisMenu.min.js" />
+    <Content Include="Scripts\template\sb-admin-2.js" />
     <Content Include="Scripts\UserToReadLaterArticleScript.js" />
     <Content Include="Scripts\UserReadArticleScript.js" />
     <Content Include="Scripts\_LayoutScript.js" />

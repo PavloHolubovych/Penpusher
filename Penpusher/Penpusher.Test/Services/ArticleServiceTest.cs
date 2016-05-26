@@ -6,7 +6,7 @@
 //   The article service test class.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
- 
+
 namespace Penpusher.Test.Services
 {
     using System.Collections.Generic;
@@ -118,9 +118,9 @@ namespace Penpusher.Test.Services
         /// The expected.
         /// </param>
         [Category("ArticleService")]
-        [TestCase(1, 1, TestName = "Should find articles by providerId = 1")]
-        [TestCase(4, 0, TestName = "Shouldn't find any articles by providerId = 4")]
-        public void GetArticlesFromProviderTest(int providerId, int expected)
+        [TestCase(1, true, TestName = "Should find articles by providerId = 1")]
+        [TestCase(4, false, TestName = "Shouldn't find any articles by providerId = 4")]
+        public void GetArticlesFromProviderTest(int providerId, bool expected)
         {
             var testArticles = new List<Article>
             {
@@ -130,9 +130,8 @@ namespace Penpusher.Test.Services
                 new Article { Id = 3, Title = "article1", IdNewsProvider = 0 },
             };
             MockKernel.GetMock<IRepository<Article>>().Setup(_ => _.GetAll()).Returns(testArticles);
-            IEnumerable<Article> result = MockKernel.Get<ArticleService>().GetArticlesFromProvider(providerId);
-            Article[] enumerable = result as Article[] ?? result.ToArray();
-            if (providerId == 4) { Assert.IsEmpty(enumerable); } else { Assert.IsNotEmpty(enumerable); }
+            bool result = MockKernel.Get<ArticleService>().GetArticlesFromProvider(providerId).Any();
+            Assert.AreEqual(expected, result);
         }
 
         [Category("ArticleService")]
