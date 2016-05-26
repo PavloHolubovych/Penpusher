@@ -7,8 +7,9 @@ namespace Penpusher.Services
     public interface INewsProviderService
     {
         IEnumerable<NewsProvider> GetAll();
+        NewsProvider GetById(int id);
 
-        IEnumerable<UserNewsProviderModels> GetByUserId(int id);
+        IEnumerable<UserNewsProviderModels> GetUserNewsProviderByUserId(int id);
 
         UsersNewsProvider Subscription(string link);
 

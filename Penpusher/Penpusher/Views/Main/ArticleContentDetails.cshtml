@@ -14,7 +14,7 @@
     </div>
     <div  id="articleLinkDiv">
         <label> You can view original article content </label>
-        <a data-bind="attr: { href: link}">here:</a> 
+        <a data-bind="attr: { href: link}" target="_blank">here:</a> 
         <br/>
         <button class="btn btn-primary myButton" data-bind="click: function(){ addToFavorites(@ViewBag.userId, @ViewBag.articleId)}, visible: addToFavoritesVisibility">Add to <b>favorites</b></button>
         <button class="btn btn-warning myButton" data-bind="click: function(){ removeFromFavorites(@ViewBag.userId, @ViewBag.articleId)}, visible: removeFromFavoritesVisibility">Remove from <b>favorites</b></button>

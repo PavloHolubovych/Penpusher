@@ -38,8 +38,7 @@ namespace Penpusher.Services.ContentService
 
         public string GetRssUrlById(int id)
         {
-            //DEFECT: use getById method from repository
-                return newsProviderService.GetAll().FirstOrDefault(x => x.Id == id).Link;
+                return newsProviderService.GetById(id).Link;
         }
     }
 }
