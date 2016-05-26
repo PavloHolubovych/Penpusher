@@ -25,7 +25,6 @@ namespace Penpusher.Controllers
         /// The _news provider service.
         /// </summary>
         private readonly INewsProviderService _newsProviderService;
-
         private readonly IUserProviderService _userProviderService;
         public SubscriptionsController(INewsProviderService newsProviderService, IUserProviderService _userProviderService)
         {
@@ -56,7 +55,7 @@ namespace Penpusher.Controllers
         //DEFECT: violation dependency inversion principle. method type must be more abstract and return is more specific
         public UserNewsProviderModels[] GetByUser(int id)
         {
-            return _newsProviderService.GetUserNewsProviderByUserId(id).ToArray();
+            return _newsProviderService.GetSubscriptionsByUserId(id).ToArray();
         }
 
         public  NewsProvider GetProviderDetails(int providerId)
@@ -79,15 +78,23 @@ namespace Penpusher.Controllers
             _newsProviderService.Subscription(link);
         }
 
-
-        public bool SubscribeUserToProvider(int userId, int providerId)
+        [HttpPost]
+        public bool SubscribeUserToProvider(int providerId)
         {
-            return _userProviderService.SubscribeUserToProvider(userId, providerId, true);
+            return _userProviderService.SubscribeUserToProvider(providerId, true);
         }
 
-        public bool UnsubscribeUserToProvider(int userId, int providerId)
+        [HttpPost]
+        public bool UnsubscribeUserToProvider(int providerId)
         {
-            return _userProviderService.SubscribeUserToProvider(userId, providerId, false);
+            return _userProviderService.SubscribeUserToProvider(providerId, false);
+        }
+
+        [HttpGet]
+        public bool IsUserSubscriberToProvider(int providerId)
+        {
+            var p= _userProviderService.IsUserSubscribedOnProvider(providerId);
+            return p;
         }
 
         // DELETE api/<controller>/5

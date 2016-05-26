@@ -30,16 +30,16 @@ namespace Penpusher.Services
                 LastBuildDate = n.LastBuildDate
             });
 
-            return newsproviders;//ToList()?
+            return newsproviders; // ToList()?
         }
 
 
         public NewsProvider GetById(int id)
         {
-           return  _newsProviderRepository.GetById(id);
+           return _newsProviderRepository.GetById(id);
         }
 
-        public IEnumerable<UserNewsProviderModels> GetUserNewsProviderByUserId(int id)
+        public IEnumerable<UserNewsProviderModels> GetSubscriptionsByUserId(int id)
         {
             IEnumerable<UserNewsProviderModels> news = _usersNewsProviderRepository.GetAll().Where(unp => unp.IdUser == id)
                 .Select(un => new UserNewsProviderModels

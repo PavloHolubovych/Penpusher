@@ -107,7 +107,7 @@ namespace Penpusher.Services
             }
             else
             {
-                if(!(bool)userArticle.IsToReadLater)
+                if(userArticle.IsToReadLater != null && userArticle.IsToReadLater.Value)
                 userArticle.IsRead = true;
             }
             repository.Edit(userArticle);
