@@ -29,12 +29,11 @@ namespace Penpusher.DAL
             EntitiesContext.SaveChanges();
             return entity;
         }
-
+                                    
         public void Edit(T entity)
         {
             DbSet.AddOrUpdate(entity);
             EntitiesContext.SaveChanges();
-
         }
 
         public void Delete(int id)
@@ -46,7 +45,7 @@ namespace Penpusher.DAL
         //TODO: implement this method and use it when we need to get entity by its id
         public T GetById(int id)
         {
-            throw new NotImplementedException();
+            return DbSet.Find(id);
         }
     }
 }

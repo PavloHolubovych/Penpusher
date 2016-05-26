@@ -166,7 +166,7 @@ namespace Penpusher.Controllers
         //DEFECT naming is bad. someUserId is completely bad naming style. suggenting name is userId
         public IEnumerable<Article> ArticlesFromSelectedProviders(int someUserId)
         {
-            IEnumerable<UserNewsProviderModels> newsProviders = newsProviderService.GetByUserId(someUserId);
+            IEnumerable<UserNewsProviderModels> newsProviders = newsProviderService.GetUserNewsProviderByUserId(someUserId);
             return articleService.GetArticlesFromSelectedProviders(newsProviders);
         }
 

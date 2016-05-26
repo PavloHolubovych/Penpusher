@@ -32,10 +32,16 @@ namespace Penpusher.Services
 
             return newsproviders;//ToList()?
         }
-        //DEFECT: naming. type if a collection but name specified as we expect a single record
-        public IEnumerable<UserNewsProviderModels> GetByUserId(int id)
+
+
+        public NewsProvider GetById(int id)
         {
-            IEnumerable<UserNewsProviderModels> news = _usersNewsProviderRepository.GetAll().Where(_ => _.IdUser == id)
+           return  _newsProviderRepository.GetById(id);
+        }
+
+        public IEnumerable<UserNewsProviderModels> GetUserNewsProviderByUserId(int id)
+        {
+            IEnumerable<UserNewsProviderModels> news = _usersNewsProviderRepository.GetAll().Where(unp => unp.IdUser == id)
                 .Select(un => new UserNewsProviderModels
                 {
                     Id = un.Id,

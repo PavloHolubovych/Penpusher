@@ -54,7 +54,7 @@ namespace Penpusher.Controllers
         //DEFECT: violation dependency inversion principle. method type must be more abstract and return is more specific
         public UserNewsProviderModels[] GetByUser(int id)
         {
-            return _newsProviderService.GetByUserId(id).ToArray();
+            return _newsProviderService.GetUserNewsProviderByUserId(id).ToArray();
         }
 
         public  NewsProvider GetProviderDetails(int providerId)
