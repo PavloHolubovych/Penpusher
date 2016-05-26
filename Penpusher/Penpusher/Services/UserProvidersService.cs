@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 
 namespace Penpusher.Services
@@ -42,10 +43,21 @@ namespace Penpusher.Services
             }
         }
 
-        public IEnumerable<int> GetProvidersForUser(int userId)
+        public bool IsUserSubscribedOnProvider(int providerId)
         {
-            return repository.GetAll().Where(np => np.IdUser == userId).Select(np=>np.Id);
+            //TODO: Use  HttpContext.Current.User id
+
+            if (repository.GetAll().Count(up => up.IdNewsProvider == providerId && up.IdUser == 5) > 0)
+                return true;
+            return false;
+            
+        }
+        public IEnumerable<int> GetProvidersForUser()
+        {
+            //TODO: USe  HttpContext.Current.User id
+            return repository.GetAll().Where(np => np.IdUser ==5).Select(np=>np.Id);
         }
 
+        
     }
 }
