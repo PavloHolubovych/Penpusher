@@ -8,11 +8,11 @@
     $.get("/api/Articles/CheckIsFavorite?userId=" + localStorage.userId + "&articleId=" + localStorage.articleId,
             function (result) {
                 if (result === true) {
-                    self.addVisibility(false);
-                    self.removeVisibility(true);
+                    self.addToFavoritesVisibility(false);
+                    self.removeFromFavoritesVisibility(true);
                 } else {
-                    self.addVisibility(true);
-                    self.removeVisibility(false);
+                    self.addToFavoritesVisibility(true);
+                    self.removeFromFavoritesVisibility(false);
                 }
             });
 
