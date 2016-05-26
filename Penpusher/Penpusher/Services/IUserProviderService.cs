@@ -7,8 +7,10 @@ namespace Penpusher.Services
 {
     public  interface IUserProviderService
     {
-        bool SubscribeUserToProvider( int providerId, bool isSubscribe);
-        IEnumerable<int> GetProvidersForUser( );
+        bool SubscribeUserToProvider(int providerId, bool isSubscribe);
+
+        IEnumerable<int> GetProvidersForUser();
+
         bool IsUserSubscribedOnProvider(int providerId);
     }
 }

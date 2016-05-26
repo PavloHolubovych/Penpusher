@@ -1,23 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Web;
 
 namespace Penpusher.Services
 {
-    public class UserProvidersService: IUserProviderService
+    public class UserProvidersService : IUserProviderService
     {
-        private IRepository<UsersNewsProvider> repository; 
+        private readonly IRepository<UsersNewsProvider> repository;
 
         public UserProvidersService(IRepository<UsersNewsProvider> repository)
-        { 
+        {
             this.repository = repository;
         }
 
         public bool SubscribeUserToProvider( int providerId, bool isSubscribe)
         {
-            int userId = 5;
+            var userId = 5;
             try
             {
                 if (isSubscribe)
@@ -26,12 +24,11 @@ namespace Penpusher.Services
                     {
                         IdNewsProvider = providerId,
                         IdUser = userId
-
                     });
                 }
                 else
                 {
-                    var userProvider =
+                    UsersNewsProvider userProvider =
                         repository.GetAll().First(up => up.IdUser == userId && up.IdNewsProvider == providerId);
                     if (userProvider != null)
                         repository.Delete(userProvider.Id);
@@ -51,14 +48,12 @@ namespace Penpusher.Services
             if (repository.GetAll().Count(up => up.IdNewsProvider == providerId && up.IdUser == 5) > 0)
                 return true;
             return false;
-            
         }
+
         public IEnumerable<int> GetProvidersForUser()
         {
             //TODO: USe  HttpContext.Current.User id
-            return repository.GetAll().Where(np => np.IdUser ==5).Select(np=>np.Id);
+            return repository.GetAll().Where(np => np.IdUser == 5).Select(np => np.Id);
         }
-
-        
     }
 }

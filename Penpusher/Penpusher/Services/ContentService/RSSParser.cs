@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net;
 using System.Xml.Linq;
 using Penpusher.Models;
 
@@ -10,32 +9,29 @@ namespace Penpusher.Services.ContentService
     {
         public IEnumerable<Article> GetParsedArticles(RssChannelModel rssModel)
         {
-            List<Article> parsedArticles = new List<Article>();
+            var parsedArticles = new List<Article>();
             IEnumerable<XElement> rssArticles = rssModel.RssFile.Descendants("item");
 
-            foreach (XElement post in rssArticles)
-                parsedArticles.Add(ParseArticle(post, rssModel.ProviderId));
-
+            foreach (XElement post in rssArticles)parsedArticles
+                    .Add(ParseArticle(post, rssModel.ProviderId));
             return parsedArticles;
         }
 
         private Article ParseArticle(XElement post, int idNewsProvider)
         {
             DateTime date;
-            if (!DateTime.TryParse((GetDescedantValue(post, "pubDate")), out date))
+            if (!DateTime.TryParse(GetDescedantValue(post, "pubDate"), out date))
                 date = DateTime.Now;
 
             return new Article()
             {
-                Description =  (GetDescedantValue(post, "description")),
+                Description = GetDescedantValue(post, "description"),
                 Title = GetDescedantValue(post, "title"),
                 Date = date,
                 Link = GetDescedantValue(post, "link"),
                 Id = 0,
                 Image = GetImage(post),
-                IdNewsProvider = idNewsProvider,
-                UsersArticles = null,//remove this
-                NewsProvider = null//remove this
+                IdNewsProvider = idNewsProvider
             };
         }
 
@@ -49,7 +45,7 @@ namespace Penpusher.Services.ContentService
             XElement image = post.Element("enclosure");
             if (image != null && image.HasAttributes)
             {
-                foreach (var attribute in image.Attributes())
+                foreach (XAttribute attribute in image.Attributes())
                 {
                     string value = attribute.Value.ToLower();
                     if (value.StartsWith("http://") && (value.EndsWith(".jpg") || value.EndsWith(".png") || value.EndsWith(".gif")))

@@ -7,19 +7,19 @@ namespace Penpusher.Services
 {
     public class NewsProviderService : INewsProviderService
     {
-        private readonly IRepository<NewsProvider> _newsProviderRepository;
+        private readonly IRepository<NewsProvider> newsProviderRepository;
 
-        private readonly IRepository<UsersNewsProvider> _usersNewsProviderRepository;
+        private readonly IRepository<UsersNewsProvider> usersNewsProviderRepository;
 
         public NewsProviderService(IRepository<NewsProvider> repository, IRepository<UsersNewsProvider> usersNewsProviderRepository)
         {
-            _newsProviderRepository = repository;
-            _usersNewsProviderRepository = usersNewsProviderRepository;
+            newsProviderRepository = repository;
+            this.usersNewsProviderRepository = usersNewsProviderRepository;
         }
 
         public IEnumerable<NewsProvider> GetAll()
         {
-            IEnumerable<NewsProvider> newsproviders = _newsProviderRepository.GetAll().Select(n => new NewsProvider
+            IEnumerable<NewsProvider> newsproviders = newsProviderRepository.GetAll().Select(n => new NewsProvider
             {
                 Id = n.Id,
                 Name = n.Name,
@@ -33,15 +33,14 @@ namespace Penpusher.Services
             return newsproviders; // ToList()?
         }
 
-
         public NewsProvider GetById(int id)
         {
-           return _newsProviderRepository.GetById(id);
+           return newsProviderRepository.GetById(id);
         }
 
         public IEnumerable<UserNewsProviderModels> GetSubscriptionsByUserId(int id)
         {
-            IEnumerable<UserNewsProviderModels> news = _usersNewsProviderRepository.GetAll().Where(unp => unp.IdUser == id)
+            IEnumerable<UserNewsProviderModels> news = usersNewsProviderRepository.GetAll().Where(unp => unp.IdUser == id)
                 .Select(un => new UserNewsProviderModels
                 {
                     Id = un.Id,
@@ -57,12 +56,12 @@ namespace Penpusher.Services
         //i dont really like void type for methods changing db state
         public void Unsubscription(int id)
         {
-            _usersNewsProviderRepository.Delete(id);
+            usersNewsProviderRepository.Delete(id);
         }
 
         public UsersNewsProvider Subscription(string link)
         {
-            NewsProvider channel = _newsProviderRepository.GetAll().FirstOrDefault(rm => rm.Link == link);
+            NewsProvider channel = newsProviderRepository.GetAll().FirstOrDefault(rm => rm.Link == link);
 
             if (channel == null)
             {
@@ -74,11 +73,11 @@ namespace Penpusher.Services
                     SubscriptionDate = DateTime.Today
                 };
 
-                channel = _newsProviderRepository.Add(channel);
+                channel = newsProviderRepository.Add(channel);
             }
 
-            UsersNewsProvider subscription = _usersNewsProviderRepository.GetAll().FirstOrDefault(rm => rm.IdNewsProvider == channel.Id);
-            return subscription ?? _usersNewsProviderRepository.Add(new UsersNewsProvider
+            UsersNewsProvider subscription = usersNewsProviderRepository.GetAll().FirstOrDefault(rm => rm.IdNewsProvider == channel.Id);
+            return subscription ?? usersNewsProviderRepository.Add(new UsersNewsProvider
             {
                 IdNewsProvider = channel.Id,
                 IdUser = 5
@@ -88,9 +87,9 @@ namespace Penpusher.Services
         //i dont really like void type for methods changing db state
         public void UpdateLastBuildDateForNewsProvider(int id, DateTime? lastBuildDate)
         {
-            NewsProvider updatedProvider = _newsProviderRepository.GetById(id);
+            NewsProvider updatedProvider = newsProviderRepository.GetById(id);
             updatedProvider.LastBuildDate = lastBuildDate;
-            _newsProviderRepository.Edit(updatedProvider);
+            newsProviderRepository.Edit(updatedProvider);
         }
     }
 }
