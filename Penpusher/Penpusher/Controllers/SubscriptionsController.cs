@@ -26,9 +26,11 @@ namespace Penpusher.Controllers
         /// </summary>
         private readonly INewsProviderService _newsProviderService;
 
-        public SubscriptionsController(INewsProviderService newsProviderService)
+        private readonly IUserProviderService _userProviderService;
+        public SubscriptionsController(INewsProviderService newsProviderService, IUserProviderService _userProviderService)
         {
             _newsProviderService = newsProviderService;
+            this._userProviderService = _userProviderService;
         }
 
         // GET api/<controller>
@@ -76,27 +78,16 @@ namespace Penpusher.Controllers
             string link = newsProvider.Link;
             _newsProviderService.Subscription(link);
         }
-        
 
-        public void AddSubscriptionToUser()
+
+        public bool SubscribeUserToProvider(int userId, int providerId)
         {
-           
+            return _userProviderService.SubscribeUserToProvider(userId, providerId, true);
         }
 
-        // PUT api/<controller>/5
-
-        /// <summary>
-        /// The put.
-        /// </summary>
-        /// <param name="id">
-        /// The id.
-        /// </param>
-        /// <param name="value">
-        /// The value.
-        /// </param>
-        //DEFECT: remove unused method
-        public void Put(int id, [FromBody]string value)
+        public bool UnsubscribeUserToProvider(int userId, int providerId)
         {
+            return _userProviderService.SubscribeUserToProvider(userId, providerId, false);
         }
 
         // DELETE api/<controller>/5
@@ -105,7 +96,7 @@ namespace Penpusher.Controllers
         /// The delete.
         /// </summary>
         /// <param name="id">
-        /// The id.
+        /// The id.w
         /// </param>
         //DEFECT: its bad practice to return void in API. return bool at least to check does action perform successfully
         [Route("delete/{id}")]
