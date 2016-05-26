@@ -8,22 +8,30 @@
 
 <script src="~/Scripts/ProviderDescriptionScript.js"></script>
 
-<div id="providerDescriptionContainer"> <!--main container-->
-    <div> <!--header-->
-        <img class="provideImg" data-bind="attr: { src: image }" />
-        <h1 data-bind="text: name"></h1> <!--provider name-->
+<div id="providerDescriptionContainer" class="body-content">
+    <div>
+        <div id="imageDiv">
+            <img class="provideImg" data-bind="attr: { src: image }" />
+
+        </div>
+
+        <div id="descriptionDiv">
+            <h1 data-bind="text: name"></h1>
+            <div>
+                <p data-bind="text: description"></p>
+            </div>
+            <br />
+        </div>
     </div>
 
-    <div><!--description-->
-        <p data-bind="text: description"></p>
-    </div>
-    <br/>
-    <div> <!--buttons-->
-        <button></button><!--sub/unsub-->
-        <button></button><!--visit-->
-    </div>
-    <br />
-     <div><!--start date-->
-        <p>This provider on our resourse from <span data-bind="text: date"></span></p>
+    <div>
+        <div>
+            <p>This provider on our resourse from <span data-bind="text: date"></span></p>
+        </div>
+        <br />
+        <div>
+            <button class="btn btn-primary"> Subscribe </button>
+        </div>
+
     </div>
 </div>

@@ -61,18 +61,9 @@ namespace Penpusher.Test.Services
             // arrange
             var usernewsprovider = new List<UsersNewsProvider>()
             {
-                new UsersNewsProvider
-                {
-                    Id = 1, IdNewsProvider = 1, IdUser = 1
-                },
-                new UsersNewsProvider
-                {
-                    Id = 2, IdNewsProvider = 1, IdUser = 2
-                },
-                new UsersNewsProvider
-                {
-                    Id = 3, IdNewsProvider = 3, IdUser = 1
-                }
+                new UsersNewsProvider { Id = 1, IdNewsProvider = 1, IdUser = 1 },
+                new UsersNewsProvider { Id = 2, IdNewsProvider = 1, IdUser = 2 },
+                new UsersNewsProvider { Id = 3, IdNewsProvider = 3, IdUser = 1}
             };
 
             MockKernel.GetMock<IRepository<UsersNewsProvider>>().Setup(rm => rm.GetAll()).Returns(usernewsprovider);
