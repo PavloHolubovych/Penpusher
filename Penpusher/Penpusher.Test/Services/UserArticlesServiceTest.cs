@@ -166,7 +166,7 @@ namespace Penpusher.Test.Services
                 .Callback((UsersArticle article) => { testArticles.Add(article); });
 
             MockKernel.Get<IUsersArticlesService>().AddRemoveFavorites(userId, articleId, favoriteFlag);
-            UsersArticle actual = testArticles.First(ua => ua.UserId == userId && ua.ArticleId==articleId);
+            UsersArticle actual = testArticles.First(ua => ua.UserId == userId && ua.ArticleId == articleId);
             Assert.AreEqual(favoriteFlag, actual.IsFavorite);
         }
     }
