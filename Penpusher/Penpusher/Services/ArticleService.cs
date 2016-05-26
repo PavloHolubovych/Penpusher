@@ -108,7 +108,7 @@ namespace Penpusher.Services
         [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Reviewed. Suppression is OK here.")]
         public bool CheckDoesExists(string title)
         {
-            return repository.GetAll().Count(x => x.Title == title) > 0;//could be changed to .Any()
+            return repository.GetAll().Any(x => x.Title == title);
         }
 
         /// <summary>
