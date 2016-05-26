@@ -113,15 +113,7 @@ namespace Penpusher.Controllers
         [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Reviewed. Suppression is OK here.")]
         public IEnumerable<Article> UserReadArticles(int userId)
         {
-            //DEFECT: this should be incapsulated in service. controlles could not contain any logic
-            IEnumerable<Article> readArticles = articleService.GetAllArticleses()
-                .Join(
-                    userArticlesService.GetUsersReadArticles(userId),
-                    article => article.Id,
-                    readArticle => readArticle.ArticleId,
-                    (article, readArticle) => article);
-
-            return readArticles;
+            return userArticlesService.GetUsersReadArticles(userId); 
         }
 
         [HttpGet]
@@ -151,7 +143,7 @@ namespace Penpusher.Controllers
         /// <summary>
         /// The articles from selected providers.
         /// </summary>
-        /// <param name="someUserId">
+        /// <param name="userId">
         /// The some user id.
         /// </param>
         /// <returns>
@@ -163,10 +155,9 @@ namespace Penpusher.Controllers
         [HttpGet]
         [ActionName("ArticlesFromSelectedProviders")]
         [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Reviewed. Suppression is OK here.")]
-        //DEFECT naming is bad. someUserId is completely bad naming style. suggenting name is userId
-        public IEnumerable<Article> ArticlesFromSelectedProviders(int someUserId)
+        public IEnumerable<Article> ArticlesFromSelectedProviders(int userId)
         {
-            IEnumerable<UserNewsProviderModels> newsProviders = newsProviderService.GetSubscriptionsByUserId(someUserId);
+            IEnumerable<UserNewsProviderModels> newsProviders = newsProviderService.GetSubscriptionsByUserId(userId);
             return articleService.GetArticlesFromSelectedProviders(newsProviders);
         }
 
@@ -269,14 +260,8 @@ namespace Penpusher.Controllers
 
         public IEnumerable<Article> GetReadLeaterArticles()
         {
-            IEnumerable<Article> readLeaterArticles = articleService.GetAllArticleses()
-                .Join(
-                    userArticlesService.GetReadLaterArticles(5),
-                    article => article.Id,
-                    readLeaterArticle => readLeaterArticle.ArticleId,
-                    (article, readLeaterArticle) => article);
-
-            return readLeaterArticles;
+            int userId = 5;
+            return userArticlesService.GetReadLaterArticles(userId);
         }
     }
 }
