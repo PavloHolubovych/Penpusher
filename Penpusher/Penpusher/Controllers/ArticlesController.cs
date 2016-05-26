@@ -64,14 +64,9 @@ namespace Penpusher.Controllers
         }
 
         [HttpPost]
-         //DEFECT: duplication. change to single method AddRemoveFavorites
-       public void AddToFavorites(JObject jsonData)
+       public void AddRemoveFavorites([FromBody]WebModel model)
         {
-            int userId = int.Parse(jsonData["userId"].ToString());
-            int articleId = int.Parse(jsonData["articleId"].ToString());
-            bool favoriteFlag = bool.Parse(jsonData["favoriteFlag"].ToString());
-
-            userArticlesService.AddRemoveFavorites(userId, articleId, favoriteFlag);
+            userArticlesService.AddRemoveFavorites(model.UserId, model.ArticleId, model.Flag);
         }
 
         [HttpGet]

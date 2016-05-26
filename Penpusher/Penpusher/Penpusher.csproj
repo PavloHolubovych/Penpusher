@@ -302,6 +302,7 @@
     <Compile Include="Controllers\MainController.cs" />
     <Compile Include="Models\RssChannelModel.cs" />
     <Compile Include="Models\UserNewsProviderModels.cs" />
+    <Compile Include="Models\WebModel.cs" />
     <Compile Include="NewsProvider.cs">
       <DependentUpon>PenpusherEntityDatabase.tt</DependentUpon>
     </Compile>
