@@ -236,3 +236,9 @@ margin: 0 10px;
 color: #E88F00;
 border-bottom: 1px dotted #9F1D35;
 }
+ 
+#imageDiv{
+float:left;
+width:50%;
+overflow:hidden;
+} 
