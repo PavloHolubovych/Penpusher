@@ -23,8 +23,8 @@ namespace Penpusher.Test.Services
         [Category("NewsProviderService")]
         [TestCase(1, 2, TestName = "Get subscription for user 1")]
         [TestCase(2, 1, TestName = "Get subscription for user 2")]
-        [TestCase(0, 0, TestName = "Quantity of subscription for undefined user must equal zero")]
-        public void GetByUserIdTest(int userid, int expectedCount)
+        [TestCase(0, 0, TestName = "Quantity of subscriptions for undefined user must equal zero")]
+        public void GetSubscriptionsByUserIdTest(int userid, int expectedCount)
         {
             // arrange
             var usernewsprovider = new List<UsersNewsProvider>
@@ -37,7 +37,7 @@ namespace Penpusher.Test.Services
             MockKernel.GetMock<IRepository<UsersNewsProvider>>().Setup(rm => rm.GetAll()).Returns(usernewsprovider);
 
             // act
-            IEnumerable<UserNewsProviderModels> result = MockKernel.Get<INewsProviderService>().GetUserNewsProviderByUserId(userid);
+            IEnumerable<UserNewsProviderModels> result = MockKernel.Get<INewsProviderService>().GetSubscriptionsByUserId(userid);
 
             // assert
             int expected = result.Count();
@@ -61,7 +61,7 @@ namespace Penpusher.Test.Services
             // act
             MockKernel.Get<INewsProviderService>().Unsubscription(id);
 
-            IEnumerable<UserNewsProviderModels> result = MockKernel.Get<INewsProviderService>().GetUserNewsProviderByUserId(id);
+            IEnumerable<UserNewsProviderModels> result = MockKernel.Get<INewsProviderService>().GetSubscriptionsByUserId(id);
 
             // assert
             Assert.IsEmpty(result);
