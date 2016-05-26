@@ -75,7 +75,7 @@ namespace Penpusher.Services
         }
 
         //DEFECT: duplication detected. use single method for changind favorite flag
-        public void AddToFavorites(int userId, int articleId)
+        public void AddRemoveFavorites(int userId, int articleId, bool favoriteFlag)
         {
             UsersArticle userArticle =
                 repository.GetAll().FirstOrDefault(ua => ua.ArticleId == articleId && ua.UserId == userId);
