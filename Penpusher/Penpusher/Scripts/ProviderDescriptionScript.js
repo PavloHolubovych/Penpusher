@@ -11,30 +11,25 @@
         self.subscribe = function () {
             $.post('/api/Subscriptions/SubscribeUserToProvider?providerId=' + localStorage.providerId, function (data) {
                 subscribe();
-           
             });
         };
     }
-
     subscribe=function() {
         self.buttonText("Unsubscribe");
         self.subscribe = function () {
             $.post('/api/Subscriptions/UnsubscribeUserToProvider?providerId=' + localStorage.providerId, function (data) {
                 unsubscribe();
             });
-
         };
     }
-
     $.get('/api/Subscriptions/IsUserSubscriberToProvider?providerId=' + localStorage.providerId, function (data) {
         if (data === true) {
-
+            subscribe();
         } else {
             unsubscribe();
         }
     });
 };
-
 
 $.get('/api/Subscriptions/GetProviderDetails?providerId=' + localStorage.providerId, function (data) {
 
