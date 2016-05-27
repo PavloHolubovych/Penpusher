@@ -31,7 +31,9 @@ namespace Penpusher.Services
                     UsersNewsProvider userProvider =
                         repository.GetAll().First(up => up.IdUser == userId && up.IdNewsProvider == providerId);
                     if (userProvider != null)
+                    {
                         repository.Delete(userProvider.Id);
+                    }
                 }
                 return true;
             }
