@@ -8,18 +8,17 @@ namespace Penpusher.Services
 
         IEnumerable<Article> GetUsersFavoriteArticles(int userId);
 
-        void MarkAsRead(int userId, int articleId);
+        void MarkAsRead(int articleId);
 
-        void AddRemoveFavorites(int userId, int articleId, bool favoriteFlag);
+        void AddRemoveFavorites(  int articleId, bool favoriteFlag);
 
-        bool CheckIsFavorite(int userId, int articleId);
+        bool CheckIsFavorite( int articleId);
 
-        UsersArticle ToReadLater(int userId, int articleId, bool add);
+        UsersArticle ToReadLater( int articleId, bool add);
 
-        UsersArticle ReadLaterInfo(int userId, int articleId);
+        UsersArticle ReadLaterInfo( int articleId);
 
         IEnumerable<Article> GetReadLaterArticles(int userId);
-
-        ////IEnumerable<UsersArticle> GetReadLaterArticles(int userId);
+         
     }
 }

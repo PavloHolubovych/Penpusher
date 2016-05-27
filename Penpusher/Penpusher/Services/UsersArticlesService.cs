@@ -16,13 +16,17 @@ namespace Penpusher.Services
 
         public IEnumerable<Article> GetUsersReadArticles(int userId)
         {
-            return
-                articleRepository.GetAll()
-                    .Join(
-                        repository.GetAll().Where(art => art.IsRead == true && art.UserId == userId),
-                        article => article.Id,
-                        readArticle => readArticle.ArticleId,
-                        (article, readArticle) => article).ToList();
+            IEnumerable<Article> readArticles = repository.GetAll().Where(art => art.IsRead == true && art.UserId == userId).Select(a => new Article
+            {
+                Id = a.Article.Id,
+                Title = a.Article.Title,
+                Description = a.Article.Description,
+                Image = a.Article.Image,
+                Link = a.Article.Link,
+                Date = a.Article.Date
+            });
+            return readArticles;
+
         }
 
         public IEnumerable<Article> GetReadLaterArticles(int userId)
@@ -50,16 +54,17 @@ namespace Penpusher.Services
             return usart;
         }
 
-        public void MarkAsRead(int userId, int articleId)
+        public void MarkAsRead(int articleId)
         {
-            UsersArticle userArticle = repository.GetAll().FirstOrDefault(ua => ua.ArticleId == articleId && ua.UserId == userId);
+            UsersArticle userArticle = repository.GetAll().
+                FirstOrDefault(ua => ua.ArticleId == articleId && ua.UserId == Constants.UserId);
 
             if (userArticle == null)
             {
                 userArticle = new UsersArticle
                 {
                     ArticleId = articleId,
-                    UserId = userId,
+                    UserId = Constants.UserId,
                     IsToReadLater = false,
                     IsFavorite = false,
                     IsRead = true
@@ -75,17 +80,19 @@ namespace Penpusher.Services
             repository.Edit(userArticle);
         }
 
-        public void AddRemoveFavorites(int userId, int articleId, bool favoriteFlag)
+
+        public void AddRemoveFavorites( int articleId, bool favoriteFlag)
         {
             UsersArticle userArticle =
-                repository.GetAll().FirstOrDefault(ua => ua.ArticleId == articleId && ua.UserId == userId);
+                repository.GetAll()
+                .FirstOrDefault(ua => ua.ArticleId == articleId && ua.UserId == Constants.UserId);
 
             if (userArticle == null)
             {
                 userArticle = new UsersArticle
                                   {
                                       ArticleId = articleId,
-                                      UserId = userId,
+                                      UserId = Constants.UserId,
                                       IsToReadLater = false,
                                       IsFavorite = favoriteFlag,
                                       IsRead = true
@@ -100,10 +107,10 @@ namespace Penpusher.Services
         }
 
         //DEFECT: naming
-        public UsersArticle ReadLaterInfo(int userId, int articleId)
+        public UsersArticle ReadLaterInfo(int articleId)
         {
             UsersArticle userArticle =
-                repository.GetAll().FirstOrDefault(x => x.ArticleId == articleId && x.UserId == userId);
+                repository.GetAll().FirstOrDefault(x => x.ArticleId == articleId && x.UserId == Constants.UserId);
 
             if (userArticle != null)
             {
@@ -121,16 +128,17 @@ namespace Penpusher.Services
             return null;
         }
 
-        public UsersArticle ToReadLater(int userId, int articleId, bool add)
+        public UsersArticle ToReadLater( int articleId, bool add)
         {
-            UsersArticle userArticle = repository.GetAll().FirstOrDefault(x => x.ArticleId == articleId && x.UserId == userId);
+            UsersArticle userArticle = repository.GetAll()
+                .FirstOrDefault(x => x.ArticleId == articleId && x.UserId == Constants.UserId);
 
             if (userArticle == null)
             {
                 userArticle = new UsersArticle
                                   {
                                       ArticleId = articleId,
-                                      UserId = userId,
+                                      UserId = Constants.UserId,
                                       IsToReadLater = add,
                                       IsFavorite = false,
                                       IsRead = false
@@ -157,9 +165,9 @@ namespace Penpusher.Services
         }
 
         //whats the purpose of this method? do we need it?
-        public bool CheckIsFavorite(int userId, int articleId)
+        public bool CheckIsFavorite( int articleId)
         {
-            UsersArticle userArticle = repository.GetAll().FirstOrDefault(ua => ua.ArticleId == articleId && ua.UserId == userId);
+            UsersArticle userArticle = repository.GetAll().FirstOrDefault(ua => ua.ArticleId == articleId && ua.UserId == Constants.UserId);
 
             return userArticle != null && (bool)userArticle.IsFavorite;//use C# 6 feature: e.g. return userArticle?.IsFavorite;
         }

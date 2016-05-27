@@ -1,8 +1,7 @@
 ﻿<link rel="stylesheet" type="text/css" href="~/Content/Site.css"/>
 <script type="text/javascript" src="~/Scripts/ArticleDetailsScript.js"></script>
 <script>
-    localStorage.articleId = @ViewBag.articleId;
-    localStorage.userId = @ViewBag.userId;
+    localStorage.articleId = @Html.Raw(Json.Encode(Model));
 </script>
 <div id="articleContent">
     

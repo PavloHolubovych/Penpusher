@@ -13,11 +13,11 @@ namespace Penpusher.Test.Services
     {
         private readonly List<UsersArticle> testArticles = new List<UsersArticle>
             {
-                new UsersArticle { Id = 1, UserId = 1, ArticleId = 5, IsRead = false, IsFavorite = true, IsToReadLater = true },
-                new UsersArticle { Id = 2, UserId = 1, ArticleId = 15, IsRead = true, IsFavorite = true, IsToReadLater = true },
-                new UsersArticle { Id = 3, UserId = 2, ArticleId = 15, IsRead = true, IsFavorite = false, IsToReadLater = false },
-                new UsersArticle { Id = 4, UserId = 2, ArticleId = 6, IsRead = false, IsFavorite = false, IsToReadLater = true },
-                new UsersArticle { Id = 4, UserId = 3, ArticleId = 6, IsRead = false, IsFavorite = false, IsToReadLater = false }
+                new UsersArticle { Id = 1, UserId = 1, ArticleId = 5, IsRead = false, IsFavorite = true, IsToReadLater = true, Article = new Article { Id = 5 } },
+                new UsersArticle { Id = 2, UserId = 1, ArticleId = 15, IsRead = true, IsFavorite = true, IsToReadLater = true, Article = new Article { Id = 15 } },
+                new UsersArticle { Id = 3, UserId = 2, ArticleId = 15, IsRead = true, IsFavorite = false, IsToReadLater = false, Article = new Article { Id = 15 } },
+                new UsersArticle { Id = 4, UserId = 2, ArticleId = 6, IsRead = false, IsFavorite = false, IsToReadLater = true,  Article = new Article { Id = 6 } },
+                new UsersArticle { Id = 4, UserId = 3, ArticleId = 6, IsRead = false, IsFavorite = false, IsToReadLater = false, Article = new Article { Id = 6 } }
             };
 
         [SetUp]
@@ -35,15 +35,15 @@ namespace Penpusher.Test.Services
         public void GetUsersReadArticlesTest(int userId)
         {
             MockKernel.GetMock<IRepository<UsersArticle>>().Setup(usrv => usrv.GetAll()).Returns(testArticles);
-            IEnumerable<Article> actual = MockKernel.Get<IUsersArticlesService>().GetUsersReadArticles(userId);
-            IEnumerable<UsersArticle> expected = testArticles.Where(ua => ua.IsRead == true && ua.UserId == userId);
+            int expected = testArticles.Count(ua => ua.IsRead == true && ua.UserId == userId);
+            int actual = MockKernel.Get<IUsersArticlesService>().GetUsersReadArticles(userId).Count();
             Assert.AreEqual(expected, actual);
         }
 
         [Category("UserArticlesService")]
         [TestCase(1, 2, TestName = "For existing user, that has favorite articles")]
-        [TestCase(3, 2, TestName = "For existing user, that hasn't favorite articles")]
-        [TestCase(5, 2, TestName = "For nt existing user")]
+        [TestCase(3, 0, TestName = "Should get zero articles for existing user, that hasn't favorite articles")]
+        [TestCase(5, 0, TestName = "Should get zero articles for not existing user")]
         public void GetUsersFavoriteArticlesTest(int userId, int expected)
         {
             var testArticles2 = new List<UsersArticle>
@@ -145,7 +145,7 @@ namespace Penpusher.Test.Services
             MockKernel.GetMock<IRepository<UsersArticle>>()
                 .Setup(edit => edit.Edit(It.IsAny<UsersArticle>()))
                 .Callback((UsersArticle article) => { testArticles.Add(article); });
-            MockKernel.Get<IUsersArticlesService>().MarkAsRead(userId, articleId);
+            MockKernel.Get<IUsersArticlesService>().MarkAsRead(articleId);
 
             bool actual = MockKernel.Get<IUsersArticlesService>().GetUsersReadArticles(userId).Any(ua => ua.Id == articleId);
             Assert.AreEqual(false, actual);
@@ -165,7 +165,7 @@ namespace Penpusher.Test.Services
                 .Setup(edit => edit.Edit(It.IsAny<UsersArticle>()))
                 .Callback((UsersArticle article) => { testArticles.Add(article); });
 
-            MockKernel.Get<IUsersArticlesService>().AddRemoveFavorites(userId, articleId, favoriteFlag);
+            MockKernel.Get<IUsersArticlesService>().AddRemoveFavorites(articleId, favoriteFlag);
             UsersArticle actual = testArticles.First(ua => ua.UserId == userId && ua.ArticleId == articleId);
             Assert.AreEqual(favoriteFlag, actual.IsFavorite);
         }
