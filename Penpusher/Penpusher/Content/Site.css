@@ -192,6 +192,7 @@ text-align:center;
 }
 
 .item {
+    min-height: 365px;
     display: inline-block;
     background: #ECECEA;
     padding: 1em;
@@ -203,7 +204,7 @@ text-align:center;
 }
   
 img, iframe {
-max-width: 100%;
+max-width: 110px;
 display: block;
 }
 
@@ -214,7 +215,6 @@ display: block;
 }
 
 .img-article {   
-
     height: 100px;
 }
 
