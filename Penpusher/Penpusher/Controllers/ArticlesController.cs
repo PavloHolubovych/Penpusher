@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Web.Http;
-using Newtonsoft.Json.Linq;
 using Penpusher.Models;
 using Penpusher.Services;
 
@@ -37,15 +36,15 @@ namespace Penpusher.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<Article> UserReadArticles(int userId)
+        public IEnumerable<Article> UserReadArticles()
         {
-            return userArticlesService.GetUsersReadArticles(userId);
+            return userArticlesService.GetUsersReadArticles();
         }
 
         [HttpGet]
-        public IEnumerable<Article> UserFavoriteArticles(int userId)
+        public IEnumerable<Article> UserFavoriteArticles()
         {
-            return userArticlesService.GetUsersFavoriteArticles(userId);
+            return userArticlesService.GetUsersFavoriteArticles();
         }
 
         [HttpGet]
@@ -56,9 +55,9 @@ namespace Penpusher.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<Article> ArticlesFromSelectedProviders(int userId)
+        public IEnumerable<Article> ArticlesFromSelectedProviders()
         {
-            IEnumerable<UserNewsProviderModels> newsProviders = newsProviderService.GetSubscriptionsByUserId(userId);
+            IEnumerable<UserNewsProviderModels> newsProviders = newsProviderService.GetSubscriptionsByUserId();
             return articleService.GetArticlesFromSelectedProviders(newsProviders);
         }
 
@@ -75,9 +74,9 @@ namespace Penpusher.Controllers
         }
 
         [HttpPost]
-        public UsersArticle ToReadLater( int articleIdRl, bool add)
+        public UsersArticle ToReadLater(int articleIdRl, bool add)
         {
-            return userArticlesService.ToReadLater( articleIdRl, add);
+            return userArticlesService.ToReadLater(articleIdRl, add);
         }
 
         [HttpGet]
@@ -88,8 +87,7 @@ namespace Penpusher.Controllers
 
         public IEnumerable<Article> GetReadLeaterArticles()
         {
-            var userId = 5;
-            return userArticlesService.GetReadLaterArticles(userId);
+            return userArticlesService.GetReadLaterArticles();
         }
     }
 }

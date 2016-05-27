@@ -10,11 +10,11 @@ namespace Penpusher.Services
 
         NewsProvider GetById(int id);
 
-        IEnumerable<UserNewsProviderModels> GetSubscriptionsByUserId(int id);
+        IEnumerable<UserNewsProviderModels> GetSubscriptionsByUserId();
 
         UsersNewsProvider Subscription(string link);
 
-        void Unsubscription(int id);
+        UsersNewsProvider Unsubscription(int id);
 
         bool UpdateLastBuildDateForNewsProvider(int id, DateTime? lastBuildDate);
     }

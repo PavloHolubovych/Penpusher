@@ -26,7 +26,7 @@
             self = this;
             self.rows = ko.observableArray([]);
             $.ajax({
-                url: apiController + userId,
+                url: apiController,
                 method: "GET",
                 success: function (data) {
                     bindD(data);
@@ -47,9 +47,9 @@
                 }
             }
         }
-        var apiController = window.location.origin + "/api/Articles/ArticlesFromSelectedProviders?userId=";
-        var userId = 5;
-        var viewModel = new ArticlesModel(userId);
+        var apiController = window.location.origin + "/api/Articles/ArticlesFromSelectedProviders";
+       
+        var viewModel = new ArticlesModel( );
         ko.applyBindings(viewModel, document.getElementById("articlesSubscriptions"));
         document.getElementById("UnreadNews").className = "active";
     });
