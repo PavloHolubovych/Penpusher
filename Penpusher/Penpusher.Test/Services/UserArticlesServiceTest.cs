@@ -36,7 +36,7 @@ namespace Penpusher.Test.Services
         {
             MockKernel.GetMock<IRepository<UsersArticle>>().Setup(usrv => usrv.GetAll()).Returns(testArticles);
             int expected = testArticles.Count(ua => ua.IsRead == true && ua.UserId == userId);
-            int actual = MockKernel.Get<IUsersArticlesService>().GetUsersReadArticles(userId).Count();
+            int actual = MockKernel.Get<IUsersArticlesService>().GetUsersReadArticles().Count();
             Assert.AreEqual(expected, actual);
         }
 

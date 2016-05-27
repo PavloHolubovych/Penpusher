@@ -16,7 +16,7 @@ namespace Penpusher.Services
 
         public IEnumerable<Article> GetUsersReadArticles()
         {
-            IEnumerable<Article> readArticles = repository.GetAll().Where(art => art.IsRead == true && art.UserId == userId).Select(a => new Article
+            IEnumerable<Article> readArticles = repository.GetAll().Where(art => art.IsRead == true && art.UserId == Constants.UserId).Select(a => new Article
             {
                 Id = a.Article.Id,
                 Title = a.Article.Title,
