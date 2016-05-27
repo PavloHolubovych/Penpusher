@@ -25,7 +25,6 @@ namespace Penpusher.Controllers
         }
 
         // GET api/<controller>/5
-        [Route("api/getallsubscription/{id}")]
         //DEFECT: violation dependency inversion principle. method type must be more abstract and return is more specific
         public UserNewsProviderModels[] GetByUser(int id)
         {
@@ -37,7 +36,6 @@ namespace Penpusher.Controllers
             return newsProviderService.GetAll().First(np => np.Id == providerId);
         }
 
-        [Route("add")]
         public void Post(NewsProvider newsProvider)
         {
             string link = newsProvider.Link;
@@ -64,7 +62,7 @@ namespace Penpusher.Controllers
         }
 
         //DEFECT: its bad practice to return void in API. return bool at least to check does action perform successfully
-        [Route("delete/{id}")]
+  //      [Route("api/delete/{id}")]
         public void Delete(int id)
         {
             newsProviderService.Unsubscription(id);

@@ -7,8 +7,8 @@ $(document)
             self.providers = ko.observableArray();
             self.selectedProvider = ko.observable();
             
-            $.get("/api/getallsubscription/" + userId,
-                function (data) {
+            $.get("/api/Subscriptions/GetByUser/" + userId,
+                function (data, status) {
                     for (var i = 0; i < data.length; i++) {
                         self.providers.push(data[i]);
                     }

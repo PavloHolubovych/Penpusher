@@ -11,6 +11,8 @@ namespace Penpusher.Services
 
         private readonly IRepository<UsersNewsProvider> usersNewsProviderRepository;
 
+        private const int constIdUser = 5;
+
         public NewsProviderService(IRepository<NewsProvider> repository, IRepository<UsersNewsProvider> usersNewsProviderRepository)
         {
             newsProviderRepository = repository;
@@ -76,11 +78,11 @@ namespace Penpusher.Services
                 channel = newsProviderRepository.Add(channel);
             }
 
-            UsersNewsProvider subscription = usersNewsProviderRepository.GetAll().FirstOrDefault(rm => rm.IdNewsProvider == channel.Id);
+            UsersNewsProvider subscription = usersNewsProviderRepository.GetAll().FirstOrDefault(rm => rm.IdNewsProvider == channel.Id && rm.IdUser == constIdUser);
             return subscription ?? usersNewsProviderRepository.Add(new UsersNewsProvider
             {
                 IdNewsProvider = channel.Id,
-                IdUser = 5
+                IdUser = constIdUser
             });
         }
 
