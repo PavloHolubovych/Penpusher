@@ -171,6 +171,10 @@ text-align:center;
 .loadimage{
     text-align: center;
     padding-top: 50px;
+    width: 100%;
+}
+.loadimage img{
+    display: inline;
 }
 
 .wrapper {
@@ -240,5 +244,8 @@ border-bottom: 1px dotted #9F1D35;
     padding-left: 2%;
 }
 
-
-
+.containerPro {
+    content: " ";
+	display: table;
+    width: 100%
+}
