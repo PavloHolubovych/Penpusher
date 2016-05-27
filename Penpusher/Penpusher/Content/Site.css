@@ -214,6 +214,17 @@ display: block;
     height: 30px;
 }
 
+.img-article {   
+
+    height: 100px;
+}
+
+
+.autoflow {
+    height: 400px;
+    overflow: visible;
+}
+
 
 .item a {
 text-decoration: none;
