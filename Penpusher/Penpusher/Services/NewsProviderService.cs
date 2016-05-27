@@ -60,7 +60,7 @@ namespace Penpusher.Services
             return usersNewsProviderRepository.Delete(id);
         }
 
-        public UsersNewsProvider Subscription(string link)
+        public UsersNewsProvider Subscription(string link, string name, string description)
         {
             NewsProvider channel = newsProviderRepository.GetAll().FirstOrDefault(rm => rm.Link == link);
 
@@ -69,8 +69,8 @@ namespace Penpusher.Services
                 channel = new NewsProvider
                 {
                     Link = link,
-                    Name = Test,
-                    Description = Test,
+                    Name = name,
+                    Description = description,
                     SubscriptionDate = DateTime.Today
                 };
 

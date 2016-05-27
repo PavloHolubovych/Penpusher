@@ -4,45 +4,54 @@
     self.newsproviders = ko.observableArray([]);
     self.availableChannels = ko.observableArray([]);
     self.AddLink = ko.observable();
+    self.AddName = ko.observable();
+    self.AddDescription = ko.observable();
 
-    $.getJSON('/api/Subscriptions/GetByUser/' + userId, function (channel) {
+   $.getJSON('/api/Subscriptions/GetByUser/' + userId, function (channel) {
         self.newsproviders(channel);
     });
 
-    $.getJSON('/api/Subscriptions/GetAllNewsProviders', function (channel) {
+  var rty = $.getJSON('/api/Subscriptions/GetAllNewsProviders', function (channel) {
         self.availableChannels(channel);
     });
 
     self.addNewsProvider = function (newsprovider) {
         var link = newsprovider.AddLink;
-        console.log({ link });
+        var name = newsprovider.AddName;
+        var description = newsprovider.AddDescription;
         var newsProvider = {};
         newsProvider.Link = link;
-        $.ajax({
-            url: '/api/Subscriptions/Post',
-            type: "POST",
-            data: newsProvider,
-            success: function () {
-                $.getJSON('/api/Subscriptions/GetByUser/' + userId, function (data) {
-                    self.newsproviders(data);
-                });
-            }
-        });
+        newsProvider.Name = name;
+        newsProvider.Description = description;
+        if (self.AddLink == newsProvider.Link) {
+            alert("You have subscribed on this channel");
+        } else {
+            $.ajax({
+                url: '/api/Subscriptions/Post',
+                type: "POST",
+                data: newsProvider,
+                success: function() {
+                    $.getJSON('/api/Subscriptions/GetByUser/' + userId, function(channel) { self.newsproviders(channel); });
+
+                    $.getJSON('/api/Subscriptions/GetAllNewsProviders', function(channel) { self.availableChannels(channel); });
+                }
+            });
+        }
     };
 
     self.addSubscriptionFromList = function (newsprovider) {
-        $.ajax({
-            url: '/api/Subscriptions/Post',
-            type: "POST",
-            //contentType: 'application/json; charset=utf-8',
-            data: newsprovider,
-            success: function () {
-                $.getJSON('/api/Subscriptions/GetByUser/' + userId, function (channel) {
+            $.ajax({
+                url: '/api/Subscriptions/Post',
+                type: "POST",
+                //contentType: 'application/json; charset=utf-8',
+                data: newsprovider,
+                success: function() {
+                    $.getJSON('/api/Subscriptions/GetByUser/' + userId, function(channel) {
 
-                    self.newsproviders(channel);
-                });
-            }
-        });
+                        self.newsproviders(channel);
+                    });
+                }
+            });
     };
 
     self.removeNewsProvider = function (newsprovider) {

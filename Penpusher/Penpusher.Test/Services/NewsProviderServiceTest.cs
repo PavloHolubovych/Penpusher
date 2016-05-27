@@ -69,8 +69,8 @@ namespace Penpusher.Test.Services
         }
 
         [Category("NewsProviderService")]
-        [TestCase("link1", TestName = "Add new subscription")]
-        public void AddSubscriptionTest(string link)
+        [TestCase("link1", "link1", "link1", TestName = "Add new subscription")]
+        public void AddSubscriptionTest(string link, string name, string description)
         {
             var channel = new NewsProvider { Link = "link1", Id = 1 };
             var subscription = new UsersNewsProvider
@@ -95,7 +95,7 @@ namespace Penpusher.Test.Services
                 .Setup(repos => repos.Add(It.IsAny<UsersNewsProvider>()))
                 .Returns(subscription);
             //// act
-            UsersNewsProvider actual = MockKernel.Get<INewsProviderService>().Subscription(link);
+            UsersNewsProvider actual = MockKernel.Get<INewsProviderService>().Subscription(link, name, description);
 
             ////assert
             Assert.AreEqual(actual.Id, subscription.Id);
@@ -103,8 +103,8 @@ namespace Penpusher.Test.Services
         }
 
         [Category("NewsProviderService")]
-        [TestCase("link1", TestName = "Add new subscription and channel")]
-        public void AddSubscriptionAndChannelTest(string link)
+        [TestCase("link1", "link1", "link1", TestName = "Add new subscription and channel")]
+        public void AddSubscriptionAndChannelTest(string link, string name, string description)
         {
             var channel = new NewsProvider { Link = "link1", Id = 1 };
             var subscription = new UsersNewsProvider
@@ -127,7 +127,7 @@ namespace Penpusher.Test.Services
             MockKernel.GetMock<IRepository<UsersNewsProvider>>()
                 .Setup(repos => repos.Add(It.IsAny<UsersNewsProvider>()))
                 .Returns(subscription);
-            UsersNewsProvider actual = MockKernel.Get<INewsProviderService>().Subscription(link);
+            UsersNewsProvider actual = MockKernel.Get<INewsProviderService>().Subscription(link, name, description);
 
             Assert.AreEqual(actual.Id, subscription.Id);
             Assert.AreEqual(actual.IdNewsProvider, channel.Id);
