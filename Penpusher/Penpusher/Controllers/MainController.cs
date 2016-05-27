@@ -37,8 +37,6 @@ namespace Penpusher.Controllers
         //// try to avoid using VievBad and VievData. use model instead
         public ActionResult ArticleContentDetails(int articleId)
         {
-            ViewBag.articleId = articleId;
-            ViewBag.userId = 5;
             return View(articleId);
         }
 

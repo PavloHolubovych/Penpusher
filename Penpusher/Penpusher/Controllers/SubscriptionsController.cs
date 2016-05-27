@@ -18,17 +18,14 @@ namespace Penpusher.Controllers
         }
 
         [HttpGet]
-        //// DEFECT: violation dependency inversion principle. method type must be more abstract and return is more specific
         public IEnumerable<NewsProvider> GetAllNewsProviders()
         {
             return newsProviderService.GetAll();
         }
 
-        // GET api/<controller>/5
-        //DEFECT: violation dependency inversion principle. method type must be more abstract and return is more specific
-        public UserNewsProviderModels[] GetByUser(int id)
+        public IEnumerable<UserNewsProviderModels> GetByUser(int id)
         {
-            return newsProviderService.GetSubscriptionsByUserId(id).ToArray();
+            return newsProviderService.GetSubscriptionsByUserId(id);
         }
 
         public NewsProvider GetProviderDetails(int providerId)
@@ -57,12 +54,12 @@ namespace Penpusher.Controllers
         [HttpGet]
         public bool IsUserSubscriberToProvider(int providerId)
         {
-            var p= userProviderService.IsUserSubscribedOnProvider(providerId);
+            bool p = userProviderService.IsUserSubscribedOnProvider(providerId);
             return p;
         }
 
-        //DEFECT: its bad practice to return void in API. return bool at least to check does action perform successfully
-  //      [Route("api/delete/{id}")]
+        ////DEFECT: its bad practice to return void in API. return bool at least to check does action perform successfully
+  ////      [Route("api/delete/{id}")]
         public void Delete(int id)
         {
             newsProviderService.Unsubscription(id);
