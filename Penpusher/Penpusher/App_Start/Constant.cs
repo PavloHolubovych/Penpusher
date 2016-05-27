@@ -1,8 +1,8 @@
 ﻿
 namespace Penpusher
 {
-    public  static class Constants
+    public static class Constants
     {
-        public static readonly int UserId=5;
+        public static readonly int UserId = 5;
     }
 }

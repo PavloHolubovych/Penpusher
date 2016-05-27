@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Web.Http;
-using Newtonsoft.Json.Linq;
 using Penpusher.Models;
 using Penpusher.Services;
 
@@ -75,9 +74,9 @@ namespace Penpusher.Controllers
         }
 
         [HttpPost]
-        public UsersArticle ToReadLater( int articleIdRl, bool add)
+        public UsersArticle ToReadLater(int articleIdRl, bool add)
         {
-            return userArticlesService.ToReadLater( articleIdRl, add);
+            return userArticlesService.ToReadLater(articleIdRl, add);
         }
 
         [HttpGet]
@@ -87,7 +86,7 @@ namespace Penpusher.Controllers
         }
 
         public IEnumerable<Article> GetReadLeaterArticles()
-        { 
+        {
             return userArticlesService.GetReadLaterArticles();
         }
     }
