@@ -18,8 +18,8 @@
         <br/>
         <button class="btn btn-primary myButton" data-bind="click: addToFavorites, visible: addToFavoritesVisibility">Add to <b>favorites</b></button>
         <button class="btn btn-warning myButton" data-bind="click: removeFromFavorites, visible: removeFromFavoritesVisibility">Remove from <b>favorites</b></button>
-        <button id="addToReadLater" class="btn btn-primary myButton" onclick="AddtoReadLater()">Add to <b>read later</b></button>
-        <button id="removeFromReadLater" class="btn btn-warning myButton" onclick="DeleteFromReadLater()">Delete from <b>read later</b></button>
+        <button id="addToReadLater" class="btn btn-primary myButton" data-bind="click: addToReadLater">Add to <b>read later</b></button>
+        <button id="removeFromReadLater" class="btn btn-warning myButton" data-bind="click: deleteFromReadLater">Delete from <b>read later</b></button>
     </div>
 </div>
  

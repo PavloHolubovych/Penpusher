@@ -17,8 +17,10 @@ namespace Penpusher.Test.Services.ContentService
         public override void Testinitialize()
         {
             base.Testinitialize();
-            MockKernel.Bind<INewsProviderService>().To<NewsProviderService>();
             MockKernel.Bind<IDataBaseServiceExtension>().To<DataBaseServiceExtension>();
+            MockKernel.GetMock<INewsProviderService>()
+                .Setup(nps => nps.UpdateLastBuildDateForNewsProvider(It.IsAny<int>(), It.IsAny<DateTime>()))
+                .Returns(true);
         }
 
         [Category("DataBaseServiceExtension")]
@@ -66,16 +68,14 @@ namespace Penpusher.Test.Services.ContentService
                 new Article { Date = DateTime.Parse("Mon, 23 May 2016 00:00:00 -0500"), Description = "Test Description", Link = "Test link3", Title = "Test Title3" }
             };
 
-            var repository = new List<Article>
+            var testArticleRepository = new List<Article>
             {
                 new Article { Title = "title1" }
             };
 
             MockKernel.GetMock<IParser>()
                 .Setup(parser => parser.GetParsedArticles(It.IsAny<RssChannelModel>()))
-                .Returns((XDocument doc) =>
-                {
-                   var testList = new List<Article>
+                .Returns(new List<Article>
                     {
                         new Article
                         {
@@ -98,19 +98,17 @@ namespace Penpusher.Test.Services.ContentService
                             Link = "Test link3",
                             Title = "Test Title3"
                         }
-                    };
-                    return testList;
                 });
 
             MockKernel.GetMock<IArticleService>()
                 .Setup(artServ => artServ.CheckDoesExists(It.IsAny<string>()))
-                .Returns<string>(title => repository.Contains(new Article { Title = title }));
+                .Returns<string>(title => testArticleRepository.Contains(new Article { Title = title }));
             MockKernel.GetMock<IArticleService>()
                 .Setup(artServ => artServ.AddArticle(It.IsAny<Article>()))
-                .Callback((Article article) => { repository.Add(article); });
+                .Callback((Article article) => { testArticleRepository.Add(article); });
             MockKernel.Get<IDataBaseServiceExtension>().InsertNewArticles(rssDocument);
 
-            Assert.AreEqual(repository[repository.Count - 1].Title, expected[expected.Count - 1].Title);
+            Assert.AreEqual(testArticleRepository[testArticleRepository.Count - 1].Title, expected[expected.Count - 1].Title);
         }
     }
 }
