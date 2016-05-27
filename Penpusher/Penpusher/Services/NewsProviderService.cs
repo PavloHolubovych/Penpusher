@@ -84,12 +84,16 @@ namespace Penpusher.Services
             });
         }
 
-        //i dont really like void type for methods changing db state
-        public void UpdateLastBuildDateForNewsProvider(int id, DateTime? lastBuildDate)
+        public bool UpdateLastBuildDateForNewsProvider(int id, DateTime? lastBuildDate)
         {
             NewsProvider updatedProvider = newsProviderRepository.GetById(id);
-            updatedProvider.LastBuildDate = lastBuildDate;
-            newsProviderRepository.Edit(updatedProvider);
+            if (updatedProvider != null)
+            {
+                updatedProvider.LastBuildDate = lastBuildDate;
+                newsProviderRepository.Edit(updatedProvider);
+                return true;
+            }
+            return false;
         }
     }
 }
