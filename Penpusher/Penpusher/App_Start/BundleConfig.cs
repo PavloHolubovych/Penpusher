@@ -41,6 +41,8 @@ namespace Penpusher
                      "~/Scripts/template/metisMenu.min.js",
                      "~/Scripts/template/sb-admin-2.js",
                      "~/Scripts/HttpGetParams.js"));
+            bundles.Add(new ScriptBundle("~/bundles/GetArticlesBySelectedProviders").Include(
+           "~/Scripts/GetArticlesBySelectedProviders.js"));
         }
     }
 }

@@ -14,7 +14,7 @@
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/knockout")
     @Scripts.Render("~/Scripts/template")
-    <script type="text/javascript" src="~/Scripts/_LayoutScript.js"></script>
+    
 
     <link type="text/css" href="~/Content/Site.css" />
 </head>
@@ -38,7 +38,7 @@
                 <div class="sidebar-nav navbar-collapse">
                     <ul class="nav" id="side-menu">
                         <li>
-                            <a id="UnreadNews" href="~/"><i class="fa fa-fw"></i> Unread news</a>
+                            <a id="UnreadNews" href="#" onclick="LoadMainPage()"><i class="fa fa-fw"></i> Unread news</a>
                         </li>
                         <li>
                             <a id="FavoritePage" href="#" onclick="LoadFavoritePage()"><i class="fa fa-fw"></i> Favorite</a>
@@ -64,6 +64,7 @@
                 </div>
             </div>
         </nav>
+        <script type="text/javascript" src="~/Scripts/_LayoutScript.js"></script>
         <div id="page-wrapper">
 
             @RenderBody()
