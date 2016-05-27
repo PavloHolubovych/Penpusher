@@ -15,31 +15,31 @@ namespace Penpusher.Services
             this.articleRepository = articleRepository;
         }
 
-        public IEnumerable<Article> GetUsersReadArticles(int userId)
+        public IEnumerable<Article> GetUsersReadArticles()
         {
             return
                 articleRepository.GetAll()
                     .Join(
-                        repository.GetAll().Where(art => art.IsRead == true && art.UserId == userId),
+                        repository.GetAll().Where(art => art.IsRead == true && art.UserId == Constants.UserId),
                         article => article.Id,
                         readArticle => readArticle.ArticleId,
                         (article, readArticle) => article).ToList();
         }
 
-        public IEnumerable<Article> GetReadLaterArticles(int userId)
+        public IEnumerable<Article> GetReadLaterArticles()
         {
             return
                 articleRepository.GetAll()
                     .Join(
-                        repository.GetAll().Where(art => art.IsToReadLater == true && art.UserId == userId),
+                        repository.GetAll().Where(art => art.IsToReadLater == true && art.UserId == Constants.UserId),
                         article => article.Id,
                     readLeaterArticle => readLeaterArticle.ArticleId,
                     (article, readLeaterArticle) => article).ToList();
         }
 
-        public IEnumerable<Article> GetUsersFavoriteArticles(int userId)
+        public IEnumerable<Article> GetUsersFavoriteArticles()
         {
-           IEnumerable<Article> usart = repository.GetAll().Where(art => art.IsFavorite == true && art.UserId == userId).Select(a => new Article
+           IEnumerable<Article> usart = repository.GetAll().Where(art => art.IsFavorite == true && art.UserId == Constants.UserId).Select(a => new Article
            {
                Id = a.Article.Id,
                Title = a.Article.Title,

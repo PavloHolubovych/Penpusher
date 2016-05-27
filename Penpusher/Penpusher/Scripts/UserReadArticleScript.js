@@ -6,12 +6,12 @@
 }
 
 var articlesList = new ko.observableArray();
-var userId = 5;
+ 
 
 var ReadArticlesViewModel = function () {
     $.ajax({
         type: "GET",
-        url: "/api/Articles/UserReadArticles?userId=" + userId,
+        url: "/api/Articles/UserReadArticles",
         data: JSON.stringify(articleInfo),
         contentType: "application/json; charset=utf8",
         accept: "application/json",

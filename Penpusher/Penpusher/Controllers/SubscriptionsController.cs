@@ -25,7 +25,7 @@ namespace Penpusher.Controllers
 
         public IEnumerable<UserNewsProviderModels> GetByUser(int id)
         {
-            return newsProviderService.GetSubscriptionsByUserId(id);
+            return newsProviderService.GetSubscriptionsByUserId();
         }
 
         public NewsProvider GetProviderDetails(int providerId)
