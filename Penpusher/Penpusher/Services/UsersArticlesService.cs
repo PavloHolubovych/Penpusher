@@ -23,21 +23,21 @@ namespace Penpusher.Services
                 Description = a.Article.Description,
                 Image = a.Article.Image,
                 Link = a.Article.Link,
-                Date = a.Article.Date
             });
             return readArticles;
-
         }
 
         public IEnumerable<Article> GetReadLaterArticles()
         {
-            return
-                articleRepository.GetAll()
-                    .Join(
-                        repository.GetAll().Where(art => art.IsToReadLater == true && art.UserId == Constants.UserId),
-                        article => article.Id,
-                    readLeaterArticle => readLeaterArticle.ArticleId,
-                    (article, readLeaterArticle) => article).ToList();
+            IEnumerable<Article> readArticles = repository.GetAll().Where(art => art.IsToReadLater.HasValue && art.UserId == Constants.UserId).Select(a => new Article
+            {
+                Id = a.Article.Id,
+                Title = a.Article.Title,
+                Description = a.Article.Description,
+                Image = a.Article.Image,
+                Link = a.Article.Link,
+            });
+            return readArticles;
         }
 
         public IEnumerable<Article> GetUsersFavoriteArticles()
@@ -49,7 +49,6 @@ namespace Penpusher.Services
                Description = a.Article.Description,
                Image = a.Article.Image,
                Link = a.Article.Link,
-               Date = a.Article.Date
            });
             return usart;
         }
