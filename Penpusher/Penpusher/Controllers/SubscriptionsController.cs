@@ -58,11 +58,9 @@ namespace Penpusher.Controllers
             return p;
         }
 
-        ////DEFECT: its bad practice to return void in API. return bool at least to check does action perform successfully
-  ////      [Route("api/delete/{id}")]
-        public void Delete(int id)
+        public UsersNewsProvider Delete(int id)
         {
-            newsProviderService.Unsubscription(id);
+            return newsProviderService.Unsubscription(id);
         }
     }
 }

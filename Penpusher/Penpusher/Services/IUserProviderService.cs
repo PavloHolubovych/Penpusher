@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 
 namespace Penpusher.Services
 {
-    public  interface IUserProviderService
+    public interface IUserProviderService
     {
         bool SubscribeUserToProvider(int providerId, bool isSubscribe);
 

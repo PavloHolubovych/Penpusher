@@ -14,7 +14,7 @@ namespace Penpusher.Services
 
         UsersNewsProvider Subscription(string link);
 
-        void Unsubscription(int id);
+        UsersNewsProvider Unsubscription(int id);
 
         bool UpdateLastBuildDateForNewsProvider(int id, DateTime? lastBuildDate);
     }

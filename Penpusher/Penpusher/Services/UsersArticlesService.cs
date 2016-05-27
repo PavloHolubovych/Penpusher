@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace Penpusher.Services
@@ -69,12 +68,13 @@ namespace Penpusher.Services
             else
             {
                 if (userArticle.IsToReadLater != null && userArticle.IsToReadLater.Value)
+                {
                     userArticle.IsRead = true;
+                }
             }
             repository.Edit(userArticle);
         }
 
-        //DEFECT: duplication detected. use single method for changind favorite flag
         public void AddRemoveFavorites(int userId, int articleId, bool favoriteFlag)
         {
             UsersArticle userArticle =
@@ -118,8 +118,7 @@ namespace Penpusher.Services
                                             };
                 return userArticleClient;
             }
-            //DEFECT: why return new object?
-            return new UsersArticle();
+            return null;
         }
 
         public UsersArticle ToReadLater(int userId, int articleId, bool add)
