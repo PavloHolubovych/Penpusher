@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
@@ -8,14 +7,12 @@ namespace Penpusher.DAL
 {
     class Repository<T> : IRepository<T> where T : class
     {
+        private DbSet<T> DbSet;
         private PenpusherDatabaseEntities EntitiesContext = new PenpusherDatabaseEntities();
-
-        internal DbSet<T> DbSet;
 
         public Repository()
         {
             DbSet = EntitiesContext.Set<T>();
-            //EntitiesContext.Configuration.ProxyCreationEnabled = false;
         }
 
         public IEnumerable<T> GetAll()
@@ -30,17 +27,27 @@ namespace Penpusher.DAL
             return entity;
         }
 
-        public void Edit(T entity)
+        public T Edit(T entity)
         {
+            if (entity == null)
+            {
+                return null;
+            }
             DbSet.AddOrUpdate(entity);
             EntitiesContext.SaveChanges();
+            return entity;
         }
 
-        public void Delete(int id)
+        public T Delete(int id)
         {
-            var item = DbSet.Find(id);
+            T item = DbSet.Find(id);
+            if (item == null)
+            {
+                return null;
+            }
             DbSet.Remove(item);
             EntitiesContext.SaveChanges();
+            return item;
         }
 
         public T GetById(int id)
