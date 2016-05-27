@@ -40,8 +40,9 @@
                 //contentType: 'application/json; charset=utf-8',
                 data: newsprovider,
                 success: function () {
-                    $.getJSON('/api/Subscriptions/GetByUser/' + userId, function (data) {
-                        self.newsproviders(data);
+                    $.getJSON('/api/Subscriptions/GetByUser/' + userId, function (channel) {
+
+                        self.newsproviders(channel);
                     });
                 }
             });
@@ -64,9 +65,7 @@
 
     };
 
-
-    ko.applyBindings(new NewsProviderModel, document.getElementById('subscription'));
-    ko.applyBindings(new NewsProviderModel, document.getElementById('availableChannel'));
+    ko.applyBindings(new NewsProviderModel, document.getElementById('generalSubscriptions'));
 
     $(document).ready(function() {
         document.getElementById("SubscriptionsPage").className = "active";
