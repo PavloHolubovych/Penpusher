@@ -17,13 +17,26 @@ namespace Penpusher.Services
 
         public IEnumerable<Article> GetUsersReadArticles(int userId)
         {
-            return
-                articleRepository.GetAll()
-                    .Join(
-                        repository.GetAll().Where(art => art.IsRead == true && art.UserId == userId),
-                        article => article.Id,
-                        readArticle => readArticle.ArticleId,
-                        (article, readArticle) => article).ToList();
+            IEnumerable<Article> readArticles = repository.GetAll().Where(art => art.IsRead == true && art.UserId == userId).Select(a => new Article
+            {
+                Id = a.Article.Id,
+                Title = a.Article.Title,
+                Description = a.Article.Description,
+                Image = a.Article.Image,
+                Link = a.Article.Link,
+                Date = a.Article.Date
+            });
+            return readArticles;
+
+
+
+            //return
+            //    articleRepository.GetAll()
+            //        .Join(
+            //            repository.GetAll().Where(art => art.IsRead == true && art.UserId == userId),
+            //            article => article.Id,
+            //            readArticle => readArticle.ArticleId,
+            //            (article, readArticle) => article).ToList();
         }
 
         public IEnumerable<Article> GetReadLaterArticles(int userId)
