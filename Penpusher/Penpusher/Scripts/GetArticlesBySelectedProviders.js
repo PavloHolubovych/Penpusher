@@ -1,6 +1,5 @@
 ﻿$(document)
     .ready(function () {
-
         ko.bindingHandlers.trimLengthText = {};
         ko.bindingHandlers.trimText = {
             init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
@@ -23,25 +22,30 @@
             }
         };
 
-
-
         var ArticlesModel = function (userId) {
             self = this;
-            self.articles = ko.observableArray([]);
+            self.rows = ko.observableArray([]);
             $.ajax({
                 url: apiController + userId,
                 method: "GET",
                 success: function (data) {
-                    for (var i = 0; i < data.length; i++) {
-                        self.articles.push(
-                            data[i]
-                        );
-                    }
+                    bindD(data);
                 },
                 error: function (request, textStatus) {
                     alert("Error: " + textStatus);
                 }
             });
+            function bindD(data) {
+                var lenghtRow = 3;
+                for (var i = 1; i <= data.length; i++) {
+                    if (i % lenghtRow === 0) {
+                        self.rows.push(data.slice(i - lenghtRow, i));
+                    }
+                    if (i === data.length - 1 && data.length % lenghtRow !== 0) {
+                        self.rows.push(data.slice(data.length - data.length % lenghtRow, data.length));
+                    }
+                }
+            }
         }
         var apiController = window.location.origin + "/api/Articles/ArticlesFromSelectedProviders?userId=";
         var userId = 5;

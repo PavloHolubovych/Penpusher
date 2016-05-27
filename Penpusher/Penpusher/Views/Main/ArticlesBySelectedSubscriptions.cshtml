@@ -3,9 +3,9 @@
         <h1 class="page-header">Unread News</h1>
     </div>
 </div>
-<div id="articlesSubscriptions" data-bind="foreach: articles">
-    @*<div class="row">*@
-        <div class="col-lg-4">
+<div id="articlesSubscriptions" data-bind="foreach: rows">
+    <div class="row" data-bind="foreach: $data">
+        <div class="col-lg-4" >
             <div class="panel panel-default">
                 <div class="item">
                     <div class="panel-heading">
@@ -14,12 +14,12 @@
                     <div class="panel-body">
                         <img data-bind="attr: { src: Image }" onerror="this.onerror = '';">
                         <br>
-                        <p><span data-bind="trimText: Description, trimTextLength: 50"></span></p>
+                        <p><span data-bind="trimText: Description, trimTextLength: 350"></span></p>
                         <a align="right" data-bind="attr: { href:'/Main/ArticleContentDetails?articleId=' + Id }" class="btn btn-primary btn-lg active" role="button">Read</a>
                     </div>
                 </div>
             </div>
         </div>
-    @* </div> *@
+    </div> 
 </div>
 <script src="~/Scripts/GetArticlesBySelectedProviders.js"></script>
