@@ -1,4 +1,5 @@
 ﻿<div id="subscription">
+
     <form class="form-inline">
         <div class="form-group">
             <div class="input-group">
@@ -26,22 +27,22 @@
             </tr>
             </thead>
             <tbody data-bind="foreach: newsproviders">
-                <tr>
-                    <td>
-                        <img class="subscription" data-bind="attr:{src: RssImage}" />
-                    </td>
-                    <td><span class="required number" data-bind="text: Name, uniqueName: true"></span></td>
-                    <td>
-                        <span class="required number" data-bind="text: Link, uniqueName: true"></span>
-                    </td>
-                    <td>
-                        <span class="required number" data-bind="text: Description, uniqueName: true"></span>
-                    </td>
-                    <td>
-                        <span class="required number" data-bind="text: SubscriptionDate, uniqueName: true"></span>
-                    </td>
-                    <td><a href="#" data-bind="click: $root.removeNewsProvider">Unsubscribe</a></td>
-                </tr>
+            <tr>
+                <td>
+                    <img class="subscription" data-bind="attr:{src: RssImage}"/>
+                </td>
+                <td><span class="required number" data-bind="text: Name, uniqueName: true"></span></td>
+                <td>
+                    <span class="required number" data-bind="text: Link, uniqueName: true"></span>
+                </td>
+                <td>
+                    <span class="required number" data-bind="text: Description, uniqueName: true"></span>
+                </td>
+                <td>
+                    <span class="required number" data-bind="text: SubscriptionDate, uniqueName: true"></span>
+                </td>
+                <td><a href="#" data-bind="click: $root.removeNewsProvider">Unsubscribe</a></td>
+            </tr>
             </tbody>
         </table>
     </form>
@@ -75,7 +76,7 @@
                 <td>
                     <span class="required number" data-bind="text: Description, uniqueName: true"></span>
                 </td>
-                <td><a href="#" data-bind="click: $root.addNewsProvider">Subscribe</a></td>
+                <td><a href="#" data-bind="click: $root.addSubscriptionFromList">Subscribe</a></td>
             </tr>
             </tbody>
         </table>
