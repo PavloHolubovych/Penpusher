@@ -2,7 +2,7 @@ using System.Web;
 using Hangfire;
 using Ninject;
 using Owin;
-using Penpusher.Services;
+using Penpusher.Services.ContentService;
 
 namespace Penpusher
 {
@@ -15,16 +15,10 @@ namespace Penpusher
             app.UseHangfireServer(
                 new BackgroundJobServerOptions { Activator = new NinjectJobActivator(NinjectWebCommon.Kernel) });
 
-            ////var artService = NinjectWebCommon.Kernel.Get<IProviderTrackingService>();
-            ////RecurringJob.AddOrUpdate(
-            ////"Update articles from news providers",
-            ////() => artService.UpdateArticlesFromNewsProviders(),
-            ////Cron.Daily);
-
-            var artService = NinjectWebCommon.Kernel.Get<IArticleService>();
+            var artService = NinjectWebCommon.Kernel.Get<IProviderTrackingService>();
             RecurringJob.AddOrUpdate(
-            "Add article to DB",
-                () => artService.GetById(1),
+            "Update articles from news providers",
+            () => artService.UpdateArticlesFromNewsProviders(),
             Cron.Daily);
         }
     }
