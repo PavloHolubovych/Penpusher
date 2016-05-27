@@ -51,16 +51,17 @@ namespace Penpusher.Services
             return usart;
         }
 
-        public void MarkAsRead(int userId, int articleId)
+        public void MarkAsRead( int articleId)
         {
-            UsersArticle userArticle = repository.GetAll().FirstOrDefault(ua => ua.ArticleId == articleId && ua.UserId == userId);
+            UsersArticle userArticle = repository.GetAll().
+                FirstOrDefault(ua => ua.ArticleId == articleId && ua.UserId == Constants.UserId);
 
             if (userArticle == null)
             {
                 userArticle = new UsersArticle
                 {
                     ArticleId = articleId,
-                    UserId = userId,
+                    UserId = Constants.UserId,
                     IsToReadLater = false,
                     IsFavorite = false,
                     IsRead = true
@@ -75,17 +76,18 @@ namespace Penpusher.Services
         }
 
         //DEFECT: duplication detected. use single method for changind favorite flag
-        public void AddRemoveFavorites(int userId, int articleId, bool favoriteFlag)
+        public void AddRemoveFavorites( int articleId, bool favoriteFlag)
         {
             UsersArticle userArticle =
-                repository.GetAll().FirstOrDefault(ua => ua.ArticleId == articleId && ua.UserId == userId);
+                repository.GetAll()
+                .FirstOrDefault(ua => ua.ArticleId == articleId && ua.UserId == Constants.UserId);
 
             if (userArticle == null)
             {
                 userArticle = new UsersArticle
                                   {
                                       ArticleId = articleId,
-                                      UserId = userId,
+                                      UserId = Constants.UserId,
                                       IsToReadLater = false,
                                       IsFavorite = favoriteFlag,
                                       IsRead = true
@@ -100,10 +102,10 @@ namespace Penpusher.Services
         }
 
         //DEFECT: naming
-        public UsersArticle ReadLaterInfo(int userId, int articleId)
+        public UsersArticle ReadLaterInfo(int articleId)
         {
             UsersArticle userArticle =
-                repository.GetAll().FirstOrDefault(x => x.ArticleId == articleId && x.UserId == userId);
+                repository.GetAll().FirstOrDefault(x => x.ArticleId == articleId && x.UserId == Constants.UserId);
 
             if (userArticle != null)
             {
@@ -122,16 +124,17 @@ namespace Penpusher.Services
             return new UsersArticle();
         }
 
-        public UsersArticle ToReadLater(int userId, int articleId, bool add)
+        public UsersArticle ToReadLater( int articleId, bool add)
         {
-            UsersArticle userArticle = repository.GetAll().FirstOrDefault(x => x.ArticleId == articleId && x.UserId == userId);
+            UsersArticle userArticle = repository.GetAll()
+                .FirstOrDefault(x => x.ArticleId == articleId && x.UserId == Constants.UserId);
 
             if (userArticle == null)
             {
                 userArticle = new UsersArticle
                                   {
                                       ArticleId = articleId,
-                                      UserId = userId,
+                                      UserId = Constants.UserId,
                                       IsToReadLater = add,
                                       IsFavorite = false,
                                       IsRead = false
@@ -158,9 +161,9 @@ namespace Penpusher.Services
         }
 
         //whats the purpose of this method? do we need it?
-        public bool CheckIsFavorite(int userId, int articleId)
+        public bool CheckIsFavorite( int articleId)
         {
-            UsersArticle userArticle = repository.GetAll().FirstOrDefault(ua => ua.ArticleId == articleId && ua.UserId == userId);
+            UsersArticle userArticle = repository.GetAll().FirstOrDefault(ua => ua.ArticleId == articleId && ua.UserId == Constants.UserId);
 
             return userArticle != null && (bool)userArticle.IsFavorite;//use C# 6 feature: e.g. return userArticle?.IsFavorite;
         }

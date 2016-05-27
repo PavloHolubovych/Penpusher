@@ -5,9 +5,9 @@ using System.Web;
 
 namespace Penpusher.Models
 {
-    public class WebModel
+    public class ArticleModel
     {
-        public int UserId { get; set; }
+      
         public int ArticleId { get; set; }
         public bool Flag { get; set; }
     }
