@@ -5,7 +5,7 @@ using Ninject.Infrastructure.Language;
 
 namespace Penpusher.DAL
 {
-    class Repository<T> : IRepository<T> where T : class
+    public class Repository<T> : IRepository<T> where T : class
     {
         private DbSet<T> DbSet;
         private PenpusherDatabaseEntities EntitiesContext = new PenpusherDatabaseEntities();
