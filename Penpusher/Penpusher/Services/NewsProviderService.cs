@@ -11,6 +11,8 @@ namespace Penpusher.Services
 
         private readonly IRepository<UsersNewsProvider> usersNewsProviderRepository;
 
+        private const int constIdUser = 5;
+
         public NewsProviderService(IRepository<NewsProvider> repository, IRepository<UsersNewsProvider> usersNewsProviderRepository)
         {
             newsProviderRepository = repository;
@@ -76,20 +78,24 @@ namespace Penpusher.Services
                 channel = newsProviderRepository.Add(channel);
             }
 
-            UsersNewsProvider subscription = usersNewsProviderRepository.GetAll().FirstOrDefault(rm => rm.IdNewsProvider == channel.Id);
+            UsersNewsProvider subscription = usersNewsProviderRepository.GetAll().FirstOrDefault(rm => rm.IdNewsProvider == channel.Id && rm.IdUser == constIdUser);
             return subscription ?? usersNewsProviderRepository.Add(new UsersNewsProvider
             {
                 IdNewsProvider = channel.Id,
-                IdUser = 5
+                IdUser = constIdUser
             });
         }
 
-        //i dont really like void type for methods changing db state
-        public void UpdateLastBuildDateForNewsProvider(int id, DateTime? lastBuildDate)
+        public bool UpdateLastBuildDateForNewsProvider(int id, DateTime? lastBuildDate)
         {
             NewsProvider updatedProvider = newsProviderRepository.GetById(id);
-            updatedProvider.LastBuildDate = lastBuildDate;
-            newsProviderRepository.Edit(updatedProvider);
+            if (updatedProvider != null)
+            {
+                updatedProvider.LastBuildDate = lastBuildDate;
+                newsProviderRepository.Edit(updatedProvider);
+                return true;
+            }
+            return false;
         }
     }
 }

@@ -2,34 +2,37 @@
 $(document)
     .ready(function () {
         var userId = 5;
-        var ProvidersModel = function (providers) {
-            var ProviderObject = function (Name, ID) {
-                this.Name = Name;
-                this.Id = ID;
-            }
+        var providersModel = function () {
             var self = this;
-            self.providers = ko.observableArray([new ProviderObject("All", "All")]);
+            self.providers = ko.observableArray();
             self.selectedProvider = ko.observable();
             
-            $.get("/api/getallsubscription/" + userId,
+            $.get("/api/Subscriptions/GetByUser/" + userId,
                 function (data, status) {
                     for (var i = 0; i < data.length; i++) {
-                        self.providers.push(
-                            new ProviderObject(data[i].Name, data[i].IdNewsProvider)
-                        );
+                        self.providers.push(data[i]);
                     }
                 });
-            self.selectedProvider.subscribe(function (data) {
-                if (data === "All") location.href = "/Main/ArticlesBySelectedSubscriptions?someUserId=" + userId;
-                else
-                    location.href = "/Main/ArticlesBySubscription?providerID=" + data;
-
-            }, self);
-
+            var hrefdata = document.getElementsByClassName('hrefsub');
+            document.getElementById('subscriptions').className = "nav nav-second-level collapse";
+            DeleteActiveClass(hrefdata);
         };
-        var viewModel = new ProvidersModel();
-        //ko.applyBindings(viewModel, document.getElementById("sideBarSelect"));
+        var viewModel = new providersModel();
+        ko.applyBindings(viewModel, document.getElementById("subscriptions"));
+
+        var generalMenu = document.getElementById("side-menu").children;
+        DeleteActiveClass(generalMenu);
+        generalMenu[0].children[0].className = "";
+        
     });
+
+function DeleteActiveClass(data) {
+    for (var li in data) {
+        if (data.hasOwnProperty(li)) {
+            data[li].className = "";
+        }
+    }
+}
 
 function ManageContentPage() {
     location.href = "/Main/Subscriptions";
@@ -45,4 +48,8 @@ function LoadReadLaterPage() {
 
 function LoadFavoritePage() {
     location.href = "/Main/UserFavoriteArticles";
+}
+
+function LoadSubscriptionsPage() {
+    location.href = "/Main/Subscriptions";
 }

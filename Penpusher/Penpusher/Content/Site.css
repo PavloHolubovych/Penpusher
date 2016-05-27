@@ -171,6 +171,10 @@ text-align:center;
 .loadimage{
     text-align: center;
     padding-top: 50px;
+    width: 100%;
+}
+.loadimage img{
+    display: inline;
 }
 
 .wrapper {
@@ -210,6 +214,17 @@ display: block;
     height: 30px;
 }
 
+.img-article {   
+
+    height: 100px;
+}
+
+
+.autoflow {
+    height: 400px;
+    overflow: visible;
+}
+
 
 .item a {
 text-decoration: none;
@@ -240,5 +255,8 @@ border-bottom: 1px dotted #9F1D35;
     padding-left: 2%;
 }
 
-
-
+.containerPro {
+    content: " ";
+	display: table;
+    width: 100%
+}

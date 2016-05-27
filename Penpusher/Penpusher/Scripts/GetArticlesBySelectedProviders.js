@@ -23,4 +23,5 @@
         var userId = 5;
         var viewModel = new ArticlesModel(userId);
         ko.applyBindings(viewModel, document.getElementById("articlesSubscriptions"));
+        document.getElementById("UnreadNews").className = "active";
     });

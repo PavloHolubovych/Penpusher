@@ -10,5 +10,8 @@
         });
 
     };
-
-    ko.applyBindings(new NewsProviderModel, document.getElementById('favoriteArticles'));
+    $(document).ready(function() {
+        ko.applyBindings(new NewsProviderModel, document.getElementById('favoriteArticles'));
+        document.getElementById("FavoritePage").className = "active";
+    });
+    

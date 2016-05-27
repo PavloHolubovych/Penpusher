@@ -3,27 +3,46 @@
         var userId = 5;
         self.newsproviders = ko.observableArray([]);
         self.availableChannels = ko.observableArray([]);
-        self.AddLink = ko.observable("liga.net");
+        self.AddLink = ko.observable();
 
-        $.getJSON('/api/getallsubscription/' + userId, function (channel) {
+        $.getJSON('/api/Subscriptions/GetByUser/' + userId, function (channel) {
 
             self.newsproviders(channel);
         });
 
-        $.getJSON('/api/getall', function (channel) {
+        $.getJSON('/api/Subscriptions/GetAllNewsProviders', function (channel) {
 
             self.availableChannels(channel);
         });
         
         self.addNewsProvider = function (newsprovider) {
+            var link = newsprovider.AddLink;
+            console.log({ link });
+            var newsProvider = {};
+            newsProvider.Link = link;
             $.ajax({
-                url: '/api/add',
+                url: '/api/Subscriptions/Post',
+                type: "POST",
+                //contentType: 'application/json; charset=utf-8',
+                data: newsProvider,
+                success: function () {
+                    $.getJSON('/api/Subscriptions/GetByUser/' + userId, function (data) {
+                        self.newsproviders(data);
+                    });
+                }
+            });
+        };
+
+        self.addSubscriptionFromList = function (newsprovider) {
+            $.ajax({
+                url: '/api/Subscriptions/Post',
                 type: "POST",
                 //contentType: 'application/json; charset=utf-8',
                 data: newsprovider,
                 success: function () {
-                    $.getJSON('/api/getallsubscription/' + userId, function (data) {
-                        self.newsproviders(data);
+                    $.getJSON('/api/Subscriptions/GetByUser/' + userId, function (channel) {
+
+                        self.newsproviders(channel);
                     });
                 }
             });
@@ -33,7 +52,7 @@
             var id = newsprovider.Id;
 
             $.ajax({
-                url: '/api/delete/'+id,
+                url: '/api/Subscriptions/Delete/' + id,
                 type: "Delete",
                 /*contentType: "application/json; charset=utf-8",*/
                 data:{},
@@ -46,11 +65,8 @@
 
     };
 
+    ko.applyBindings(new NewsProviderModel, document.getElementById('generalSubscriptions'));
 
-    ko.applyBindings(new NewsProviderModel, document.getElementById('subscription'));
-    ko.applyBindings(new NewsProviderModel, document.getElementById('availableChannel'));
-
-// Activate jQuery Validation
-//$("form").validate({
-//  submitHandler: PeopleModel.save
-//});
+    $(document).ready(function() {
+        document.getElementById("SubscriptionsPage").className = "active";
+    });
