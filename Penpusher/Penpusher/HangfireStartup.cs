@@ -24,7 +24,7 @@ namespace Penpusher
             var artService = NinjectWebCommon.Kernel.Get<IArticleService>();
             RecurringJob.AddOrUpdate(
             "Add article to DB",
-            () => artService.AddArticle(),
+                () => artService.GetById(1),
             Cron.Daily);
         }
     }

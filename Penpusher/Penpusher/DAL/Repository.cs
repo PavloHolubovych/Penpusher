@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
+using System.Linq;
 using Ninject.Infrastructure.Language;
 
 namespace Penpusher.DAL
@@ -17,7 +18,7 @@ namespace Penpusher.DAL
 
         public IEnumerable<T> GetAll()
         {
-            return DbSet.ToEnumerable();
+            return DbSet.AsEnumerable();
         }
 
         public T Add(T entity)
