@@ -145,7 +145,7 @@ namespace Penpusher.Test.Services
             MockKernel.GetMock<IRepository<UsersArticle>>()
                 .Setup(edit => edit.Edit(It.IsAny<UsersArticle>()))
                 .Callback((UsersArticle article) => { testArticles.Add(article); });
-            MockKernel.Get<IUsersArticlesService>().MarkAsRead( articleId);
+            MockKernel.Get<IUsersArticlesService>().MarkAsRead(articleId);
 
             bool actual = MockKernel.Get<IUsersArticlesService>().GetUsersReadArticles(userId).Any(ua => ua.Id == articleId);
             Assert.AreEqual(false, actual);
@@ -165,7 +165,7 @@ namespace Penpusher.Test.Services
                 .Setup(edit => edit.Edit(It.IsAny<UsersArticle>()))
                 .Callback((UsersArticle article) => { testArticles.Add(article); });
 
-            MockKernel.Get<IUsersArticlesService>().AddRemoveFavorites( articleId, favoriteFlag);
+            MockKernel.Get<IUsersArticlesService>().AddRemoveFavorites(articleId, favoriteFlag);
             UsersArticle actual = testArticles.First(ua => ua.UserId == userId && ua.ArticleId == articleId);
             Assert.AreEqual(favoriteFlag, actual.IsFavorite);
         }
