@@ -31,4 +31,5 @@ var ReadArticlesViewModel = function () {
 $(document)
     .ready(function () {
         ko.applyBindings(ReadArticlesViewModel, document.getElementById('readArticlesContainer'));
+        document.getElementById("ReadPage").className = "active";
     });
