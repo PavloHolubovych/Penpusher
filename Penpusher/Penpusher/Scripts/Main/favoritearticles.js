@@ -3,7 +3,7 @@
         var userId = 5;
         self.articles = ko.observableArray([]);
         self.AddLink = ko.observable("example");
-        $.getJSON('/api/Articles/UserFavoriteArticles?userId=' + userId, function (data) {
+        $.getJSON('/api/Articles/UserFavoriteArticles', function (data) {
 
             self.articles(data);
 

@@ -131,7 +131,7 @@ namespace Penpusher.Test.Services
             };
 
             MockKernel.GetMock<IRepository<UsersArticle>>().Setup(usrv => usrv.GetAll()).Returns(testArticles2);
-            int actual = MockKernel.Get<IUsersArticlesService>().GetUsersFavoriteArticles(userId).Count();
+            int actual = MockKernel.Get<IUsersArticlesService>().GetUsersFavoriteArticles().Count();
             Assert.AreEqual(expected, actual);
         }
 
@@ -147,7 +147,7 @@ namespace Penpusher.Test.Services
                 .Callback((UsersArticle article) => { testArticles.Add(article); });
             MockKernel.Get<IUsersArticlesService>().MarkAsRead(articleId);
 
-            bool actual = MockKernel.Get<IUsersArticlesService>().GetUsersReadArticles(userId).Any(ua => ua.Id == articleId);
+            bool actual = MockKernel.Get<IUsersArticlesService>().GetUsersReadArticles().Any(ua => ua.Id == articleId);
             Assert.AreEqual(false, actual);
         }
 

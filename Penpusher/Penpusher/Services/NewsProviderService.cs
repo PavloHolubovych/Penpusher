@@ -39,9 +39,9 @@ namespace Penpusher.Services
            return newsProviderRepository.GetById(id);
         }
 
-        public IEnumerable<UserNewsProviderModels> GetSubscriptionsByUserId(int id)
+        public IEnumerable<UserNewsProviderModels> GetSubscriptionsByUserId()
         {
-            IEnumerable<UserNewsProviderModels> news = usersNewsProviderRepository.GetAll().Where(unp => unp.IdUser == id)
+            IEnumerable<UserNewsProviderModels> news = usersNewsProviderRepository.GetAll().Where(unp => unp.IdUser == Constants.UserId)
                 .Select(un => new UserNewsProviderModels
                 {
                     Id = un.Id,

@@ -37,7 +37,7 @@ namespace Penpusher.Test.Services
             MockKernel.GetMock<IRepository<UsersNewsProvider>>().Setup(rm => rm.GetAll()).Returns(usernewsprovider);
 
             // act
-            IEnumerable<UserNewsProviderModels> result = MockKernel.Get<INewsProviderService>().GetSubscriptionsByUserId(userid);
+            IEnumerable<UserNewsProviderModels> result = MockKernel.Get<INewsProviderService>().GetSubscriptionsByUserId();
 
             // assert
             int expected = result.Count();
@@ -61,7 +61,7 @@ namespace Penpusher.Test.Services
             // act
             MockKernel.Get<INewsProviderService>().Unsubscription(id);
 
-            IEnumerable<UserNewsProviderModels> result = MockKernel.Get<INewsProviderService>().GetSubscriptionsByUserId(id);
+            IEnumerable<UserNewsProviderModels> result = MockKernel.Get<INewsProviderService>().GetSubscriptionsByUserId();
 
             // assert
             Assert.IsEmpty(result);

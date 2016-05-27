@@ -4,9 +4,9 @@ namespace Penpusher.Services
 {
     public interface IUsersArticlesService
     {
-        IEnumerable<Article> GetUsersReadArticles(int userId);
+        IEnumerable<Article> GetUsersReadArticles();
 
-        IEnumerable<Article> GetUsersFavoriteArticles(int userId);
+        IEnumerable<Article> GetUsersFavoriteArticles();
 
         void MarkAsRead(int articleId);
 
@@ -18,7 +18,7 @@ namespace Penpusher.Services
 
         UsersArticle ReadLaterInfo( int articleId);
 
-        IEnumerable<Article> GetReadLaterArticles(int userId);
+        IEnumerable<Article> GetReadLaterArticles();
          
     }
 }
