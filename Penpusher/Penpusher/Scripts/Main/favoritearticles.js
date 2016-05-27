@@ -1,17 +1,55 @@
-﻿    var NewsProviderModel = function () {
-        var self = this;
-        var userId = 5;
-        self.articles = ko.observableArray([]);
-        self.AddLink = ko.observable("example");
-        $.getJSON('/api/Articles/UserFavoriteArticles', function (data) {
+﻿$(document)
+    .ready(function () {
+        ko.bindingHandlers.trimLengthText = {};
+        ko.bindingHandlers.trimText = {
+            init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
+                var trimmedText = ko.computed(function () {
+                    var untrimmedText = ko.utils.unwrapObservable(valueAccessor());
+                    var defaultMaxLength = 20;
+                    var minLength = 5;
+                    var maxLength = ko.utils.unwrapObservable(allBindingsAccessor().trimTextLength) || defaultMaxLength;
+                    if (maxLength < minLength) maxLength = minLength;
+                    var text = untrimmedText.length > maxLength ? untrimmedText.substring(0, maxLength - 1) + '...' : untrimmedText;
+                    return text;
+                });
+                ko.applyBindingsToNode(element, {
+                    text: trimmedText
+                }, viewModel);
 
-            self.articles(data);
+                return {
+                    controlsDescendantBindings: true
+                };
+            }
+        };
 
-        });
+        var ArticlesModel1 = function () {
+            self = this;
+            self.rows = ko.observableArray([]);
+            $.ajax({
+                url: apiController,
+                method: "GET",
+                success: function (data) {
+                    bindD(data);
+                },
+                error: function (request, textStatus) {
+                    alert("Error: " + textStatus);
+                }
+            });
+            function bindD(data) {
+                var lenghtRow = 3;
+                for (var i = 1; i <= data.length; i++) {
+                    if (i % lenghtRow === 0) {
+                        self.rows.push(data.slice(i - lenghtRow, i));
+                    }
+                    if (i === data.length - 1 && data.length % lenghtRow !== 0) {
+                        self.rows.push(data.slice(data.length - data.length % lenghtRow, data.length));
+                    }
+                }
+            }
+        }
+        var apiController = window.location.origin + '/api/Articles/UserFavoriteArticles';
 
-    };
-    $(document).ready(function() {
-        ko.applyBindings(new NewsProviderModel, document.getElementById('favoriteArticles'));
+        var viewModel = new ArticlesModel1();
+        ko.applyBindings(viewModel, document.getElementById("favoriteArticles"));
         document.getElementById("FavoritePage").className = "active";
     });
-    
