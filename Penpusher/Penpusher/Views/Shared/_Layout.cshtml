@@ -19,64 +19,61 @@
     <link type="text/css" href="~/Content/Site.css" />
 </head>
 <body>
-<div id="wrapper">
-    <!-- Navigation -->
-    <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
-        <ul class="nav navbar-top-links navbar-right">
-            <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                    <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
-                </a>
-                <ul class="dropdown-menu dropdown-user">
-                    <li>
-                        <a href="#"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
-                    </li>
-                </ul>
-            </li>
-        </ul>
-        <div class="navbar-default sidebar" role="navigation">
-            <div class="sidebar-nav navbar-collapse">
-                <ul class="nav" id="side-menu">
-                    <li>
-                        <a href="~/"><i class="fa fa-fw"></i> Unread news</a>
-                    </li>
-                    <li>
-                        <a href="#" onclick="LoadFavoritePage()"><i class="fa fa-fw"></i> Favorite</a>
-                    </li>
-                    <li>
-                        <a href="#" onclick="LoadReadLaterPage()"><i class="fa fa-fw"></i> Saved for later</a>
-                    </li>
-                    <li>
-                        <a href="#" onclick="LoadReadPage()"><i class="fa fa-fw"></i> Read</a>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-edit fa-fw"></i> Manage content</a>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-wrench fa-fw"></i> Providers<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="#">Example1</a>
-                            </li>
-                            <li>
-                                <a href="#">Example2</a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
+    <div id="wrapper">
+        <!-- Navigation -->
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            <ul class="nav navbar-top-links navbar-right">
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-user">
+                        <li>
+                            <a href="#"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <div class="navbar-default sidebar" role="navigation">
+                <div class="sidebar-nav navbar-collapse">
+                    <ul class="nav" id="side-menu">
+                        <li>
+                            <a id="UnreadNews" href="~/"><i class="fa fa-fw"></i> Unread news</a>
+                        </li>
+                        <li>
+                            <a id="FavoritePage" href="#" onclick="LoadFavoritePage()"><i class="fa fa-fw"></i> Favorite</a>
+                        </li>
+                        <li>
+                            <a id="ReadLaterPage" href="#" onclick="LoadReadLaterPage()"><i class="fa fa-fw"></i> Saved for later</a>
+                        </li>
+                        <li>
+                            <a id="ReadPage" href="#" onclick="LoadReadPage()"><i class="fa fa-fw"></i> Read</a>
+                        </li>
+                        <li>
+                            <a id="SubscriptionsPage" href="#" onclick="LoadSubscriptionsPage()"><i class="fa fa-edit fa-fw"></i> Manage content</a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-wrench fa-fw"></i> Providers<span class="fa arrow"></span></a>
+                            <ul id="subscriptions" class="nav nav-second-level" data-bind="foreach: providers">
+                                <li>
+                                    <a data-bind="attr: { href:'/Main/ArticlesBySubscription?providerID=' + Id }, text: Description" class="hrefsub"></a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div id="page-wrapper">
+
+            @RenderBody()
+
+        </div>
+        <div id="footer">
+            <div id="copyrightLabel">
+                <label>Penpusher 2016</label>
             </div>
         </div>
-    </nav>
-    <div id="page-wrapper">
-
-        @RenderBody()
-
     </div>
-    <div id="footer">
-        <div id="copyrightLabel">
-            <label>Penpusher 2016</label>
-        </div>
-    </div>
-</div>
     @RenderSection("scripts", required: false)
 </body>

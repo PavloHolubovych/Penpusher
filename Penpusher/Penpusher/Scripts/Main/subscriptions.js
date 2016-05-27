@@ -50,7 +50,6 @@
     ko.applyBindings(new NewsProviderModel, document.getElementById('subscription'));
     ko.applyBindings(new NewsProviderModel, document.getElementById('availableChannel'));
 
-// Activate jQuery Validation
-//$("form").validate({
-//  submitHandler: PeopleModel.save
-//});
+    $(document).ready(function() {
+        document.getElementById("SubscriptionsPage").className = "active";
+    });

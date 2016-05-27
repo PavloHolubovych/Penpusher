@@ -25,7 +25,7 @@ namespace Penpusher.Controllers
         }
 
         // GET api/<controller>/5
-        [Route("getallsubscription/{id}")]
+        [Route("api/getallsubscription/{id}")]
         //DEFECT: violation dependency inversion principle. method type must be more abstract and return is more specific
         public UserNewsProviderModels[] GetByUser(int id)
         {

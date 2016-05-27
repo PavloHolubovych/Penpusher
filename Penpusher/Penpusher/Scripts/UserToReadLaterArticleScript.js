@@ -31,4 +31,5 @@ var ToReadLaterArticlesViewModel = function () {
 $(document)
     .ready(function () {
         ko.applyBindings(ToReadLaterArticlesViewModel, document.getElementById('readArticlesContainer'));
+        document.getElementById("ReadLaterPage").className = "active";
     });
