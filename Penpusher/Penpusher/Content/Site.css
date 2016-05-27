@@ -171,6 +171,10 @@ text-align:center;
 .loadimage{
     text-align: center;
     padding-top: 50px;
+    width: 100%;
+}
+.loadimage img{
+    display: inline;
 }
 
 .wrapper {
@@ -191,7 +195,6 @@ text-align:center;
     display: inline-block;
     background: #ECECEA;
     padding: 1em;
-    margin: 0 0 1.5em;
     width: 100%;
     box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -208,6 +211,17 @@ display: block;
     max-width: 32px;
     width: 30px;
     height: 30px;
+}
+
+.img-article {   
+
+    height: 100px;
+}
+
+
+.autoflow {
+    height: 400px;
+    overflow: visible;
 }
 
 
@@ -240,5 +254,8 @@ border-bottom: 1px dotted #9F1D35;
     padding-left: 2%;
 }
 
-
-
+.containerPro {
+    content: " ";
+	display: table;
+    width: 100%
+}
