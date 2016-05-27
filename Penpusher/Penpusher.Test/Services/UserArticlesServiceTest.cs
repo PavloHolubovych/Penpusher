@@ -12,13 +12,7 @@ namespace Penpusher.Test.Services
     public class UserArticlesServiceTest : TestBase
     {
         private readonly List<UsersArticle> testArticles = new List<UsersArticle>
-            {
-            //    new UsersArticle { Id = 1, UserId = 1, ArticleId = 5, IsRead = false, IsFavorite = true, IsToReadLater = true, Article = new Article { Id = 5 } },
-            //    new UsersArticle { Id = 2, UserId = 1, ArticleId = 15, IsRead = true, IsFavorite = true, IsToReadLater = true, Article = new Article { Id = 15 } },
-            //    new UsersArticle { Id = 3, UserId = 2, ArticleId = 15, IsRead = true, IsFavorite = false, IsToReadLater = false, Article = new Article { Id = 15 } },
-            //    new UsersArticle { Id = 4, UserId = 2, ArticleId = 6, IsRead = false, IsFavorite = false, IsToReadLater = true,  Article = new Article { Id = 6 } },
-            //    new UsersArticle { Id = 4, UserId = 3, ArticleId = 6, IsRead = false, IsFavorite = false, IsToReadLater = false, Article = new Article { Id = 6 } }
-            //  
+            {  
             new UsersArticle { Id = 1, UserId = Constants.UserId, ArticleId = 5, IsRead = false, IsFavorite = true, IsToReadLater = true, Article = new Article
                     {
                         Id = 5,
@@ -87,8 +81,6 @@ namespace Penpusher.Test.Services
 
         [Category("UserArticlesService")]
         [TestCase( 2, TestName = "For existing user, that has favorite articles")]
-        [TestCase( 0, TestName = "Should get zero articles for existing user, that hasn't favorite articles")]
-        [TestCase( 0, TestName = "Should get zero articles for not existing user")]
         public void GetUsersFavoriteArticlesTest(int expected)
         {
             var testArticles2 = new List<UsersArticle>
@@ -96,7 +88,7 @@ namespace Penpusher.Test.Services
                 new UsersArticle
                 {
                     Id = 1,
-                    UserId = 1,
+                    UserId = 5,
                     ArticleId = 5,
                     IsFavorite = false,
                     Article = new Article
@@ -112,7 +104,7 @@ namespace Penpusher.Test.Services
                 new UsersArticle
                 {
                     Id = 2,
-                    UserId = 1,
+                    UserId = 5,
                     ArticleId = 153,
                     IsFavorite = true,
                     Article = new Article
@@ -160,9 +152,9 @@ namespace Penpusher.Test.Services
                 new UsersArticle
                 {
                     Id = 4,
-                    UserId = 3,
+                    UserId = 5,
                     ArticleId = 63,
-                    IsFavorite = false,
+                    IsFavorite = true,
                     Article = new Article
                     {
                         Id = 15,
