@@ -1,4 +1,4 @@
-﻿<div class="containerPro">
+﻿@*<div class="containerPro">
     <h2 align="center">Articles by subscription</h2>
     <div id="articlesSubscription">
         <div class="loadimage"><img src="~/fonts/load.gif"/>
@@ -16,5 +16,19 @@
             </tbody>
         </table>
     </div>
+</div>*@
+
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">Articles by subscription</h1>
+    </div>
 </div>
-<script src="~/Scripts/GetAllArticlesByProvider.js"></script>
+<div class="loadimage">
+    <img src="~/fonts/load.gif"/>
+</div>
+    <div id="articlesSubscriptions" class="articles" data-bind="foreach: rows">
+        <div class="row" data-bind="foreach: $data">
+            @Html.Partial("ArticlesPartialView")
+        </div>
+    </div>
+    <script src="~/Scripts/GetAllArticlesByProvider.js"></script>
