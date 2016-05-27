@@ -28,7 +28,12 @@
             $.ajax({
                 url: apiController,
                 method: "GET",
+                beforeSend: function () {
+                    $('.articles').hide();
+                },
                 success: function (data) {
+                    $('.articles').show();
+                    $('.loadimage').hide();
                     bindD(data);
                 },
                 error: function (request, textStatus) {

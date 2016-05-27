@@ -1,16 +1,16 @@
-﻿@{
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
-
-<script src="~/Scripts/UserReadArticleScript.js"></script>
-
-<div class="readArticles" id="readArticlesContainer" data-bind="foreach: articlesList">
-    <img data-bind="attr: { src: image }" />
-    <div class="textContent">
-        <a data-bind="attr: { href: articleDetailLink }">
-            <h3><span data-bind="text: title"></span></h3>
-            <p><span data-bind="text: articleText"></span></p>
-        </a>
+﻿<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">Read articles</h1>
     </div>
-    <hr class="between" />
 </div>
+<div class="loadimage">
+    <img src="~/fonts/load.gif" />
+</div>
+<div>
+    <div id="readArticlesContainer" class="articles" data-bind="foreach: rows">
+        <div class="row" data-bind="foreach: $data">
+            @Html.Partial("ArticlesPartialView")
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/UserReadArticleScript.js"></script>

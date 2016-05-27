@@ -1,35 +1,59 @@
-﻿var articleInfo = function (title, articleText, image, id) {
-    this.title = title;
-    this.articleText = articleText;
-    this.image = image;
-    this.articleDetailLink = "/Main/ArticleContentDetails?articleId=" + id;
-}
-
-var articlesList = new ko.observableArray();
- 
-
-var ReadArticlesViewModel = function () {
-    $.ajax({
-        type: "GET",
-        url: "/api/Articles/UserReadArticles",
-        data: JSON.stringify(articleInfo),
-        contentType: "application/json; charset=utf8",
-        accept: "application/json",
-        success: function (data) {
-            $.each(data,
-                function (key, item) {
-                    var article = new articleInfo(item.Title, item.Description, item.Image, item.Id);
-                    articlesList.push(article);
-                });
-        },
-        error: function (request, textStatus) {
-            alert("Error: " + textStatus);
-        }
-    });
-}
-
-$(document)
+﻿$(document)
     .ready(function () {
-        ko.applyBindings(ReadArticlesViewModel, document.getElementById('readArticlesContainer'));
+        ko.bindingHandlers.trimLengthText = {};
+        ko.bindingHandlers.trimText = {
+            init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
+                var trimmedText = ko.computed(function () {
+                    var untrimmedText = ko.utils.unwrapObservable(valueAccessor());
+                    var defaultMaxLength = 20;
+                    var minLength = 5;
+                    var maxLength = ko.utils.unwrapObservable(allBindingsAccessor().trimTextLength) || defaultMaxLength;
+                    if (maxLength < minLength) maxLength = minLength;
+                    var text = untrimmedText.length > maxLength ? untrimmedText.substring(0, maxLength - 1) + '...' : untrimmedText;
+                    return text;
+                });
+                ko.applyBindingsToNode(element, {
+                    text: trimmedText
+                }, viewModel);
+
+                return {
+                    controlsDescendantBindings: true
+                };
+            }
+        };
+
+        var ArticlesModel1 = function () {
+            self = this;
+            self.rows = ko.observableArray([]);
+            $.ajax({
+                url: apiController,
+                method: "GET",
+                beforeSend: function () {
+                    $('.articles').hide();
+                },
+                success: function (data) {
+                    $('.articles').show();
+                    $('.loadimage').hide();
+                    bindD(data);
+                },
+                error: function (request, textStatus) {
+                    alert("Error: " + textStatus);
+                }
+            });
+            function bindD(data) {
+                var lenghtRow = 3;
+                for (var i = 1; i <= data.length; i++) {
+                    if (i % lenghtRow === 0) {
+                        self.rows.push(data.slice(i - lenghtRow, i));
+                    }
+                    if (i === data.length - 1 && data.length % lenghtRow !== 0) {
+                        self.rows.push(data.slice(data.length - data.length % lenghtRow, data.length));
+                    }
+                }
+            }
+        }
+        var apiController = window.location.origin + "/api/Articles/UserReadArticles";
+        var viewModel = new ArticlesModel1();
+        ko.applyBindings(viewModel, document.getElementById("readArticlesContainer"));
         document.getElementById("ReadPage").className = "active";
     });
