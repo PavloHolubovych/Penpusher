@@ -465,6 +465,7 @@
     <Content Include="Views\Main\UserToReadLaterArticles.cshtml" />
     <Content Include="Views\Main\ProviderDescription.cshtml" />
     <Content Include="Views\Main\UserFavoriteArticles.cshtml" />
+    <Content Include="Views\Main\ArticlesPartialView.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
