@@ -31,9 +31,9 @@ namespace Penpusher.Controllers
 
         [HttpPost]
         //// please do not use void. use bool instead
-        public void MarkAsRead(int userId, int articleId)
+        public void MarkAsRead(int articleId)
         {
-            userArticlesService.MarkAsRead(userId, articleId);
+            userArticlesService.MarkAsRead(articleId);
         }
 
         [HttpGet]
@@ -63,27 +63,27 @@ namespace Penpusher.Controllers
         }
 
         [HttpPost]
-       public void AddRemoveFavorites([FromBody]WebModel model)
+       public void AddRemoveFavorites([FromBody]ArticleModel model)
         {
-            userArticlesService.AddRemoveFavorites(model.UserId, model.ArticleId, model.Flag);
+            userArticlesService.AddRemoveFavorites(model.ArticleId, model.Flag);
         }
 
         [HttpGet]
-        public UsersArticle ReadLaterInfo(int userId, int articleIdInfo)
+        public UsersArticle ReadLaterInfo(int articleIdInfo)
         {
-            return userArticlesService.ReadLaterInfo(userId, articleIdInfo);
+            return userArticlesService.ReadLaterInfo(articleIdInfo);
         }
 
         [HttpPost]
-        public UsersArticle ToReadLater(int userId, int articleIdRl, bool add)
+        public UsersArticle ToReadLater( int articleIdRl, bool add)
         {
-            return userArticlesService.ToReadLater(userId, articleIdRl, add);
+            return userArticlesService.ToReadLater( articleIdRl, add);
         }
 
         [HttpGet]
-        public bool CheckIsFavorite(int userId, int articleId)
+        public bool CheckIsFavorite(int articleId)
         {
-            return userArticlesService.CheckIsFavorite(userId, articleId);
+            return userArticlesService.CheckIsFavorite(articleId);
         }
 
         public IEnumerable<Article> GetReadLeaterArticles()
