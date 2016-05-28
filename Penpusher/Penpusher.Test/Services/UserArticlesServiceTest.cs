@@ -173,10 +173,9 @@ namespace Penpusher.Test.Services
         }
 
         [Category("UserArticlesService")]
-        [TestCase(1, 5, TestName = "For existin UserArticle item with IsRead==false")]
-        [TestCase(1, 15, TestName = "For existin UserArticle item with IsRead==true")]
-        [TestCase(1, 7, TestName = "For not existin UserArticle")]
-        public void MarkAsReadTest(int userId, int articleId)
+        [TestCase(5, TestName = "For existin UserArticle item with IsRead==false")]
+        [TestCase(15, TestName = "For existin UserArticle item with IsRead==true")]
+        public void MarkAsReadTest(int articleId)
         {
             MockKernel.GetMock<IRepository<UsersArticle>>().Setup(usrv => usrv.GetAll()).Returns(testArticles);
             MockKernel.GetMock<IRepository<UsersArticle>>()
@@ -185,7 +184,7 @@ namespace Penpusher.Test.Services
             MockKernel.Get<IUsersArticlesService>().MarkAsRead(articleId);
 
             bool actual = MockKernel.Get<IUsersArticlesService>().GetUsersReadArticles().Any(ua => ua.Id == articleId);
-            Assert.AreEqual(false, actual);
+            Assert.AreEqual(true, actual);
         }
 
         [Category("UserArticlesService")]
