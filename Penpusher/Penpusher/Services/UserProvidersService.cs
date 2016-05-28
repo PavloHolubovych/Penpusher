@@ -13,9 +13,8 @@ namespace Penpusher.Services
             this.repository = repository;
         }
 
-        public bool SubscribeUserToProvider( int providerId, bool isSubscribe)
+        public bool SubscribeUserToProvider(int providerId, bool isSubscribe)
         {
-            var userId = 5;
             try
             {
                 if (isSubscribe)
@@ -23,13 +22,13 @@ namespace Penpusher.Services
                     repository.Edit(new UsersNewsProvider
                     {
                         IdNewsProvider = providerId,
-                        IdUser = userId
+                        IdUser = Constants.UserId
                     });
                 }
                 else
                 {
                     UsersNewsProvider userProvider =
-                        repository.GetAll().First(up => up.IdUser == userId && up.IdNewsProvider == providerId);
+                        repository.GetAll().First(up => up.IdUser == Constants.UserId && up.IdNewsProvider == providerId);
                     if (userProvider != null)
                     {
                         repository.Delete(userProvider.Id);
@@ -45,17 +44,16 @@ namespace Penpusher.Services
 
         public bool IsUserSubscribedOnProvider(int providerId)
         {
-            //TODO: Use  HttpContext.Current.User id
-
-            if (repository.GetAll().Count(up => up.IdNewsProvider == providerId && up.IdUser == 5) > 0)
+            if (repository.GetAll().Count(up => up.IdNewsProvider == providerId && up.IdUser == Constants.UserId) > 0)
+            {
                 return true;
+            }
             return false;
         }
 
         public IEnumerable<int> GetProvidersForUser()
         {
-            //TODO: USe  HttpContext.Current.User id
-            return repository.GetAll().Where(np => np.IdUser == 5).Select(np => np.Id);
+            return repository.GetAll().Where(np => np.IdUser == Constants.UserId).Select(np => np.Id);
         }
     }
 }
