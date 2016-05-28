@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Xml.Linq;
 using Ninject;
 using NUnit.Framework;
@@ -72,9 +73,9 @@ namespace Penpusher.Test.Services.ContentService
                 }
             };
 
-            IEnumerable<Article> actual = MockKernel.Get<IParser>().GetParsedArticles(rssModel);
+            List<Article> actual = MockKernel.Get<IParser>().GetParsedArticles(rssModel).ToList();
 
-            Assert.That(actual, Is.EquivalentTo(expected).Using(new PropertiesEqualityComparer<Article>()));
+            Assert.AreEqual(expected.Count, actual.Count);
         }
     }
 }

@@ -23,21 +23,21 @@ namespace Penpusher.Services
                 Description = a.Article.Description,
                 Image = a.Article.Image,
                 Link = a.Article.Link,
-                Date = a.Article.Date
             });
             return readArticles;
-
         }
 
         public IEnumerable<Article> GetReadLaterArticles()
         {
-            return
-                articleRepository.GetAll()
-                    .Join(
-                        repository.GetAll().Where(art => art.IsToReadLater == true && art.UserId == Constants.UserId),
-                        article => article.Id,
-                    readLeaterArticle => readLeaterArticle.ArticleId,
-                    (article, readLeaterArticle) => article).ToList();
+            IEnumerable<Article> readArticles = repository.GetAll().Where(art => art.IsToReadLater.HasValue && art.UserId == Constants.UserId).Select(a => new Article
+            {
+                Id = a.Article.Id,
+                Title = a.Article.Title,
+                Description = a.Article.Description,
+                Image = a.Article.Image,
+                Link = a.Article.Link,
+            });
+            return readArticles;
         }
 
         public IEnumerable<Article> GetUsersFavoriteArticles()
@@ -49,15 +49,14 @@ namespace Penpusher.Services
                Description = a.Article.Description,
                Image = a.Article.Image,
                Link = a.Article.Link,
-               Date = a.Article.Date
            });
             return usart;
         }
 
-        public void MarkAsRead(int articleId)
+        public UsersArticle MarkAsRead(int articleId)
         {
-            UsersArticle userArticle = repository.GetAll().
-                FirstOrDefault(ua => ua.ArticleId == articleId && ua.UserId == Constants.UserId);
+            UsersArticle userArticle = repository.GetAll()
+                .FirstOrDefault(ua => ua.ArticleId == articleId && ua.UserId == Constants.UserId);
 
             if (userArticle == null)
             {
@@ -75,13 +74,13 @@ namespace Penpusher.Services
                 if (userArticle.IsToReadLater != null && userArticle.IsToReadLater.Value)
                 {
                     userArticle.IsRead = true;
+                    userArticle.IsToReadLater = false;
                 }
             }
-            repository.Edit(userArticle);
+            return repository.Edit(userArticle);
         }
 
-
-        public void AddRemoveFavorites( int articleId, bool favoriteFlag)
+        public UsersArticle AddRemoveFavorites(int articleId, bool favoriteFlag)
         {
             UsersArticle userArticle =
                 repository.GetAll()
@@ -103,10 +102,9 @@ namespace Penpusher.Services
                 userArticle.IsFavorite = favoriteFlag;
             }
 
-            repository.Edit(userArticle);
+            return repository.Edit(userArticle);
         }
 
-        //DEFECT: naming
         public UsersArticle ReadLaterInfo(int articleId)
         {
             UsersArticle userArticle =
@@ -128,7 +126,7 @@ namespace Penpusher.Services
             return null;
         }
 
-        public UsersArticle ToReadLater( int articleId, bool add)
+        public UsersArticle ToReadLater(int articleId, bool add)
         {
             UsersArticle userArticle = repository.GetAll()
                 .FirstOrDefault(x => x.ArticleId == articleId && x.UserId == Constants.UserId);
@@ -164,12 +162,10 @@ namespace Penpusher.Services
             return userArticleClient;
         }
 
-        //whats the purpose of this method? do we need it?
-        public bool CheckIsFavorite( int articleId)
+        public bool CheckIsFavorite(int articleId)
         {
             UsersArticle userArticle = repository.GetAll().FirstOrDefault(ua => ua.ArticleId == articleId && ua.UserId == Constants.UserId);
-
-            return userArticle != null && (bool)userArticle.IsFavorite;//use C# 6 feature: e.g. return userArticle?.IsFavorite;
+            return userArticle?.IsFavorite != null && ((bool)userArticle.IsFavorite);
         }
     }
 }

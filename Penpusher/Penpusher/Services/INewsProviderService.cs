@@ -12,7 +12,7 @@ namespace Penpusher.Services
 
         IEnumerable<UserNewsProviderModels> GetSubscriptionsByUserId();
 
-        UsersNewsProvider Subscription(string link);
+        UsersNewsProvider Subscription(string link, string name, string description);
 
         UsersNewsProvider Unsubscription(int id);
 

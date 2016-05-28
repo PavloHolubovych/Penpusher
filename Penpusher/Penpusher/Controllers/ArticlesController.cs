@@ -29,10 +29,9 @@ namespace Penpusher.Controllers
         }
 
         [HttpPost]
-        //// please do not use void. use bool instead
-        public void MarkAsRead(int articleId)
+        public UsersArticle MarkAsRead(int articleId)
         {
-            userArticlesService.MarkAsRead(articleId);
+            return userArticlesService.MarkAsRead(articleId);
         }
 
         [HttpGet]

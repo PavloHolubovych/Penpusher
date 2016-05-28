@@ -4,10 +4,13 @@
         <form class="form-inline">
             <div class="form-group">
                 <div class="input-group">
-                    <input class="form-control" placeholder="wwww.liga.net" data-bind="value: AddLink" />
+                    Name: <input class="form-control" placeholder="Liga" data-bind="value: AddName" /><br>
+                    Link: <input class="form-control" placeholder="wwww.liga.net" data-bind="value: AddLink" /><br>
+                    Description: <input class="form-control" placeholder="Ежедневные новости Украины" data-bind="value: AddDescription" /><br><br>
+                    <button class="btn btn-primary" data-bind="click: $root.addNewsProvider">Add channel</button>
                 </div>
             </div>
-            <button class="btn btn-primary" data-bind="click: $root.addNewsProvider">Add newsprovider</button>
+
         </form>
 
         <form>

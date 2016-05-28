@@ -36,7 +36,9 @@ namespace Penpusher.Controllers
         public void Post(NewsProvider newsProvider)
         {
             string link = newsProvider.Link;
-            newsProviderService.Subscription(link);
+            string name = newsProvider.Name;
+            string description = newsProvider.Description;
+            newsProviderService.Subscription(link, name, description);
         }
 
         [HttpPost]

@@ -1,55 +1,16 @@
-﻿<div class="wrapper">
-    <div class="row">
-        <div class="masonry">
-            <div id="favoriteArticles" data-bind="foreach: articles">
-                <div class="col-md-4">
-                    <div class="item">
-                        <h4><span data-bind="text: Title"></span></h4>
-                        <img class="img-article" data-bind="attr: { src: Image }">
-                        <br>
-                        <p><span data-bind="text: Description"></span></p>
-                        <a align="right" data-bind="attr: { href:'/Main/ArticleContentDetails?articleId=' + Id }" class="btn btn-primary btn-lg" role="button">Read</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-
-
-
-<div class="row">
+﻿<div class="row">
     <div class="col-lg-12">
         <h1 class="page-header">Favorite list of articles</h1>
     </div>
 </div>
-<!-- /.row -->
-<div class="row" id="articlesSubscriptions" data-bind="foreach: articles">
-    <div class="col-lg-4">
-        <div class="panel panel-default">
-            <div class="item">
-                <div class="panel-heading">
-                    <h4><span data-bind="trimText: Title, trimTextLength: 30"></span></h4>
-                </div>
-                <div class="panel-body">
-                    <img data-bind="attr: { src: Image }" onerror="this.onerror = '';">
-                    <br>
-                    <p><span data-bind="trimText: Description, trimTextLength: 50"></span></p>
-                    <a align="right" data-bind="attr: { href:'/Main/ArticleContentDetails?articleId=' + Id }" class="btn btn-primary btn-lg active" role="button">Read</a>
-                </div>
-            </div>
+<div class="loadimage">
+    <img src="~/fonts/load.gif" />
+</div>
+<div>
+    <div id="favoriteArticles" class="articles" data-bind="foreach: rows">
+        <div class="row" data-bind="foreach: $data">
+            @Html.Partial("ArticlesPartialView")
         </div>
     </div>
 </div>
-<script src="~/Scripts/GetArticlesBySelectedProviders.js"></script>
-
-
-
-
-
-
-
 @Scripts.Render("~/bundles/favoritearticles")
