@@ -5,16 +5,16 @@ namespace Penpusher.Services
 {
     public class UsersArticlesService : IUsersArticlesService
     {
-        private readonly IRepository<UsersArticle> _userArticleRepository;
+        private readonly IRepository<UsersArticle> userArticleRepository;
 
         public UsersArticlesService(IRepository<UsersArticle> repository)
         {
-            _userArticleRepository = repository;
+            userArticleRepository = repository;
         }
 
         public IEnumerable<Article> GetUsersReadArticles()
         {
-            IEnumerable<Article> readArticles = _userArticleRepository.GetAll().Where(art => art.IsRead == true && art.UserId == Constants.UserId).Select(a => new Article
+            IEnumerable<Article> readArticles = userArticleRepository.GetAll().Where(art => art.IsRead == true && art.UserId == Constants.UserId).Select(a => new Article
             {
                 Id = a.Article.Id,
                 Title = a.Article.Title,
@@ -27,7 +27,7 @@ namespace Penpusher.Services
 
         public IEnumerable<Article> GetReadLaterArticles()
         {
-            IEnumerable<Article> readArticles = _userArticleRepository.GetAll().Where(art => art.IsToReadLater == true && art.UserId == Constants.UserId).Select(a => new Article
+            IEnumerable<Article> readArticles = userArticleRepository.GetAll().Where(art => art.IsToReadLater == true && art.UserId == Constants.UserId).Select(a => new Article
             {
                 Id = a.Article.Id,
                 Title = a.Article.Title,
@@ -40,7 +40,7 @@ namespace Penpusher.Services
 
         public IEnumerable<Article> GetUsersFavoriteArticles()
         {
-           IEnumerable<Article> usart = _userArticleRepository.GetAll().Where(art => art.IsFavorite == true && art.UserId == Constants.UserId).Select(a => new Article
+           IEnumerable<Article> usart = userArticleRepository.GetAll().Where(art => art.IsFavorite == true && art.UserId == Constants.UserId).Select(a => new Article
            {
                Id = a.Article.Id,
                Title = a.Article.Title,
@@ -53,7 +53,7 @@ namespace Penpusher.Services
 
         public UsersArticle MarkAsRead(int articleId)
         {
-            UsersArticle userArticle = _userArticleRepository.GetAll()
+            UsersArticle userArticle = userArticleRepository.GetAll()
                 .FirstOrDefault(ua => ua.ArticleId == articleId && ua.UserId == Constants.UserId);
 
             if (userArticle == null)
@@ -75,12 +75,12 @@ namespace Penpusher.Services
                     userArticle.IsToReadLater = false;
                 }
             }
-            return _userArticleRepository.Edit(userArticle);
+            return userArticleRepository.Edit(userArticle);
         }
 
         public UsersArticle AddRemoveFavorites(int articleId, bool favoriteFlag)
         {
-            UsersArticle userArticle = _userArticleRepository.GetAll()
+            UsersArticle userArticle = userArticleRepository.GetAll()
                 .FirstOrDefault(ua => ua.ArticleId == articleId && ua.UserId == Constants.UserId);
 
             if (userArticle == null)
@@ -99,12 +99,12 @@ namespace Penpusher.Services
                 userArticle.IsFavorite = favoriteFlag;
             }
 
-            return _userArticleRepository.Edit(userArticle);
+            return userArticleRepository.Edit(userArticle);
         }
 
         public UsersArticle UserArticleInfo(int articleId)
         {
-            UsersArticle userArticle = _userArticleRepository.GetAll().FirstOrDefault(x => x.ArticleId == articleId && x.UserId == Constants.UserId);
+            UsersArticle userArticle = userArticleRepository.GetAll().FirstOrDefault(x => x.ArticleId == articleId && x.UserId == Constants.UserId);
 
             if (userArticle != null)
             {
@@ -124,7 +124,7 @@ namespace Penpusher.Services
 
         public UsersArticle ToReadLater(int articleId, bool add)
         {
-            UsersArticle userArticle = _userArticleRepository.GetAll()
+            UsersArticle userArticle = userArticleRepository.GetAll()
                 .FirstOrDefault(x => x.ArticleId == articleId && x.UserId == Constants.UserId);
 
             if (userArticle == null)
@@ -137,13 +137,13 @@ namespace Penpusher.Services
                                       IsFavorite = false,
                                       IsRead = false
                                   };
-                _userArticleRepository.Add(userArticle);
+                userArticleRepository.Add(userArticle);
             }
             else
             {
                 userArticle.IsToReadLater = add;
                 userArticle.IsRead = !add;
-                _userArticleRepository.Edit(userArticle);
+                userArticleRepository.Edit(userArticle);
             }
 
             var userArticleClient = new UsersArticle
