@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Xml.Linq;
 using Penpusher.Models;
 
@@ -9,21 +10,20 @@ namespace Penpusher.Services.ContentService
     {
         public IEnumerable<Article> GetParsedArticles(RssChannelModel rssModel)
         {
-            var parsedArticles = new List<Article>();
             IEnumerable<XElement> rssArticles = rssModel.RssFile.Descendants("item");
 
-            foreach (XElement post in rssArticles)parsedArticles
-                    .Add(ParseArticle(post, rssModel.ProviderId));
-            return parsedArticles;
+            return rssArticles.Select(post => ParseArticle(post, rssModel.ProviderId)).ToList();
         }
 
-        private Article ParseArticle(XElement post, int idNewsProvider)
+        private Article ParseArticle(XElement post, int newsProviderId)
         {
             DateTime date;
             if (!DateTime.TryParse(GetDescedantValue(post, "pubDate"), out date))
+            {
                 date = DateTime.Now;
+            }
 
-            return new Article()
+            return new Article
             {
                 Description = GetDescedantValue(post, "description"),
                 Title = GetDescedantValue(post, "title"),
@@ -31,7 +31,7 @@ namespace Penpusher.Services.ContentService
                 Link = GetDescedantValue(post, "link"),
                 Id = 0,
                 Image = GetImage(post),
-                IdNewsProvider = idNewsProvider
+                IdNewsProvider = newsProviderId
             };
         }
 
