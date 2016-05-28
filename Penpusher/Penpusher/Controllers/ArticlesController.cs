@@ -57,7 +57,7 @@ namespace Penpusher.Controllers
         public IEnumerable<Article> ArticlesFromSelectedProviders()
         {
             IEnumerable<UserNewsProviderModels> newsProviders = newsProviderService.GetSubscriptionsByUserId();
-            return articleService.GetArticlesFromSelectedProviders(newsProviders);
+            return articleService.GetAllUnreadArticles(newsProviders);
         }
 
         [HttpPost]

@@ -22,7 +22,10 @@ namespace Penpusher.Services
 
         public void AddArticle()
         {
-            var provider = new NewsProvider { Id = 2 };
+            var provider = new NewsProvider
+            {
+                Id = 2
+            };
             var article = new Article
             {
                 Id = 177,
@@ -74,7 +77,12 @@ namespace Penpusher.Services
         {
             return repository.GetAll().Where(x => x.IdNewsProvider == newsProviderId).Select(o => new Article()
             {
-                Id = o.Id, Title = o.Title, Description = o.Description, Link = o.Link, Date = o.Date, Image = o.Image
+                Id = o.Id,
+                Title = o.Title,
+                Description = o.Description,
+                Link = o.Link,
+                Date = o.Date,
+                Image = o.Image
             })
                 .ToList();
         }
@@ -89,6 +97,34 @@ namespace Penpusher.Services
                 Link = n.Link,
                 Date = n.Date,
             });
+        }
+
+        public IEnumerable<Article> GetAllUnreadArticles(IEnumerable<UserNewsProviderModels> newsProviders)
+        {
+            var articles = new List<Article>();
+
+            IEnumerable<UserNewsProviderModels> userNewsProviderModelses = newsProviders as UserNewsProviderModels[] ??
+                                                                           newsProviders.ToArray();
+            if (userNewsProviderModelses.Any())
+            {
+                foreach (UserNewsProviderModels provider in userNewsProviderModelses)
+                {
+                    IEnumerable<Article> nextProviderArticles =
+                        repository.GetAll().Where(x => x.IdNewsProvider == provider.IdNewsProvider);
+                    IEnumerable<Article> art = nextProviderArticles.Where(j => j.UsersArticles.Count == 0).Select(j => new Article()
+                    {
+                        Id = j.Id,
+                        Title = j.Title,
+                        Image = j.Image,
+                        Description = j.Description,
+                        Link = j.Link,
+                        Date = j.Date,
+                    });
+                    articles.AddRange(art);
+                }
+            }
+
+            return articles;
         }
 
         public IEnumerable<Article> GetArticlesFromSelectedProviders(IEnumerable<UserNewsProviderModels> newsProviders)
