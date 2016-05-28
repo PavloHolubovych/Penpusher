@@ -46,7 +46,12 @@ namespace Penpusher.Services.ContentService
                 }
                 if (rssFile != null && IsRssUpdated(provider.LastBuildDate, lastBuildDateFromRss))
                 {
-                    var updatedChannel = new RssChannelModel { ProviderId = provider.Id, RssFile = rssFile, LastBuildDate = lastBuildDateFromRss };
+                    var updatedChannel = new RssChannelModel
+                    {
+                        ProviderId = provider.Id,
+                        RssFile = rssFile,
+                        LastBuildDate = lastBuildDateFromRss
+                    };
                     updatedRssChannells.Add(updatedChannel);
                 }
             }
@@ -96,7 +101,9 @@ namespace Penpusher.Services.ContentService
         {
             try
             {
-                string dt = DateTime.ParseExact(date, @"ddd, dd MMM yyyy HH:mm:ss zzz", CultureInfo.InvariantCulture).ToString("MM/dd/yyyy HH:mm:ss");
+                string dt =
+                    DateTime.ParseExact(date, @"ddd, dd MMM yyyy HH:mm:ss zzz", CultureInfo.InvariantCulture)
+                        .ToString("MM/dd/yyyy HH:mm:ss");
                 return Convert.ToDateTime(dt);
             }
             catch

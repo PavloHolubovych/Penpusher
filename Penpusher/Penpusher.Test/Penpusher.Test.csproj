@@ -80,6 +80,7 @@
     <Compile Include="Services\ContentService\DataBaseServiceExtensionTest.cs" />
     <Compile Include="Services\ContentService\ProviderTrackingServiceTest.cs" />
     <Compile Include="Services\ContentService\RssParserTest.cs" />
+    <Compile Include="Services\ContentService\RssReaderTest.cs" />
     <Compile Include="Services\NewsProviderServiceTest.cs" />
     <Compile Include="Services\ArticleServiceTest.cs" />
     <Compile Include="Services\UserArticlesServiceTest.cs" />
@@ -94,6 +95,9 @@
       <Project>{93DBAD77-F9F1-462F-8B79-C685BFE71A8B}</Project>
       <Name>Penpusher</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="TestFiles\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
