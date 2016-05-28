@@ -6,12 +6,10 @@ namespace Penpusher.Services
     public class UsersArticlesService : IUsersArticlesService
     {
         private readonly IRepository<UsersArticle> repository;
-        private readonly IRepository<Article> articleRepository;
 
-        public UsersArticlesService(IRepository<UsersArticle> repository, IRepository<Article> articleRepository)
+        public UsersArticlesService(IRepository<UsersArticle> repository)
         {
             this.repository = repository;
-            this.articleRepository = articleRepository;
         }
 
         public IEnumerable<Article> GetUsersReadArticles()
