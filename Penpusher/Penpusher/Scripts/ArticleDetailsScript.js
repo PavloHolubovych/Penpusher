@@ -100,6 +100,10 @@ var ArticleViewModel = function (title, link) {
                 alert("Error: " + textStatus);
             });
     }
+
+    self.goBack = function() {
+        window.history.back();
+    }
 };
 
 $.get("/api/Articles/GetArticleDetail?articleId=" + QueryString().articleId,
