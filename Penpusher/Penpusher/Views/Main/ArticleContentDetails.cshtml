@@ -4,17 +4,26 @@
     localStorage.articleId = @Html.Raw(Json.Encode(Model));
 </script>
 <div id="articleContent">
-    
-    <div id="articleTitleDiv" >
-        <label data-bind="text: title"/>
-    </div >
-    <div class="fluidMedia" >
-        <iframe data-bind ="attr: { src: link }" sandbox="allow-same-origin" seamless></iframe>
+    <div class="articleContentDiv">
+        <div class="row">
+            <div class="articleContentButton">
+                <button type="button" class="btn btn-link" data-bind="click: goBack">
+                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                </button>
+            </div>
+            <div id="articleTitleDiv">
+                <h2 data-bind="text: title"/>
+            </div>
+        </div>
+        </div>
+    <br/>
+    <div class="fluidMedia">
+        <iframe data-bind="attr: { src: link }" sandbox="allow-same-origin" seamless></iframe>
     </div>
-    <div  id="articleLinkDiv">
+    <div id="articleLinkDiv">
         <label> You can view original article content </label>
-        <a data-bind="attr: { href: link}" target="_blank">here:</a> 
-        <br/>
+        <a data-bind="attr: { href: link}" target="_blank">here:</a>
+        <br />
         <button class="btn btn-primary myButton" data-bind="click: addToFavorites, visible: addToFavoritesVisibility">Add to <b>favorites</b></button>
         <button class="btn btn-warning myButton" data-bind="click: removeFromFavorites, visible: removeFromFavoritesVisibility">Remove from <b>favorites</b></button>
         <button id="addToReadLater" class="btn btn-primary myButton" data-bind="click: addToReadLater">Add to <b>read later</b></button>
