@@ -8,7 +8,6 @@ namespace Penpusher.Services
     public class NewsProviderService : INewsProviderService
     {
         private const int ConstIdUser = 5;
-        private const string Test = "Test";
         private readonly IRepository<NewsProvider> newsProviderRepository;
         private readonly IRepository<UsersNewsProvider> usersNewsProviderRepository;
 

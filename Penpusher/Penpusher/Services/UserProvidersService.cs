@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace Penpusher.Services
@@ -36,7 +35,7 @@ namespace Penpusher.Services
                 }
                 return true;
             }
-            catch (Exception e)
+            catch
             {
                 return false;
             }
