@@ -67,21 +67,15 @@ namespace Penpusher.Controllers
         }
 
         [HttpGet]
-        public UsersArticle ReadLaterInfo(int articleIdInfo)
+        public UsersArticle UserArticleInfo(int articleIdInfo)
         {
-            return userArticlesService.ReadLaterInfo(articleIdInfo);
+            return userArticlesService.UserArticleInfo(articleIdInfo);
         }
 
         [HttpPost]
         public UsersArticle ToReadLater(int articleIdRl, bool add)
         {
             return userArticlesService.ToReadLater(articleIdRl, add);
-        }
-
-        [HttpGet]
-        public bool CheckIsFavorite(int articleId)
-        {
-            return userArticlesService.CheckIsFavorite(articleId);
         }
 
         public IEnumerable<Article> GetReadLeaterArticles()

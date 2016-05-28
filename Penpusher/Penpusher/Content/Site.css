@@ -203,7 +203,7 @@ text-align:center;
     box-shadow: 2px 2px 4px 0 #ccc;
 }
   
-img, iframe {
+img {
 max-width: 110px;
 display: block;
 }
