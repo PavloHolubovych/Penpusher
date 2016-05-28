@@ -37,15 +37,20 @@ namespace Penpusher.Services
 
         public Article GetById(int id)
         {
-            //// DEFECT:this solution is suboptimal as far as we need only single record with current id. better use method GetById from repository
-            return repository.GetAll().Where(article => article.Id == id).Select(n => new Article()
+            Article getarticle = repository.GetById(id);
+            if (getarticle == null)
             {
-                Id = n.Id,
-                Title = n.Title,
-                Description = n.Description,
-                Link = n.Link,
-                Date = n.Date,
-            }).ToList()[0]; //// DEFECT: this is potential nullreference exception. if result of query is empty list exception will throw.
+                return null;
+            }
+            var article = new Article
+            {
+                Id = getarticle.Id,
+                Title = getarticle.Title,
+                Description = getarticle.Description,
+                Link = getarticle.Link,
+                Date = getarticle.Date
+            };
+            return article;
         }
 
         public bool CheckDoesExists(string title)
@@ -67,8 +72,6 @@ namespace Penpusher.Services
 
         public IEnumerable<Article> GetArticlesFromProvider(int newsProviderId)
         {
-            // I changed this code for performance. Selected only necessary fields
-            // var vari = _repository.GetAll().Where(x => x.IdNewsProvider == newsProviderId).ToList();
             return repository.GetAll().Where(x => x.IdNewsProvider == newsProviderId).Select(o => new Article()
             {
                 Id = o.Id, Title = o.Title, Description = o.Description, Link = o.Link, Date = o.Date, Image = o.Image
