@@ -7,86 +7,80 @@ namespace Penpusher.Controllers
 {
     public class ArticlesController : ApiController
     {
-        private readonly IArticleService articleService;
-        private readonly IUsersArticlesService userArticlesService;
-        private readonly INewsProviderService newsProviderService;
+        private readonly IArticleService _articleService;
+        private readonly IUsersArticlesService _userArticlesService;
+        private readonly INewsProviderService _newsProviderService;
 
         public ArticlesController(
             IArticleService articleService,
             IUsersArticlesService userArticlesService,
             INewsProviderService newsProviderService)
         {
-            this.articleService = articleService;
-            this.userArticlesService = userArticlesService;
-            this.newsProviderService = newsProviderService;
+            _articleService = articleService;
+            _userArticlesService = userArticlesService;
+            _newsProviderService = newsProviderService;
         }
 
         [HttpGet]
         [ActionName("ArticlesFromProvider")]
         public IEnumerable<Article> ArticlesFromProvider(int newsProviderId)
         {
-            return articleService.GetArticlesFromProvider(newsProviderId);
+            return _articleService.GetArticlesFromProvider(newsProviderId);
         }
 
         [HttpPost]
-        public UsersArticle MarkAsRead(int articleId)
+        public UsersArticle MarkAsRead([FromBody] ArticleModel data)
         {
-            return userArticlesService.MarkAsRead(articleId);
+            return _userArticlesService.MarkAsRead(data.ArticleId);
         }
 
         [HttpGet]
         public IEnumerable<Article> UserReadArticles()
         {
-            return userArticlesService.GetUsersReadArticles();
+            return _userArticlesService.GetUsersReadArticles();
         }
 
         [HttpGet]
         public IEnumerable<Article> UserFavoriteArticles()
         {
-            return userArticlesService.GetUsersFavoriteArticles();
+            return _userArticlesService.GetUsersFavoriteArticles();
         }
 
         [HttpGet]
         [ActionName("GetArticleDetail")]
         public Article ArticleDetails(int articleId)
         {
-            return articleService.GetById(articleId);
+            return _articleService.GetById(articleId);
         }
 
         [HttpGet]
         public IEnumerable<Article> ArticlesFromSelectedProviders()
         {
-            IEnumerable<UserNewsProviderModels> newsProviders = newsProviderService.GetSubscriptionsByUserId();
-            return articleService.GetAllUnreadArticles(newsProviders);
+            IEnumerable<UserNewsProviderModels> newsProviders = _newsProviderService.GetSubscriptionsByUserId();
+            return _articleService.GetAllUnreadArticles(newsProviders);
         }
 
         [HttpPost]
-       public void AddRemoveFavorites([FromBody]ArticleModel model)
+       public void AddRemoveFavorites([FromBody] ArticleModel data)
         {
-            userArticlesService.AddRemoveFavorites(model.ArticleId, model.Flag);
+            _userArticlesService.AddRemoveFavorites(data.ArticleId, data.Flag);
         }
 
         [HttpGet]
-        public UsersArticle ReadLaterInfo(int articleIdInfo)
+        public UsersArticle UserArticleInfo(int articleIdInfo)
         {
-            return userArticlesService.ReadLaterInfo(articleIdInfo);
+            return _userArticlesService.UserArticleInfo(articleIdInfo);
         }
 
         [HttpPost]
-        public UsersArticle ToReadLater(int articleIdRl, bool add)
+        public UsersArticle ToReadLater([FromBody] ArticleModel data)
         {
-            return userArticlesService.ToReadLater(articleIdRl, add);
-        }
-
-        [HttpGet]
-        public bool CheckIsFavorite(int articleId)
-        {
-            return userArticlesService.CheckIsFavorite(articleId);
+            return _userArticlesService.ToReadLater(data.ArticleId, data.Flag);
         }
 
         public IEnumerable<Article> GetReadLeaterArticles()
         {
-            return userArticlesService.GetReadLaterArticles();
+            return _userArticlesService.GetReadLaterArticles();
         }
     }
 }

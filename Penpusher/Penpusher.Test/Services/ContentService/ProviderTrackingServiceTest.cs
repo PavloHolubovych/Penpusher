@@ -31,7 +31,7 @@ namespace Penpusher.Test.Services.ContentService
 
         [Category("ProviderTrackingService")]
         [TestCase("Mon, 23 May 2016 12:33:08 +0300", 0, TestName = "Should not get rss files from providers if lastBuildBuild is not a later date")]
-        [TestCase("Mon, 23 May 2016 13:33:08 +0300", 1, TestName = "Should get 1 updated rss file from all providers")]
+        [TestCase("Mon, 23 May 2016 13:33:08 +0300", 1, TestName = "Should get 1 updated rss file from all providers if recent providers have lastBuildBuild that is not a later date")]
         [TestCase("Mon, 23 May 2016 19:33:08 +0300", 2, TestName = "Should get all updated rss files from all providers")]
         [TestCase(null, 2, TestName = "Should get all updated rss files if lastBuildDate of channel is null or empty")]
         public void GetUpdatedRssFilesFromNewsProvidersTest(string lastBuildDate, int expected)

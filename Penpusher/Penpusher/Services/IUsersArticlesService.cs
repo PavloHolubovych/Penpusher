@@ -12,11 +12,9 @@ namespace Penpusher.Services
 
         UsersArticle AddRemoveFavorites(int articleId, bool favoriteFlag);
 
-        bool CheckIsFavorite(int articleId);
-
         UsersArticle ToReadLater(int articleId, bool add);
 
-        UsersArticle ReadLaterInfo(int articleId);
+        UsersArticle UserArticleInfo(int articleId);
 
         IEnumerable<Article> GetReadLaterArticles();
     }

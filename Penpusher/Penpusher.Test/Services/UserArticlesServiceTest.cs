@@ -12,17 +12,22 @@ namespace Penpusher.Test.Services
     public class UserArticlesServiceTest : TestBase
     {
         private readonly List<UsersArticle> testArticles = new List<UsersArticle>
-            {  
-            new UsersArticle { Id = 1, UserId = Constants.UserId, ArticleId = 5, IsRead = false, IsFavorite = true, IsToReadLater = true, Article = new Article
-                    {
-                        Id = 5,
-                        Title = "first",
-                        Date = DateTime.Now,
-                        Description = "firstfirstfirst",
-                        Image = "link",
-                        Link = "linklink"
-                    } },
-                new UsersArticle { Id = 2, UserId = Constants.UserId, ArticleId = 15, IsRead = true, IsFavorite = true, IsToReadLater = true, Article = new Article
+            {
+                new UsersArticle
+                {
+                    Id = 1, UserId = Constants.UserId, ArticleId = 5, IsRead = false, IsFavorite = true, IsToReadLater = true, Article = new Article
+                        {
+                            Id = 5,
+                            Title = "first",
+                            Date = DateTime.Now,
+                            Description = "firstfirstfirst",
+                            Image = "link",
+                            Link = "linklink"
+                        }
+                },
+                new UsersArticle
+                {
+                    Id = 2, UserId = Constants.UserId, ArticleId = 15, IsRead = true, IsFavorite = true, IsToReadLater = true, Article = new Article
                     {
                         Id = 15,
                         Title = "first",
@@ -31,8 +36,10 @@ namespace Penpusher.Test.Services
                         Image = "link",
                         Link = "linklink"
                     }
-},
-                new UsersArticle { Id = 3, UserId = Constants.UserId, ArticleId = 15, IsRead = true, IsFavorite = false, IsToReadLater = false, Article = new Article
+                },
+                new UsersArticle
+                {
+                    Id = 3, UserId = Constants.UserId, ArticleId = 15, IsRead = true, IsFavorite = false, IsToReadLater = false, Article = new Article
                     {
                         Id = 15,
                         Title = "first",
@@ -40,8 +47,11 @@ namespace Penpusher.Test.Services
                         Description = "firstfirstfirst",
                         Image = "link",
                         Link = "linklink"
-                    } },
-                new UsersArticle { Id = 4, UserId = Constants.UserId, ArticleId = 6, IsRead = false, IsFavorite = false, IsToReadLater = true,  Article = new Article
+                    }
+                },
+                new UsersArticle
+                {
+                    Id = 4, UserId = Constants.UserId, ArticleId = 6, IsRead = false, IsFavorite = false, IsToReadLater = true,  Article = new Article
                     {
                         Id = 6,
                         Title = "first",
@@ -49,8 +59,11 @@ namespace Penpusher.Test.Services
                         Description = "firstfirstfirst",
                         Image = "link",
                         Link = "linklink"
-                    } },
-                new UsersArticle { Id = 4, UserId = Constants.UserId, ArticleId = 6, IsRead = false, IsFavorite = false, IsToReadLater = false, Article = new Article
+                    }
+                },
+                new UsersArticle
+                {
+                    Id = 4, UserId = Constants.UserId, ArticleId = 6, IsRead = false, IsFavorite = false, IsToReadLater = false, Article = new Article
                     {
                         Id = 6,
                         Title = "first",
@@ -58,7 +71,8 @@ namespace Penpusher.Test.Services
                         Description = "firstfirstfirst",
                         Image = "link",
                         Link = "linklink"
-                    } }
+                    }
+                }
         };
 
         [SetUp]
@@ -71,7 +85,7 @@ namespace Penpusher.Test.Services
 
         [Category("UserArticlesService")]
         [TestCase(TestName = "For existing user, that has read articles")]
-         public void GetUsersReadArticlesTest( )
+         public void GetUsersReadArticlesTest()
         {
             MockKernel.GetMock<IRepository<UsersArticle>>().Setup(usrv => usrv.GetAll()).Returns(testArticles);
             int expected = testArticles.Count(ua => ua.IsRead == true && ua.UserId == Constants.UserId);
@@ -80,7 +94,7 @@ namespace Penpusher.Test.Services
         }
 
         [Category("UserArticlesService")]
-        [TestCase( 2, TestName = "For existing user, that has favorite articles")]
+        [TestCase(2, TestName = "For existing user, that has favorite articles")]
         public void GetUsersFavoriteArticlesTest(int expected)
         {
             var testArticles2 = new List<UsersArticle>
@@ -188,12 +202,12 @@ namespace Penpusher.Test.Services
         }
 
         [Category("UserArticlesService")]
-        [TestCase( 6, true, TestName = "Add to favorite for existing UserArticle item with IsFavorite==false")]
-        [TestCase( 5, true, TestName = "Add to favorite for existing UserArticle item with IsFavorite==true")]
-        [TestCase( 5, true, TestName = "Add to favorite for not existing UserArticle")]
-        [TestCase( 3, false, TestName = "Remove from existing UserArticle item with IsFavorite==false")]
-        [TestCase( 2, false, TestName = "Remove from existing UserArticle item with IsFavorite==true")]
-        [TestCase( 5, false, TestName = "Remove from not existing UserArticle")]
+        [TestCase(6, true, TestName = "Add to favorite for existing UserArticle item with IsFavorite==false")]
+        [TestCase(5, true, TestName = "Add to favorite for existing UserArticle item with IsFavorite==true")]
+        [TestCase(5, true, TestName = "Add to favorite for not existing UserArticle")]
+        [TestCase(3, false, TestName = "Remove from existing UserArticle item with IsFavorite==false")]
+        [TestCase(2, false, TestName = "Remove from existing UserArticle item with IsFavorite==true")]
+        [TestCase(5, false, TestName = "Remove from not existing UserArticle")]
         public void AddRemoveFavoritesTest(int articleId, bool favoriteFlag)
         {
             MockKernel.GetMock<IRepository<UsersArticle>>().Setup(usrv => usrv.GetAll()).Returns(testArticles);

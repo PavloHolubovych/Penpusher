@@ -21,8 +21,8 @@ namespace Penpusher.Test.Services
         }
 
         [Category("NewsProviderService")]
-        [TestCase( 2, TestName = "Should find 2 providers")] 
-        public void GetSubscriptionsByUserIdTest(int expectedCount)
+        [TestCase(2, TestName = "Should find 2 providers")]
+        public void GetSubscriptionsByUserIdTest(int expected)
         {
             // arrange
             var usernewsprovider = new List<UsersNewsProvider>
@@ -41,8 +41,8 @@ namespace Penpusher.Test.Services
             IEnumerable<UserNewsProviderModels> result = MockKernel.Get<INewsProviderService>().GetSubscriptionsByUserId();
 
             // assert
-            int expected = result.Count();
-            Assert.AreEqual(expected, expectedCount);
+            int actual = result.Count();
+            Assert.AreEqual(actual, expected);
         }
 
         [Category("NewsProviderService")]
@@ -134,7 +134,6 @@ namespace Penpusher.Test.Services
             newsProviderRepositoryMock.Verify(repo => repo.Add(It.IsAny<NewsProvider>()), Times.Once);
         }
 
-         
         [Category("NewsProviderService")]
         [TestCase(1, TestName = "Check if LastBuildDate is updated for newsProvider")]
         public void UpdateLastBuildDateForNewsProviderTest(int id)
