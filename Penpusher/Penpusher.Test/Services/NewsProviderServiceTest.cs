@@ -21,27 +21,28 @@ namespace Penpusher.Test.Services
         }
 
         [Category("NewsProviderService")]
-        [TestCase(1, 2, TestName = "Get subscription for user 1")]
-        [TestCase(2, 1, TestName = "Get subscription for user 2")]
-        [TestCase(0, 0, TestName = "Quantity of subscriptions for undefined user must equal zero")]
-        public void GetSubscriptionsByUserIdTest(int userid, int expectedCount)
+        [TestCase(2, TestName = "Should find 2 providers")]
+        public void GetSubscriptionsByUserIdTest(int expected)
         {
             // arrange
             var usernewsprovider = new List<UsersNewsProvider>
             {
                 new UsersNewsProvider { Id = 1, IdNewsProvider = 1, IdUser = 1, NewsProvider = new NewsProvider { Id = 1, Description = "firstfirstfirstfirstfirst", Name = "first" } },
                 new UsersNewsProvider { Id = 2, IdNewsProvider = 1, IdUser = 2, NewsProvider = new NewsProvider { Id = 2, Description = "secondsecondsecondsecond", Name = "second" } },
-                new UsersNewsProvider { Id = 3, IdNewsProvider = 3, IdUser = 1, NewsProvider = new NewsProvider { Id = 3, Description = "thirdthirdthirdthirdthird", Name = "third" } }
+                new UsersNewsProvider { Id = 3, IdNewsProvider = 3, IdUser = 1, NewsProvider = new NewsProvider { Id = 3, Description = "thirdthirdthirdthirdthird", Name = "third" } },
+                new UsersNewsProvider { Id = 3, IdNewsProvider = 4, IdUser = 4, NewsProvider = new NewsProvider { Id = 3, Description = "thirdthirdthirdthirdthird", Name = "third" } },
+                new UsersNewsProvider { Id = 3, IdNewsProvider = 8, IdUser = 5, NewsProvider = new NewsProvider { Id = 3, Description = "thirdthirdthirdthirdthird", Name = "third" } },
+                new UsersNewsProvider { Id = 3, IdNewsProvider = 3, IdUser = 5, NewsProvider = new NewsProvider { Id = 3, Description = "thirdthirdthirdthirdthird", Name = "third" } }
             };
 
             MockKernel.GetMock<IRepository<UsersNewsProvider>>().Setup(rm => rm.GetAll()).Returns(usernewsprovider);
 
             // act
-            IEnumerable<UserNewsProviderModels> result = MockKernel.Get<INewsProviderService>().GetSubscriptionsByUserId(userid);
+            IEnumerable<UserNewsProviderModels> result = MockKernel.Get<INewsProviderService>().GetSubscriptionsByUserId();
 
             // assert
-            int expected = result.Count();
-            Assert.AreEqual(expected, expectedCount);
+            int actual = result.Count();
+            Assert.AreEqual(actual, expected);
         }
 
         [Category("NewsProviderService")]
@@ -61,15 +62,15 @@ namespace Penpusher.Test.Services
             // act
             MockKernel.Get<INewsProviderService>().Unsubscription(id);
 
-            IEnumerable<UserNewsProviderModels> result = MockKernel.Get<INewsProviderService>().GetSubscriptionsByUserId(id);
+            IEnumerable<UserNewsProviderModels> result = MockKernel.Get<INewsProviderService>().GetSubscriptionsByUserId();
 
             // assert
             Assert.IsEmpty(result);
         }
 
         [Category("NewsProviderService")]
-        [TestCase("link1", TestName = "Add new subscription")]
-        public void AddSubscriptionTest(string link)
+        [TestCase("link1", "link1", "link1", TestName = "Add new subscription")]
+        public void AddSubscriptionTest(string link, string name, string description)
         {
             var channel = new NewsProvider { Link = "link1", Id = 1 };
             var subscription = new UsersNewsProvider
@@ -94,7 +95,7 @@ namespace Penpusher.Test.Services
                 .Setup(repos => repos.Add(It.IsAny<UsersNewsProvider>()))
                 .Returns(subscription);
             //// act
-            UsersNewsProvider actual = MockKernel.Get<INewsProviderService>().Subscription(link);
+            UsersNewsProvider actual = MockKernel.Get<INewsProviderService>().Subscription(link, name, description);
 
             ////assert
             Assert.AreEqual(actual.Id, subscription.Id);
@@ -102,8 +103,8 @@ namespace Penpusher.Test.Services
         }
 
         [Category("NewsProviderService")]
-        [TestCase("link1", TestName = "Add new subscription and channel")]
-        public void AddSubscriptionAndChannelTest(string link)
+        [TestCase("link1", "link1", "link1", TestName = "Add new subscription and channel")]
+        public void AddSubscriptionAndChannelTest(string link, string name, string description)
         {
             var channel = new NewsProvider { Link = "link1", Id = 1 };
             var subscription = new UsersNewsProvider
@@ -126,40 +127,11 @@ namespace Penpusher.Test.Services
             MockKernel.GetMock<IRepository<UsersNewsProvider>>()
                 .Setup(repos => repos.Add(It.IsAny<UsersNewsProvider>()))
                 .Returns(subscription);
-            UsersNewsProvider actual = MockKernel.Get<INewsProviderService>().Subscription(link);
+            UsersNewsProvider actual = MockKernel.Get<INewsProviderService>().Subscription(link, name, description);
 
             Assert.AreEqual(actual.Id, subscription.Id);
             Assert.AreEqual(actual.IdNewsProvider, channel.Id);
             newsProviderRepositoryMock.Verify(repo => repo.Add(It.IsAny<NewsProvider>()), Times.Once);
-        }
-
-        [Category("NewsProviderService")]
-        [TestCase("link1", TestName = "Add new subscription and channel")]
-        public void NotAddSubscriptionIfExistsTest(string link)
-        {
-            var channel = new NewsProvider { Link = "link1", Id = 1 };
-            var subscription = new UsersNewsProvider
-            {
-                Id = 2,
-                IdNewsProvider = 1,
-                IdUser = 4
-            };
-
-            Mock<IRepository<NewsProvider>> newsProviderRepositoryMock = MockKernel.GetMock<IRepository<NewsProvider>>();
-            newsProviderRepositoryMock.Setup(repo => repo.GetAll()).Returns(new List<NewsProvider>());
-            newsProviderRepositoryMock.Setup(repo => repo.Add(It.IsAny<NewsProvider>())).Returns(channel);
-
-            Mock<IRepository<UsersNewsProvider>> subscriptionsRepository = MockKernel.GetMock<IRepository<UsersNewsProvider>>();
-            subscriptionsRepository
-                .Setup(repo => repo.GetAll())
-                .Returns(new List<UsersNewsProvider>
-                {
-                    subscription
-                });
-            UsersNewsProvider actual = MockKernel.Get<INewsProviderService>().Subscription(link);
-            Assert.AreEqual(actual.Id, subscription.Id);
-            Assert.AreEqual(actual.IdNewsProvider, channel.Id);
-            subscriptionsRepository.Verify(repo => repo.Add(It.IsAny<UsersNewsProvider>()), Times.Never);
         }
 
         [Category("NewsProviderService")]

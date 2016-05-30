@@ -158,14 +158,32 @@ text-align:center;
 
 }
 
+.btn:focus {
+  outline: none;
+}
+
+.articleContentButton {
+    padding: 0.5%;
+    vertical-align: middle;
+    text-align: left;
+    float: left;
+}
+
+.articleContentDiv {
+    width: 100%;
+}
+
 
 #articleTitleDiv {
     text-align: center;
-
 }
 
 #articlesSubscription {
     padding-left: 0 !important
+}
+
+.glyphicon.glyphicon-chevron-left {
+    font-size: 33px;
 }
 
 .loadimage{
@@ -192,6 +210,7 @@ text-align:center;
 }
 
 .item {
+    min-height: 365px;
     display: inline-block;
     background: #ECECEA;
     padding: 1em;
@@ -202,8 +221,8 @@ text-align:center;
     box-shadow: 2px 2px 4px 0 #ccc;
 }
   
-img, iframe {
-max-width: 100%;
+img {
+max-width: 110px;
 display: block;
 }
 
@@ -214,7 +233,6 @@ display: block;
 }
 
 .img-article {   
-
     height: 100px;
 }
 

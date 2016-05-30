@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Web.Http;
-using Newtonsoft.Json.Linq;
 using Penpusher.Models;
 using Penpusher.Services;
 
@@ -30,22 +29,21 @@ namespace Penpusher.Controllers
         }
 
         [HttpPost]
-        //// please do not use void. use bool instead
-        public void MarkAsRead(int articleId)
+        public UsersArticle MarkAsRead([FromBody] ArticleModel data)
         {
-            userArticlesService.MarkAsRead(articleId);
+            return userArticlesService.MarkAsRead(data.ArticleId);
         }
 
         [HttpGet]
-        public IEnumerable<Article> UserReadArticles(int userId)
+        public IEnumerable<Article> UserReadArticles()
         {
-            return userArticlesService.GetUsersReadArticles(userId);
+            return userArticlesService.GetUsersReadArticles();
         }
 
         [HttpGet]
-        public IEnumerable<Article> UserFavoriteArticles(int userId)
+        public IEnumerable<Article> UserFavoriteArticles()
         {
-            return userArticlesService.GetUsersFavoriteArticles(userId);
+            return userArticlesService.GetUsersFavoriteArticles();
         }
 
         [HttpGet]
@@ -56,40 +54,33 @@ namespace Penpusher.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<Article> ArticlesFromSelectedProviders(int userId)
+        public IEnumerable<Article> ArticlesFromSelectedProviders()
         {
-            IEnumerable<UserNewsProviderModels> newsProviders = newsProviderService.GetSubscriptionsByUserId(userId);
-            return articleService.GetArticlesFromSelectedProviders(newsProviders);
+            IEnumerable<UserNewsProviderModels> newsProviders = newsProviderService.GetSubscriptionsByUserId();
+            return articleService.GetAllUnreadArticles(newsProviders);
         }
 
         [HttpPost]
-       public void AddRemoveFavorites([FromBody]ArticleModel model)
+       public void AddRemoveFavorites([FromBody] ArticleModel data)
         {
-            userArticlesService.AddRemoveFavorites(model.ArticleId, model.Flag);
+            userArticlesService.AddRemoveFavorites(data.ArticleId, data.Flag);
         }
 
         [HttpGet]
-        public UsersArticle ReadLaterInfo(int articleIdInfo)
+        public UsersArticle UserArticleInfo(int articleIdInfo)
         {
-            return userArticlesService.ReadLaterInfo(articleIdInfo);
+            return userArticlesService.UserArticleInfo(articleIdInfo);
         }
 
         [HttpPost]
-        public UsersArticle ToReadLater( int articleIdRl, bool add)
+        public UsersArticle ToReadLater([FromBody] ArticleModel data)
         {
-            return userArticlesService.ToReadLater( articleIdRl, add);
-        }
-
-        [HttpGet]
-        public bool CheckIsFavorite(int articleId)
-        {
-            return userArticlesService.CheckIsFavorite(articleId);
+            return userArticlesService.ToReadLater(data.ArticleId, data.Flag);
         }
 
         public IEnumerable<Article> GetReadLeaterArticles()
         {
-            var userId = 5;
-            return userArticlesService.GetReadLaterArticles(userId);
+            return userArticlesService.GetReadLaterArticles();
         }
     }
 }

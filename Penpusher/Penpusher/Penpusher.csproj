@@ -402,6 +402,7 @@
     <Content Include="Content\fonts\fontawesome-webfont.woff" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\GetAllArticlesByProvider.js" />
+    <Content Include="Scripts\HttpGetParams.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <Content Include="Scripts\jquery.min.map" />
@@ -465,6 +466,7 @@
     <Content Include="Views\Main\UserToReadLaterArticles.cshtml" />
     <Content Include="Views\Main\ProviderDescription.cshtml" />
     <Content Include="Views\Main\UserFavoriteArticles.cshtml" />
+    <Content Include="Views\Main\ArticlesPartialView.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

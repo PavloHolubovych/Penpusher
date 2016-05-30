@@ -9,33 +9,32 @@ namespace Penpusher.Services.ContentService
 {
     public class ProviderTrackingService : IProviderTrackingService
     {
-        private readonly IDataBaseServiceExtension dbServiceExtension;
-        private readonly INewsProviderService newsProvidersService;
+        private readonly IDataBaseServiceExtension dataBaseServiceExtension;
+        private readonly INewsProviderService newsProviderService;
         private readonly IRssReader rssReader;
 
         public ProviderTrackingService(
-            IDataBaseServiceExtension dbServiceExtension,
+            IDataBaseServiceExtension dataBaseServiceExtension,
             INewsProviderService newsProviderService,
             IRssReader rssReader)
         {
-            this.dbServiceExtension = dbServiceExtension;
-            this.newsProvidersService = newsProviderService;
+            this.dataBaseServiceExtension = dataBaseServiceExtension;
+            this.newsProviderService = newsProviderService;
             this.rssReader = rssReader;
         }
 
-        //i dont really like void type for methods changing db state
         public void UpdateArticlesFromNewsProviders()
         {
             List<RssChannelModel> updatedRssChannells = GetUpdatedRssFilesFromNewsProviders().ToList();
             if (updatedRssChannells.Any())
             {
-                dbServiceExtension.InsertNewArticles(updatedRssChannells);
+                dataBaseServiceExtension.InsertNewArticles(updatedRssChannells);
             }
         }
 
         public IEnumerable<RssChannelModel> GetUpdatedRssFilesFromNewsProviders()
         {
-            IEnumerable<NewsProvider> providers = newsProvidersService.GetAll();
+            IEnumerable<NewsProvider> providers = newsProviderService.GetAll();
             var updatedRssChannells = new List<RssChannelModel>();
             foreach (NewsProvider provider in providers)
             {
@@ -47,7 +46,12 @@ namespace Penpusher.Services.ContentService
                 }
                 if (rssFile != null && IsRssUpdated(provider.LastBuildDate, lastBuildDateFromRss))
                 {
-                    var updatedChannel = new RssChannelModel { ProviderId = provider.Id, RssFile = rssFile, LastBuildDate = lastBuildDateFromRss };
+                    var updatedChannel = new RssChannelModel
+                    {
+                        ProviderId = provider.Id,
+                        RssFile = rssFile,
+                        LastBuildDate = lastBuildDateFromRss
+                    };
                     updatedRssChannells.Add(updatedChannel);
                 }
             }
@@ -69,55 +73,43 @@ namespace Penpusher.Services.ContentService
             XElement rootElement = XDocument.Parse(content).Root;
             if (rootElement != null)
             {
-                //DEFECT: duplication detected. move to method
-                string lastBuild = null;
-                try
-                {
-                    lastBuild = (string)rootElement.Element("channel")
-                    .Element("lastBuildDate");
-                }
-                catch
-                {
-                    // no root element channel
-                    //DEFECT: please, do not use empty catch
-                }
+                string lastBuild = GetValueOfChildElementInLevel2(rootElement, "channel", "lastBuildDate");
                 if (lastBuild != null)
                 {
                     return ParseDateTimeFormat(lastBuild);
                 }
-                string lastpubDate = null;
-                try
-                {
-                    lastpubDate = (string)rootElement.Element("channel")
-                    .Element("pubDate");
-                }
-                catch
-                {
-                    // no root element channel
-                    //again empty catch
-                }
+                string lastpubDate = GetValueOfChildElementInLevel2(rootElement, "channel", "pubDate");
                 if (lastpubDate != null)
                 {
                     return ParseDateTimeFormat(lastpubDate);
                 }
-                ////return null;
+            }
+            return null;
+        }
+
+        private string GetValueOfChildElementInLevel2(XElement rootElement, string childElementNameInLevel1, string childElementNameInLevel2)
+        {
+            XElement childElementInLevel1 = rootElement.Element(childElementNameInLevel1);
+            if (childElementInLevel1 != null)
+            {
+                return (string)childElementInLevel1.Element(childElementNameInLevel2);
             }
             return null;
         }
 
         private DateTime? ParseDateTimeFormat(string date)
         {
-            DateTime? newdate = null;
             try
             {
-                string dt = DateTime.ParseExact(date, @"ddd, dd MMM yyyy HH:mm:ss zzz", CultureInfo.InvariantCulture).ToString("MM/dd/yyyy HH:mm:ss");
-                newdate = Convert.ToDateTime(dt);
+                string dt =
+                    DateTime.ParseExact(date, @"ddd, dd MMM yyyy HH:mm:ss zzz", CultureInfo.InvariantCulture)
+                        .ToString("MM/dd/yyyy HH:mm:ss");
+                return Convert.ToDateTime(dt);
             }
             catch
             {
-                // if string date is unreadable
+                return null;
             }
-            return newdate;
         }
     }
 }

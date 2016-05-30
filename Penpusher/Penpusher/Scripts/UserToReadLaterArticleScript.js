@@ -1,35 +1,56 @@
-﻿var articleInfo = function (title, articleText, image, id) {
-    this.title = title;
-    this.articleText = articleText;
-    this.image = image;
-    this.articleDetailLink = "/Main/ArticleContentDetails?articleId=" + id;
-}
+﻿ko.bindingHandlers.trimLengthText = {};
+ko.bindingHandlers.trimText = {
+    init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
+        var trimmedText = ko.computed(function () {
+            var untrimmedText = ko.utils.unwrapObservable(valueAccessor());
+            var defaultMaxLength = 20;
+            var minLength = 5;
+            var maxLength = ko.utils.unwrapObservable(allBindingsAccessor().trimTextLength) || defaultMaxLength;
+            if (maxLength < minLength) maxLength = minLength;
+            var text = untrimmedText.length > maxLength ? untrimmedText.substring(0, maxLength - 1) + '...' : untrimmedText;
+            return text;
+        });
+        ko.applyBindingsToNode(element, {
+            text: trimmedText
+        }, viewModel);
 
-var articlesList = new ko.observableArray();
-var userId = 5;
+        return {
+            controlsDescendantBindings: true
+        };
+    }
+};
 
-var ToReadLaterArticlesViewModel = function () {
+var ArticlesModel1 = function () {
+    self = this;
+    self.rows = ko.observableArray([]);
     $.ajax({
-        type: "GET",
-        url: "/api/Articles/GetReadLeaterArticles",
-        data: JSON.stringify(articleInfo),
-        contentType: "application/json; charset=utf8",
-        accept: "application/json",
+        url: apiController,
+        method: "GET",
+        beforeSend: function () {
+            $('.articles').hide();
+        },
         success: function (data) {
-            $.each(data,
-                function (key, item) {
-                    var article = new articleInfo(item.Title, item.Description, "https://upload.wikimedia.org/wikipedia/en/thumb/4/43/Feed-icon.svg/128px-Feed-icon.svg.png", item.Id);
-                    articlesList.push(article);
-                });
+            $('.articles').show();
+            $('.loadimage').hide();
+            bindD(data);
         },
         error: function (request, textStatus) {
             alert("Error: " + textStatus);
         }
     });
+    function bindD(data) {
+        var lenghtRow = 3;
+        for (var i = 1; i <= data.length; i++) {
+            if (i % lenghtRow === 0) {
+                self.rows.push(data.slice(i - lenghtRow, i));
+            }
+            if (i === data.length - 1 && data.length % lenghtRow !== 0) {
+                self.rows.push(data.slice(data.length - data.length % lenghtRow, data.length));
+            }
+        }
+    }
 }
-
-$(document)
-    .ready(function () {
-        ko.applyBindings(ToReadLaterArticlesViewModel, document.getElementById('readArticlesContainer'));
-        document.getElementById("ReadLaterPage").className = "active";
-    });
+var apiController = window.location.origin + "/api/Articles/GetReadLeaterArticles";
+var viewModel = new ArticlesModel1();
+ko.applyBindings(viewModel, document.getElementById("readArticlesContainer"));
+document.getElementById("ReadLaterPage").className = "active";

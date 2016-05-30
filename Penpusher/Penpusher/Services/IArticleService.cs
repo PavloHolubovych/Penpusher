@@ -15,6 +15,8 @@ namespace Penpusher.Services
 
         IEnumerable<Article> GetAllArticleses();
 
+        IEnumerable<Article> GetAllUnreadArticles(IEnumerable<UserNewsProviderModels> newsProviders);
+
         IEnumerable<Article> GetArticlesFromSelectedProviders(IEnumerable<UserNewsProviderModels> newsProviders);
 
         Article GetById(int id);

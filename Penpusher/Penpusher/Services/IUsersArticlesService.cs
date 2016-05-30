@@ -4,21 +4,18 @@ namespace Penpusher.Services
 {
     public interface IUsersArticlesService
     {
-        IEnumerable<Article> GetUsersReadArticles(int userId);
+        IEnumerable<Article> GetUsersReadArticles();
 
-        IEnumerable<Article> GetUsersFavoriteArticles(int userId);
+        IEnumerable<Article> GetUsersFavoriteArticles();
 
-        void MarkAsRead(int articleId);
+        UsersArticle MarkAsRead(int articleId);
 
-        void AddRemoveFavorites(  int articleId, bool favoriteFlag);
+        UsersArticle AddRemoveFavorites(int articleId, bool favoriteFlag);
 
-        bool CheckIsFavorite( int articleId);
+        UsersArticle ToReadLater(int articleId, bool add);
 
-        UsersArticle ToReadLater( int articleId, bool add);
+        UsersArticle UserArticleInfo(int articleId);
 
-        UsersArticle ReadLaterInfo( int articleId);
-
-        IEnumerable<Article> GetReadLaterArticles(int userId);
-         
+        IEnumerable<Article> GetReadLaterArticles();
     }
 }

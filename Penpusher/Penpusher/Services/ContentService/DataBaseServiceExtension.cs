@@ -16,7 +16,6 @@ namespace Penpusher.Services.ContentService
             this.rssParser = rssParser;
         }
 
-        ////i dont really like void type for methods changing db state
         public void InsertNewArticles(IEnumerable<RssChannelModel> rssChannels)
         {
             foreach (RssChannelModel provider in rssChannels)

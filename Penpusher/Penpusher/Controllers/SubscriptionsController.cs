@@ -25,7 +25,7 @@ namespace Penpusher.Controllers
 
         public IEnumerable<UserNewsProviderModels> GetByUser(int id)
         {
-            return newsProviderService.GetSubscriptionsByUserId(id);
+            return newsProviderService.GetSubscriptionsByUserId();
         }
 
         public NewsProvider GetProviderDetails(int providerId)
@@ -36,7 +36,9 @@ namespace Penpusher.Controllers
         public void Post(NewsProvider newsProvider)
         {
             string link = newsProvider.Link;
-            newsProviderService.Subscription(link);
+            string name = newsProvider.Name;
+            string description = newsProvider.Description;
+            newsProviderService.Subscription(link, name, description);
         }
 
         [HttpPost]
@@ -58,11 +60,9 @@ namespace Penpusher.Controllers
             return p;
         }
 
-        ////DEFECT: its bad practice to return void in API. return bool at least to check does action perform successfully
-  ////      [Route("api/delete/{id}")]
-        public void Delete(int id)
+        public UsersNewsProvider Delete(int id)
         {
-            newsProviderService.Unsubscription(id);
+            return newsProviderService.Unsubscription(id);
         }
     }
 }
