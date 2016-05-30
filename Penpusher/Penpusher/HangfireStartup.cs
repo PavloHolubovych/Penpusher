@@ -19,7 +19,7 @@ namespace Penpusher
             RecurringJob.AddOrUpdate(
             "Update articles from news providers",
             () => artService.UpdateArticlesFromNewsProviders(),
-            Cron.Daily);
+            Cron.Minutely);
         }
     }
 }
