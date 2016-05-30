@@ -11,21 +11,27 @@
         self.newsproviders(channel);
     });
 
-  var rty = $.getJSON('/api/Subscriptions/GetAllNewsProviders', function (channel) {
+   $.getJSON('/api/Subscriptions/GetAllNewsProviders', function (channel) {
         self.availableChannels(channel);
     });
 
     self.addNewsProvider = function (newsprovider) {
-        var link = newsprovider.AddLink;
+        var link = newsprovider.AddLink();
         var name = newsprovider.AddName;
         var description = newsprovider.AddDescription;
         var newsProvider = {};
         newsProvider.Link = link;
         newsProvider.Name = name;
         newsProvider.Description = description;
-        if (self.AddLink == newsProvider.Link) {
-            alert("You have subscribed on this channel");
-        } else {
+
+        //var length = self.availableChannels;
+
+        for (var i = 0; i < self.availableChannels().length; i++) {
+            if (link === self.availableChannels()[i].Link) {
+                alert("You have subscribed on this channel");
+            }  
+        }
+        
             $.ajax({
                 url: '/api/Subscriptions/Post',
                 type: "POST",
@@ -36,7 +42,6 @@
                     $.getJSON('/api/Subscriptions/GetAllNewsProviders', function(channel) { self.availableChannels(channel); });
                 }
             });
-        }
     };
 
     self.addSubscriptionFromList = function (newsprovider) {
