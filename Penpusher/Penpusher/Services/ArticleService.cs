@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Penpusher.Models;
@@ -78,6 +77,7 @@ namespace Penpusher.Services
 
             return articles;
         }
+
         public IEnumerable<Article> GetAllUnreadArticles(IEnumerable<UserNewsProviderModels> newsProviders)
         {
             var articles = new List<Article>();

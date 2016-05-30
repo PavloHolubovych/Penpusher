@@ -127,5 +127,42 @@ namespace Penpusher.Test.Services
             Article[] enumerable = result as Article[] ?? result.ToArray();
             Assert.AreEqual(expected, enumerable.Length);
         }
+
+        [Category("ArticleService")]
+        [TestCase(1, 0, TestName = "Should find 0 articles if there is no any provider in scope")]
+        [TestCase(2, 3, TestName = "Should find all articles if user is subscribed to several providers")]
+        [TestCase(3, 0, TestName = "Should find 0 articles if user has no subscriptions for providers in scope")]
+        public void GetAllUnreadArticlesTest(int testCase, int expected)
+        {
+            var testArticles = new List<Article>
+            {
+                new Article { Id = 1, Title = "article2", IdNewsProvider = 1 },
+                new Article { Id = 2, Title = "article1", IdNewsProvider = 2 },
+                new Article { Id = 3, Title = "article1", IdNewsProvider = 5 },
+                new Article { Id = 4, Title = "article2", IdNewsProvider = 4 }
+            };
+
+            var testUserProviders = new List<UserNewsProviderModels>();
+            var model1 = new UserNewsProviderModels { Name = "provider1", IdNewsProvider = 1 };
+            var model2 = new UserNewsProviderModels { Name = "provider2", IdNewsProvider = 2 };
+            var model3 = new UserNewsProviderModels { Name = "provider3", IdNewsProvider = 3 };
+            var model4 = new UserNewsProviderModels { Name = "provider3", IdNewsProvider = 4 };
+
+            if (testCase == 2)
+            {
+                testUserProviders.AddRange(new List<UserNewsProviderModels> { model1, model2, model4 });
+            }
+
+            if (testCase == 3)
+            {
+                testUserProviders.Add(model3);
+            }
+
+            MockKernel.GetMock<IRepository<Article>>().Setup(_ => _.GetAll()).Returns(testArticles);
+            IEnumerable<Article> result = MockKernel.Get<ArticleService>().GetAllUnreadArticles(testUserProviders);
+
+            Article[] enumerable = result as Article[] ?? result.ToArray();
+            Assert.AreEqual(expected, enumerable.Length);
+        }
     }
 }
