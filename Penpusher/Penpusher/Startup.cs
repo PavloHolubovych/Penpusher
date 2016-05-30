@@ -17,7 +17,7 @@ namespace Penpusher
 
             // Initialization of timer job. Don't use in debug
 
-            app.InitHangfire();
+         //   app.InitHangfire();
 
         }
     }
