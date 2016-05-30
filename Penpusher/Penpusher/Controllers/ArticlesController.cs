@@ -61,9 +61,9 @@ namespace Penpusher.Controllers
         }
 
         [HttpPost]
-       public void AddRemoveFavorites([FromBody] ArticleModel data)
+       public UsersArticle AddRemoveFavorites([FromBody] ArticleModel data)
         {
-            userArticlesService.AddRemoveFavorites(data.ArticleId, data.Flag);
+           return userArticlesService.AddRemoveFavorites(data.ArticleId, data.Flag);
         }
 
         [HttpGet]
