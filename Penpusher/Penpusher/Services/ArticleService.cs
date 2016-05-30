@@ -24,9 +24,9 @@ namespace Penpusher.Services
             return repository.GetById(id);
         }
 
-        public bool CheckDoesExists(string title)
+        public bool CheckDoesExists(string link)
         {
-            return repository.GetAll().Any(x => x.Title == title);
+            return repository.GetAll().Any(x => x.Link==link);
         }
 
         public override IEnumerable<Article> Find(string title)
