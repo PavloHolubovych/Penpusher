@@ -20,7 +20,6 @@ namespace Penpusher.Services
             return repository.Add(article);
         }
 
-
         public Article GetById(int id)
         {
             return repository.GetById(id);
@@ -74,8 +73,32 @@ namespace Penpusher.Services
 
             foreach (int providerId in newsProviders.Select(p => p.IdNewsProvider))
             {
-
                 articles.AddRange(GetArticlesFromProvider(providerId));
+            }
+
+            return articles;
+        }
+        public IEnumerable<Article> GetAllUnreadArticles(IEnumerable<UserNewsProviderModels> newsProviders)
+        {
+            var articles = new List<Article>();
+
+            IEnumerable<UserNewsProviderModels> userNewsProviderModelses = newsProviders as UserNewsProviderModels[] ?? newsProviders.ToArray();
+            if (userNewsProviderModelses.Any())
+            {
+                foreach (UserNewsProviderModels provider in userNewsProviderModelses)
+                {
+                    IEnumerable<Article> nextProviderArticles = repository.GetAll().Where(x => x.IdNewsProvider == provider.IdNewsProvider);
+                    IEnumerable<Article> art = nextProviderArticles.Where(j => j.UsersArticles.Count == 0).Select(j => new Article()
+                    {
+                        Id = j.Id,
+                        Title = j.Title,
+                        Image = j.Image,
+                        Description = j.Description,
+                        Link = j.Link,
+                        Date = j.Date,
+                    });
+                    articles.AddRange(art);
+                }
             }
 
             return articles;
