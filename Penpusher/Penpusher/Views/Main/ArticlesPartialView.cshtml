@@ -1,4 +1,5 @@
-﻿ <div class="col-lg-4">
+﻿<script type="text/javascript" src="~/Scripts/ArticlePartialViewScript.js"></script>
+<div class="col-lg-4">
     <div class="panel panel-default">
         <div class="item" data-bind="click: function() { openDetails(Id) }" style="cursor: pointer;">
             <div class="panel-heading">
@@ -8,6 +9,10 @@
                 <img data-bind="attr: { src: Image }" onerror="this.onerror = '';">
                 <br>
                 <p><span data-bind="trimText: Description, trimTextLength: 350"></span></p>
+                <a align="right" data-bind="attr: { href:'/Main/ArticleContentDetails?articleId=' + Id }" class="btn btn-primary btn-lg active" role="button">Read</a>
+                <button align="right" data-bind="click: function() { addToReadLater(Id) }" class="btn btn-default btn-md active" role="button">
+                    <span class="glyphicon glyphicon-bookmark"></span> To read later
+                </button>
             </div>
         </div>
     </div>
