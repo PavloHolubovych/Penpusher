@@ -1,6 +1,6 @@
-﻿<div class="col-lg-4">
+﻿ <div class="col-lg-4">
     <div class="panel panel-default">
-        <div class="item">
+        <div class="item" data-bind="click: function() { openDetails(Id) }" style="cursor: pointer;">
             <div class="panel-heading">
                 <h4><span data-bind="trimText: Title, trimTextLength: 30"></span></h4>
             </div>
@@ -8,8 +8,7 @@
                 <img data-bind="attr: { src: Image }" onerror="this.onerror = '';">
                 <br>
                 <p><span data-bind="trimText: Description, trimTextLength: 350"></span></p>
-                <a align="right" data-bind="attr: { href:'/Main/ArticleContentDetails?articleId=' + Id }" class="btn btn-primary btn-lg active" role="button">Read</a>
             </div>
         </div>
     </div>
-</div>
+</div> 

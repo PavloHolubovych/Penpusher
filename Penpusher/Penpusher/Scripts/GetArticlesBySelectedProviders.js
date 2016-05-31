@@ -23,6 +23,7 @@ ko.bindingHandlers.trimText = {
 var ArticlesModel = function (userId) {
     self = this;
     self.rows = ko.observableArray([]);
+   
     $.ajax({
         url: apiController,
         method: "GET",
@@ -51,8 +52,10 @@ var ArticlesModel = function (userId) {
         }
     }
 }
+var openDetails= function(Id) {
+    location.href = '/Main/ArticleContentDetails?articleId=' + Id;
+}
 var apiController = window.location.origin + "/api/Articles/ArticlesFromSelectedProviders";
-
 var viewModel = new ArticlesModel();
 ko.applyBindings(viewModel, document.getElementById("articlesSubscriptions"));
 document.getElementById("UnreadNews").className = "active";
