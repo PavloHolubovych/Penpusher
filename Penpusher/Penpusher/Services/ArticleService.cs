@@ -26,7 +26,7 @@ namespace Penpusher.Services
 
         public bool CheckDoesExists(string link)
         {
-            return repository.GetAll().Any(x => x.Link==link);
+            return repository.GetAll().Any(x => x.Link == link);
         }
 
         public override IEnumerable<Article> Find(string title)
@@ -80,28 +80,22 @@ namespace Penpusher.Services
 
         public IEnumerable<Article> GetAllUnreadArticles(IEnumerable<UserNewsProviderModels> newsProviders)
         {
-            var articles = new List<Article>();
-
-            IEnumerable<UserNewsProviderModels> userNewsProviderModelses = newsProviders as UserNewsProviderModels[] ?? newsProviders.ToArray();
-            if (userNewsProviderModelses.Any())
+            List<int> idProviders = newsProviders.Select(d => d.IdNewsProvider).ToList();
+            if (idProviders.Any())
             {
-                foreach (UserNewsProviderModels provider in userNewsProviderModelses)
-                {
-                    IEnumerable<Article> nextProviderArticles = repository.GetAll().Where(x => x.IdNewsProvider == provider.IdNewsProvider);
-                    IEnumerable<Article> art = nextProviderArticles.Where(j => j.UsersArticles.Count == 0).Select(j => new Article()
-                    {
-                        Id = j.Id,
-                        Title = j.Title,
-                        Image = j.Image,
-                        Description = j.Description,
-                        Link = j.Link,
-                        Date = j.Date,
-                    });
-                    articles.AddRange(art);
-                }
+                return repository.GetAll().Where(x => idProviders.Contains(x.IdNewsProvider) && x.UsersArticles.Count == 0).Select(
+                            o =>
+                            new Article()
+                            {
+                                Id = o.Id,
+                                Title = o.Title,
+                                Description = o.Description,
+                                Link = o.Link,
+                                Date = o.Date,
+                                Image = o.Image
+                            });
             }
-
-            return articles;
+            return new List<Article>();
         }
     }
 }

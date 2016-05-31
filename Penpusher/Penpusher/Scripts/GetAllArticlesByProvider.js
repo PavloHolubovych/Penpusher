@@ -20,11 +20,13 @@ ko.bindingHandlers.trimText = {
     }
 };
 
-var ArticlesModel1 = function () {
+var ArticlesModel = function () {
     self = this;
     self.rows = ko.observableArray([]);
+    self.provider = ko.observable();
+
     $.ajax({
-        url: apiController,
+        url: apiArticles,
         method: "GET",
         beforeSend: function () {
             $('.articles').hide();
@@ -38,6 +40,7 @@ var ArticlesModel1 = function () {
             console.log("Error: " + textStatus);
         }
     });
+
     function bindD(data) {
         var lenghtRow = 3;
         for (var i = 1; i <= data.length; i++) {
@@ -52,7 +55,18 @@ var ArticlesModel1 = function () {
 }
 var providerId = parseInt(QueryString.providerID);
 if (isNaN(providerId) || providerId === undefined) alert("Please choise provider from main menu!");
-var apiController = window.location.origin + '/api/Articles/ArticlesFromProvider?newsProviderId=' + providerId;
+var apiArticles = window.location.origin + '/api/Articles/ArticlesFromProvider?newsProviderId=' + providerId;
+var apiProvider = window.location.origin + '/api/Subscriptions/GetProviderDetails?providerId=' + providerId;
 
-var viewModel = new ArticlesModel1();
+var viewModel = new ArticlesModel();
+$.ajax({
+    url: apiProvider,
+    method: "GET",
+    success: function (data) {
+        viewModel.provider(data.Name);
+    },
+    error: function (request, textStatus) {
+        console.log("Error: " + textStatus);
+    }
+});
 ko.applyBindings(viewModel, document.getElementById("articlesSubscriptions"));
