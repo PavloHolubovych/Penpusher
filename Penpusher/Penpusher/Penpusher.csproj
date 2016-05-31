@@ -422,6 +422,7 @@
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\template\metisMenu.min.js" />
     <Content Include="Scripts\template\sb-admin-2.js" />
+    <Content Include="Scripts\ArticlePartialViewScript.js" />
     <Content Include="Scripts\UserToReadLaterArticleScript.js" />
     <Content Include="Scripts\UserReadArticleScript.js" />
     <Content Include="Scripts\_LayoutScript.js" />
