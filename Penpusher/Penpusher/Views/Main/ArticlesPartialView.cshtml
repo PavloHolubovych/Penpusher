@@ -9,7 +9,6 @@
                 <img data-bind="attr: { src: Image }" onerror="this.onerror = '';">
                 <br>
                 <p><span data-bind="trimText: Description, trimTextLength: 350"></span></p>
-                <a align="right" data-bind="attr: { href:'/Main/ArticleContentDetails?articleId=' + Id }" class="btn btn-primary btn-lg active" role="button">Read</a>
                 <button align="right" data-bind="click: function() { addToReadLater(Id) }" class="btn btn-default btn-md active" role="button">
                     <span class="glyphicon glyphicon-bookmark"></span> To read later
                 </button>

@@ -51,6 +51,9 @@ var ArticlesModel1 = function () {
         }
     }
 }
+var openDetails = function (Id) {
+    location.href = '/Main/ArticleContentDetails?articleId=' + Id;
+}
 var apiController = window.location.origin + "/api/Articles/UserReadArticles";
 var viewModel = new ArticlesModel1();
 ko.applyBindings(viewModel, document.getElementById("readArticlesContainer"));

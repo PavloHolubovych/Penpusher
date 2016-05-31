@@ -19,7 +19,9 @@ ko.bindingHandlers.trimText = {
         };
     }
 };
-
+var openDetails = function (Id) {
+    location.href = '/Main/ArticleContentDetails?articleId=' + Id;
+}
 var ArticlesModel1 = function () {
     self = this;
     self.rows = ko.observableArray([]);
@@ -39,6 +41,7 @@ var ArticlesModel1 = function () {
             alert("Error: " + textStatus);
         }
     });
+    
     function bindD(data) {
         var lenghtRow = 3;
         for (var i = 0; i <= data.length; i++) {

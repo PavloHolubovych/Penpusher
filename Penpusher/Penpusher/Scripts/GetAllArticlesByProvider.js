@@ -58,7 +58,9 @@ var providerId = parseInt(QueryString.providerID);
 if (isNaN(providerId) || providerId === undefined) alert("Please choise provider from main menu!");
 var apiArticles = window.location.origin + '/api/Articles/ArticlesFromProvider?newsProviderId=' + providerId;
 var apiProvider = window.location.origin + '/api/Subscriptions/GetProviderDetails?providerId=' + providerId;
-
+var openDetails = function (Id) {
+    location.href = '/Main/ArticleContentDetails?articleId=' + Id;
+}
 var viewModel = new ArticlesModel();
 $.ajax({
     url: apiProvider,
