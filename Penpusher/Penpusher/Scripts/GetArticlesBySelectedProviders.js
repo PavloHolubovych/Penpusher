@@ -32,6 +32,7 @@ var ArticlesModel = function (userId) {
         success: function (data) {
             $('.articles').show();
             $('.loadimage').hide();
+            if (!data.length) $('#alertMessage').show();
             bindD(data);
         },
         error: function (request, textStatus) {

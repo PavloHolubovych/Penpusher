@@ -5,7 +5,10 @@
         </div>
     </div>
     <div class="loadimage">
-        <img src="~/fonts/load.gif" />
+        <img src="~/fonts/load.gif"/>
+    </div>
+    <div id="alertMessage" class="alert alert-info" style="display:none">
+        <strong>Info!</strong> Here are no articles!
     </div>
     <div class="articles" data-bind="foreach: rows">
         <div class="row" data-bind="foreach: $data">

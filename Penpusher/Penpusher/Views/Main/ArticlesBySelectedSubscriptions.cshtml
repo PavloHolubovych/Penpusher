@@ -7,6 +7,9 @@
     <img src="~/fonts/load.gif"/>
 </div>
 <div>
+    <div id="alertMessage" class="alert alert-info" style="display:none">
+        <strong>Info!</strong> Here are no articles!
+    </div>
     <div id="articlesSubscriptions" class="articles" data-bind="foreach: rows">
         <div class="row" data-bind="foreach: $data">
             @Html.Partial("ArticlesPartialView")

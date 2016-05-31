@@ -32,6 +32,7 @@ var ArticlesModel1 = function () {
         success: function (data) {
             $('.articles').show();
             $('.loadimage').hide();
+            if (!data.length) $('#alertMessage').show();
             bindD(data);
         },
         error: function (request, textStatus) {
@@ -40,7 +41,7 @@ var ArticlesModel1 = function () {
     });
     function bindD(data) {
         var lenghtRow = 3;
-        for (var i = 1; i <= data.length; i++) {
+        for (var i = 0; i <= data.length; i++) {
             if (i % lenghtRow === 0) {
                 self.rows.push(data.slice(i - lenghtRow, i));
             }

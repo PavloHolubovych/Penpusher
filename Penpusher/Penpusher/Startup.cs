@@ -16,12 +16,10 @@ namespace Penpusher
             ConfigureAuth(app);
 
             // Initialization of timer job. Don't use in debug
-
 #if !DEBUG
 
             app.InitHangfire();
 #endif
-
         }
     }
 }

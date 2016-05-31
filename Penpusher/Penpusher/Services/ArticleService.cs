@@ -21,7 +21,7 @@ namespace Penpusher.Services
 
         public Article GetById(int id)
         {
-            return repository.GetById(id);
+            return new Article().CloneClient(repository.GetById(id)); 
         }
 
         public bool CheckDoesExists(string link)

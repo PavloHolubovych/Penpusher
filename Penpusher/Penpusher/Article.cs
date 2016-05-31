@@ -31,5 +31,10 @@ namespace Penpusher
         public virtual NewsProvider NewsProvider { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UsersArticle> UsersArticles { get; set; }
+
+        public Article CloneClient(Article art)
+        {
+            return new Article {Date = art.Date,Id = art.Id, Description = art.Description, Image = art.Image, Link = art.Link, Title = art.Title, IdNewsProvider = art.IdNewsProvider };
+        }
     }
 }

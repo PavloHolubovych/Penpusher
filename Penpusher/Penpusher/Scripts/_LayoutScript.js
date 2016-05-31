@@ -18,7 +18,7 @@ var viewModel = new providersModel();
 ko.applyBindings(viewModel, document.getElementById("subscriptions"));
 
 var generalMenu = document.getElementById("side-menu").children;
-DeleteActiveClass(generalMenu);
+//DeleteActiveClass(generalMenu);
 generalMenu[0].children[0].className = "";
 
 function DeleteActiveClass(data) {
