@@ -52,7 +52,7 @@ var ArticleViewModel = function(title, link) {
     self.addToFavorites = function () {
         $.post("/api/Articles/AddRemoveFavorites", { "articleId": QueryString().articleId, "flag": true })
             .success(function (data) {
-                if (data.IsFavorite) {
+                if (data) {
                     self.addToFavoritesVisibility(false);
                     self.removeFromFavoritesVisibility(true);
                 } else {
@@ -68,7 +68,7 @@ var ArticleViewModel = function(title, link) {
     self.removeFromFavorites = function () {
         $.post("/api/Articles/AddRemoveFavorites", { "articleId": QueryString().articleId, "flag": false })
             .success(function(data) {
-                if (data.IsFavorite) {
+                if (data) {
                     self.addToFavoritesVisibility(false);
                     self.removeFromFavoritesVisibility(true);
                 } else {

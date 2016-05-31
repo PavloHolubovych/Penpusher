@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿    using System.Collections.Generic;
 using System.Web.Http;
 using Penpusher.Models;
 using Penpusher.Services;
@@ -61,9 +61,9 @@ namespace Penpusher.Controllers
         }
 
         [HttpPost]
-       public UsersArticle AddRemoveFavorites([FromBody] ArticleModel data)
+       public bool? AddRemoveFavorites([FromBody] ArticleModel data)
         {
-           return userArticlesService.AddRemoveFavorites(data.ArticleId, data.Flag);
+           return userArticlesService.AddRemoveFavorites(data.ArticleId, data.Flag).IsFavorite;
         }
 
         [HttpGet]
