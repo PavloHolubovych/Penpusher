@@ -20,6 +20,7 @@
     });
 
    self.addNewsProvider = function (newsprovider) {
+       var warning = false;
         var link = newsprovider.AddLink();
         var name = newsprovider.AddName;
         var description = newsprovider.AddDescription;
