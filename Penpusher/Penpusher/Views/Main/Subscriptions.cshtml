@@ -1,6 +1,12 @@
-﻿<div id="generalSubscriptions">
-    <div id="subscription">
+﻿<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">Manage content</h1>
+    </div>
+    <h3 class="padding-left-h3">Add channel</h3>
+</div>
 
+<div id="generalSubscriptions">
+   <div id="subscription">
         <form class="form-inline">
             <div class="form-group">
                 <div class="input-group">
@@ -10,8 +16,17 @@
                     <button class="btn btn-primary" data-bind="click: $root.addNewsProvider">Add channel</button>
                 </div>
             </div>
-
         </form>
+       <br>
+       <div class="alert alert-success" id="successMessage">
+           <strong>Success!</strong> You have been subscribed successfully.
+       </div>
+       <div class="alert alert-warning" id="warningMessage">
+           <strong>Warning!</strong> You have subscribed on this channel.
+       </div>
+       <div class="alert alert-success" id="successDeleteMessage">
+           <strong>Success!</strong> You have been unsubscribed successfully.
+       </div>
 
         <form>
             <h3>
