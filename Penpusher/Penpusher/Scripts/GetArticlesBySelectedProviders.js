@@ -68,7 +68,7 @@ addToReadLater = function (articleId) {
 
     var parentEl = element.parent();
     $.post("/api/Articles/ToReadLater", { "articleId": articleId, "flag": true }).done(function (data) {
-        element.text("Already in read later list");
+        element.text("In read later");
         element.addClass("disabled");
     })
         .error(function (request, textStatus) {
@@ -81,11 +81,11 @@ addToFavorite = function (articleId, add) {
     var parentEl = element.parent();
     $.post("/api/Articles/AddRemoveFavorites", { "articleId": articleId, "flag": add }).done(function(data) {
         if (add) {
-            $(parentEl.find("button")[1]).hide();
-            $(parentEl.find("button")[2]).show();
-        } else {
             $(parentEl.find("button")[2]).hide();
-            $(parentEl.find("button")[1]).show();
+            $(parentEl.find("button")[3]).show();
+        } else {
+            $(parentEl.find("button")[3]).hide();
+            $(parentEl.find("button")[2]).show();
         }
         element.addClass("disabled");
     });
