@@ -301,6 +301,7 @@
     <Compile Include="Controllers\SubscriptionsController.cs" />
     <Compile Include="Controllers\ArticlesController.cs" />
     <Compile Include="Controllers\MainController.cs" />
+    <Compile Include="Models\ArticleDto.cs" />
     <Compile Include="Models\RssChannelModel.cs" />
     <Compile Include="Models\UserNewsProviderModels.cs" />
     <Compile Include="Models\ArticleModel.cs" />

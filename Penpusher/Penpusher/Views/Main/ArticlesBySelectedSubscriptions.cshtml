@@ -10,7 +10,30 @@
     </div>
     <div id="articlesSubscriptions" class="articles" data-bind="foreach: rows">
         <div class="row" data-bind="foreach: $data">
-            @Html.Partial("ArticlesPartialView")
+            <div class="col-lg-4">
+                <div class="panel panel-default shadowhover">
+                    <div class="item" style="cursor: pointer;">
+                        <div id="clickNews" data-bind="click: function() { openDetails(Id) }, attr: { attrId: Id}" class="noshadowhover">
+                            <div class="panel-heading noshadowhover">
+                                <h4 class="noshadowhover"><span class="noshadowhover" data-bind="trimText: Title, trimTextLength: 45"></span></h4>
+                            </div>
+                            <div class="panel-body noshadowhover">
+                                <img data-bind="attr: { src: Image }" class="noshadowhover" onerror="this.onerror = '';">
+                                <br>
+                                <p class="noshadowhover"><span class="noshadowhover" data-bind="trimText: Description, trimTextLength: 350"></span></p>
+                            </div>
+                        </div>
+                        <div class="noshadowhover">
+                            <button align="right" data-bind="click: function() { addToReadLater(Id) }" class="btn btn-default btn-md active addbutton" role="button">
+                                <span class="glyphicon glyphicon-bookmark"></span> To read later
+                            </button>
+                            <button align="right" data-bind="click: function() { addToFavorite(Id, true) }, visible: !IsInFavorite" class="glyphicon glyphicon-heart-empty active addbutton leftside" role="button"></button>
+
+                            <button align="right" data-bind="click: function() { addToFavorite(Id, false) }, visible: IsInFavorite" class="glyphicon glyphicon-heart active addbutton leftside" role="button"></button>
+                        </div>
+                    </div>
+                </div>
+            </div> 
         </div>
     </div>
 </div>

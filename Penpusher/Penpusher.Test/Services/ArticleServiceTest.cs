@@ -132,7 +132,7 @@ namespace Penpusher.Test.Services
         [TestCase(1, 0, TestName = "Should find 0 articles if there is no any provider in scope")]
         [TestCase(2, 3, TestName = "Should find all articles if user is subscribed to several providers")]
         [TestCase(3, 0, TestName = "Should find 0 articles if user has no subscriptions for providers in scope")]
-        public void GetAllUnreadArticlesTest(int testCase, int expected)
+        public void GetAllUnreadArticlesTest(int testCase, int expected, int userId)
         {
             var testArticles = new List<Article>
             {
@@ -159,9 +159,9 @@ namespace Penpusher.Test.Services
             }
 
             MockKernel.GetMock<IRepository<Article>>().Setup(_ => _.GetAll()).Returns(testArticles);
-            IEnumerable<Article> result = MockKernel.Get<ArticleService>().GetAllUnreadArticles(testUserProviders);
+            IEnumerable<ArticleDto> result = MockKernel.Get<ArticleService>().GetAllUnreadArticles(testUserProviders, userId);
 
-            Article[] enumerable = result as Article[] ?? result.ToArray();
+            ArticleDto[] enumerable = result as ArticleDto[] ?? result.ToArray();
             Assert.AreEqual(expected, enumerable.Length);
         }
     }

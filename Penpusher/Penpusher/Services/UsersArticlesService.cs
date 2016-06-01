@@ -91,7 +91,7 @@ namespace Penpusher.Services
                                       UserId = Constants.UserId,
                                       IsToReadLater = false,
                                       IsFavorite = favoriteFlag,
-                                      IsRead = true
+                                      IsRead = false
                                   };
             }
             else

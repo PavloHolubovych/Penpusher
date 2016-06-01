@@ -22,7 +22,7 @@ namespace Penpusher.Services
 
         public Article GetById(int id)
         {
-            return new Article().CloneClient(repository.GetById(id)); 
+            return new Article().CloneClient(repository.GetById(id));
         }
 
         public bool CheckDoesExists(string link)
@@ -79,14 +79,14 @@ namespace Penpusher.Services
             return articles;
         }
 
-        public IEnumerable<Article> GetAllUnreadArticles(IEnumerable<UserNewsProviderModels> newsProviders, int pageNumber)
+        public IEnumerable<ArticleDto> GetAllUnreadArticles(IEnumerable<UserNewsProviderModels> newsProviders, int userId)
         {
             List<int> idProviders = newsProviders.Select(d => d.IdNewsProvider).ToList();
             if (idProviders.Any())
             {
-                return repository.GetAll().Where(x => idProviders.Contains(x.IdNewsProvider) && x.UsersArticles.Count == 0).Select(
+                var test = repository.GetAll().Where(x => idProviders.Contains(x.IdNewsProvider) && (x.UsersArticles.Any(ua => ua.UserId == userId && !ua.IsRead.Value) || !x.UsersArticles.Any(ua => ua.UserId == userId))).Select(
                             o =>
-                            new Article()
+                            new ArticleDto()
                             {
                                 Id = o.Id,
                                 Title = o.Title,
@@ -94,10 +94,13 @@ namespace Penpusher.Services
                                 Link = o.Link,
                                 Date = o.Date,
                                 Image = o.Image,
-                                UsersArticles = null
-                            });
+                                IsInFavorite = o.UsersArticles.FirstOrDefault(ua => ua.UserId == userId)?.IsFavorite ?? false,
+                                IsInReadLater = o.UsersArticles.FirstOrDefault(ua => ua.UserId == userId)?.IsToReadLater ?? false
+                            }).ToList();
+
+                return test;
             }
-            return new List<Article>();
+            return new List<ArticleDto>();
         }
     }
 }

@@ -70,6 +70,7 @@ namespace Penpusher.Services
                     Link = link,
                     Name = name,
                     Description = description,
+                    RssImage = "https://cdn3.iconfinder.com/data/icons/ballicons-reloaded-free/512/icon-70-512.png",
                     SubscriptionDate = DateTime.Today
                 };
 
