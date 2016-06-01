@@ -1,4 +1,5 @@
-﻿ko.bindingHandlers.trimLengthText = {};
+﻿$('.addbutton').hide();
+ko.bindingHandlers.trimLengthText = {};
 ko.bindingHandlers.trimText = {
     init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
         var trimmedText = ko.computed(function () {
