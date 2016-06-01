@@ -7,6 +7,7 @@ namespace Penpusher.Services
 {
     public class ArticleService : ServiceBase<Article>, IArticleService
     {
+        private const int pageSize = 9;
         private readonly IRepository<Article> repository;
 
         public ArticleService(IRepository<Article> repository)
@@ -78,7 +79,7 @@ namespace Penpusher.Services
             return articles;
         }
 
-        public IEnumerable<Article> GetAllUnreadArticles(IEnumerable<UserNewsProviderModels> newsProviders)
+        public IEnumerable<Article> GetAllUnreadArticles(IEnumerable<UserNewsProviderModels> newsProviders, int pageNumber)
         {
             List<int> idProviders = newsProviders.Select(d => d.IdNewsProvider).ToList();
             if (idProviders.Any())
@@ -92,7 +93,8 @@ namespace Penpusher.Services
                                 Description = o.Description,
                                 Link = o.Link,
                                 Date = o.Date,
-                                Image = o.Image
+                                Image = o.Image,
+                                UsersArticles = null
                             });
             }
             return new List<Article>();

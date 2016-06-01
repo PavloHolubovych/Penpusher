@@ -17,7 +17,7 @@ namespace Penpusher
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Article()
         {
-            this.UsersArticles = new HashSet<UsersArticle>();
+            //this.UsersArticles = new HashSet<UsersArticle>();
         }
     
         public int Id { get; set; }
