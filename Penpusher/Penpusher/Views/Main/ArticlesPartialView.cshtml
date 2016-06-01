@@ -1,18 +1,22 @@
 ﻿<script type="text/javascript" src="~/Scripts/ArticlePartialViewScript.js"></script>
 <div class="col-lg-4">
-    <div class="panel panel-default">
-        <div class="item" data-bind="click: function() { openDetails(Id) }" style="cursor: pointer;">
-            <div class="panel-heading">
-                <h4><span data-bind="trimText: Title, trimTextLength: 30"></span></h4>
+    <div class="panel panel-default shadowhover">
+        <div class="item" style="cursor: pointer;">
+            <div id="clickNews" data-bind="click: function() { openDetails(Id) }, attr: { attrId: Id}" class="noshadowhover" >
+                <div class="panel-heading noshadowhover">
+                    <h4 class="noshadowhover"><span class="noshadowhover" data-bind="trimText: Title, trimTextLength: 45"></span></h4>
+                </div>
+                <div class="panel-body noshadowhover">
+                    <img data-bind="attr: { src: Image }" class="noshadowhover" onerror="this.onerror = '';">
+                    <br>
+                    <p class="noshadowhover"><span class="noshadowhover" data-bind="trimText: Description, trimTextLength: 350"></span></p>
+
+                </div>
             </div>
-            <div class="panel-body">
-                <img data-bind="attr: { src: Image }" onerror="this.onerror = '';">
-                <br>
-                <p><span data-bind="trimText: Description, trimTextLength: 350"></span></p>
-                <button align="right" data-bind="click: function() { addToReadLater(Id) }" class="btn btn-default btn-md active" role="button">
-                    <span class="glyphicon glyphicon-bookmark"></span> To read later
-                </button>
-            </div>
+
+            <button align="right" data-bind="click: function() { addToReadLater(Id) }" class="btn btn-default btn-md active" role="button">
+                <span class="glyphicon glyphicon-bookmark"></span> To read later
+            </button>
         </div>
     </div>
 </div> 
