@@ -16,7 +16,7 @@
     return queryString;
 };
 
-var ArticleViewModel = function(title, link) {
+var ArticleViewModel = function (title, link) {
     var self = this;
     self.title = ko.observable(title);
     self.link = ko.observable(link);
@@ -26,28 +26,27 @@ var ArticleViewModel = function(title, link) {
     $('#addToReadLater').show();
     $('#removeFromReadLater').hide();
 
-    $.post("/api/Articles/MarkAsRead", { "articleId": QueryString().articleId })
-        .done(function() {
-            $.get("/api/Articles/UserArticleInfo?articleIdInfo=" + QueryString().articleId).
-               success(function (data) {
-                   if (data.IsToReadLater) {
-                       $('#addToReadLater').hide();
-                       $('#removeFromReadLater').show();
-                   } else {
-                       $('#addToReadLater').show();
-                       $('#removeFromReadLater').hide();
-                   }
-                   if (data.IsFavorite) {
-                       self.addToFavoritesVisibility(false);
-                       self.removeFromFavoritesVisibility(true);
-                   } else {
-                       self.addToFavoritesVisibility(true);
-                       self.removeFromFavoritesVisibility(false);
-                   };
-               }).error(function (request, textStatus) {
-                   alert("Error: " + textStatus);
-               });
+    $.get("/api/Articles/UserArticleInfo?articleIdInfo=" + QueryString().articleId).
+        success(function (data) {
+            if (data.IsToReadLater) {
+                $('#addToReadLater').hide();
+                $('#removeFromReadLater').show();
+            } else {
+                $('#addToReadLater').show();
+                $('#removeFromReadLater').hide();
+            }
+            if (data.IsFavorite) {
+                self.addToFavoritesVisibility(false);
+                self.removeFromFavoritesVisibility(true);
+            } else {
+                self.addToFavoritesVisibility(true);
+                self.removeFromFavoritesVisibility(false);
+            };
+        }).error(function (request, textStatus) {
+            alert("Error: " + textStatus);
         });
+
+    $.post("/api/Articles/MarkAsRead", { "articleId": QueryString().articleId });
 
     self.addToFavorites = function () {
         $.post("/api/Articles/AddRemoveFavorites", { "articleId": QueryString().articleId, "flag": true })
@@ -67,7 +66,7 @@ var ArticleViewModel = function(title, link) {
 
     self.removeFromFavorites = function () {
         $.post("/api/Articles/AddRemoveFavorites", { "articleId": QueryString().articleId, "flag": false })
-            .success(function(data) {
+            .success(function (data) {
                 if (data) {
                     self.addToFavoritesVisibility(false);
                     self.removeFromFavoritesVisibility(true);
@@ -114,7 +113,7 @@ var ArticleViewModel = function(title, link) {
             });
     }
 
-    self.goBack = function() {
+    self.goBack = function () {
         window.history.back();
     }
 };

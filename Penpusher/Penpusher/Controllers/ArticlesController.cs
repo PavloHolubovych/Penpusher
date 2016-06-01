@@ -1,5 +1,6 @@
 ﻿    using System.Collections.Generic;
-using System.Web.Http;
+    using System.Linq;
+    using System.Web.Http;
 using Penpusher.Models;
 using Penpusher.Services;
 
@@ -54,10 +55,10 @@ namespace Penpusher.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<Article> ArticlesFromSelectedProviders()
+        public IEnumerable<Article> ArticlesFromSelectedProviders(int pageNumber)
         {
             IEnumerable<UserNewsProviderModels> newsProviders = newsProviderService.GetSubscriptionsByUserId();
-            return articleService.GetAllUnreadArticles(newsProviders);
+            return articleService.GetAllUnreadArticles(newsProviders, pageNumber);
         }
 
         [HttpPost]
