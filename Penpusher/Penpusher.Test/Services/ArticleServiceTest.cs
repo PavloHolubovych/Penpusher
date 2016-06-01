@@ -26,9 +26,9 @@ namespace Penpusher.Test.Services
         {
             var testArticles = new List<Article>
             {
-                new Article { Id = 1, Title = "test title" },
-                new Article { Id = 2, Title = "my title" },
-                new Article { Id = 3, Title = "my title" }
+                new Article { Id = 1, Link = "test title" },
+                new Article { Id = 2, Link = "my title" },
+                new Article { Id = 3, Link = "my title" }
             };
             MockKernel.GetMock<IRepository<Article>>().Setup(asrv => asrv.GetAll()).Returns(testArticles);
             bool actual = MockKernel.Get<IArticleService>().CheckDoesExists(title);
