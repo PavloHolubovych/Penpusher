@@ -400,6 +400,7 @@
     </Content>
     <Content Include="Content\fonts\fontawesome-webfont.ttf" />
     <Content Include="Content\fonts\fontawesome-webfont.woff" />
+    <None Include="Properties\PublishProfiles\Banda.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\GetAllArticlesByProvider.js" />
     <Content Include="Scripts\HttpGetParams.js" />

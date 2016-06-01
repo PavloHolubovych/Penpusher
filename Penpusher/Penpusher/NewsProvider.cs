@@ -19,6 +19,7 @@ namespace Penpusher
         {
             this.Articles = new HashSet<Article>();
             this.UsersNewsProviders = new HashSet<UsersNewsProvider>();
+            this.RssImage = "https://cdn3.iconfinder.com/data/icons/ballicons-reloaded-free/512/icon-70-512.png";
         }
 
         public int Id { get; set; }
